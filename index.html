@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AETHER // STUDIO — Interactive AI Core &amp; Virtual Code Studio</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#040711',
+            nebulaCyan: '#38bdf8',
+            electricViolet: '#a855f7',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      background-color: #040711;
+      color: #e2e8f0;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Deep Cosmic Background & Precision Telemetry Grid */
+    .cosmos-bg {
+      background-color: #040711;
+      background-image:
+        radial-gradient(circle at 50% 22%, rgba(56, 189, 248, 0.16) 0%, rgba(168, 85, 247, 0.09) 32%, rgba(4, 7, 17, 0) 66%),
+        linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 44px 44px, 44px 44px;
+    }
+
+    /* Glassmorphic HUD Cards */
+    .hud-glass {
+      background: linear-gradient(165deg, rgba(11, 19, 38, 0.8) 0%, rgba(5, 10, 22, 0.94) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(186, 230, 253, 0.12);
+      transition: border-color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .hud-glass:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72), 0 0 30px rgba(56, 189, 248, 0.12);
+    }
+
+    /* Primary Glowing Cyan CTA Button */
+    .cta-cyan {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.24) 0%, rgba(168, 85, 247, 0.22) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.62);
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      transition: all 0.22s ease;
+    }
+    .cta-cyan:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.38) 0%, rgba(168, 85, 247, 0.34) 100%);
+      border-color: #38bdf8;
+      box-shadow: 0 0 34px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+    }
+    .cta-cyan:active {
+      transform: scale(0.97);
+    }
+
+    /* Solid Neon Gradient Primary Button */
+    .btn-neon-primary {
+      background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #a855f7 100%);
+      color: #030712;
+      box-shadow: 0 0 26px rgba(56, 189, 248, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      transition: all 0.2s ease;
+    }
+    .btn-neon-primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 36px rgba(56, 189, 248, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      transform: translateY(-1px);
+    }
+    .btn-neon-primary:active {
+      transform: scale(0.97);
+    }
+
+    /* High-Contrast Hero Prompt Console */
+    .hero-console {
+      background: linear-gradient(165deg, rgba(9, 20, 42, 0.94) 0%, rgba(4, 10, 24, 0.98) 100%);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1.5px solid rgba(56, 189, 248, 0.62);
+      box-shadow:
+        0 0 0 1px rgba(168, 85, 247, 0.25),
+        0 22px 58px rgba(0, 0, 0, 0.88),
+        0 0 38px rgba(56, 189, 248, 0.22),
+        inset 0 1px 0 rgba(186, 230, 253, 0.35);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .hero-console:focus-within,
+    .hero-console.prompt-loaded {
+      border-color: #7dd3fc;
+      box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.28),
+        0 24px 66px rgba(0, 0, 0, 0.92),
+        0 0 54px rgba(56, 189, 248, 0.44),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    /* Pulsing Core Dot */
+    @keyframes corePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px #38bdf8, 0 0 22px rgba(56, 189, 248, 0.7); }
+      50% { opacity: 0.45; box-shadow: 0 0 4px #38bdf8; }
+    }
+    .pulse-dot {
+      animation: corePulse 2.2s infinite ease-in-out;
+    }
+
+    /* Blinking Cursor */
+    @keyframes blinkCursor {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor-blink {
+      display: inline-block;
+      width: 7px;
+      height: 1.05em;
+      background-color: #38bdf8;
+      vertical-align: middle;
+      margin-left: 3px;
+      box-shadow: 0 0 8px #38bdf8;
+      animation: blinkCursor 0.85s infinite;
+    }
+
+    /* Slide-Up Entrance for Live Synthesis Card */
+    @keyframes slideUpReveal {
+      from { opacity: 0; transform: translateY(14px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-drawer-in {
+      animation: slideUpReveal 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="cosmos-bg text-slate-200 antialiased selection:bg-sky-500/30 selection:text-sky-100">
+
+  <!-- ======================================================================= -->
+  <!-- 1. STICKY GLASSMORPHIC TOP HUD NAVIGATION BAR                           -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 w-full bg-[#040711]/85 backdrop-blur-xl border-b border-sky-500/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand Identity -->
+      <a href="#" class="flex items-center gap-2.5 shrink-0 group">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-400 pulse-dot"></span>
+        <span class="font-mono text-xs sm:text-sm font-bold tracking-[0.18em] text-white group-hover:text-sky-300 transition-colors">
+          AETHER <span class="text-sky-400">//</span> STUDIO
+        </span>
+      </a>
+
+      <!-- Center Anchor Links -->
+      <nav class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-slate-300">
+        <a href="#explore" class="hover:text-sky-300 transition-colors">Explore</a>
+        <a href="#code-studio" class="hover:text-sky-300 transition-colors">Code Studio</a>
+        <a href="#how-it-works" class="hover:text-sky-300 transition-colors">How It Works</a>
+      </nav>
+
+      <!-- Glowing Cyan CTA Button (Opens Full AETHER App) -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a
+          href="app.html"
+          data-open-full-app="true"
+          class="cta-cyan px-4 sm:px-5 py-2.5 rounded-full font-mono text-xs font-bold tracking-wider text-white flex items-center gap-2">
+          <span>Open AETHER</span>
+          <svg class="w-3.5 h-3.5 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- 2. HERO SECTION WITH INTERACTIVE 3D CORE & INSTANT EXPLANATION CONSOLE  -->
+  <!-- ======================================================================= -->
+  <section id="hero-canvas-container" class="relative min-h-[92vh] flex flex-col justify-between overflow-hidden border-b border-sky-500/15">
+    
+    <!-- Interactive 3D Particle Geodesic Sphere Canvas Layer -->
+    <canvas id="hero-core-canvas" class="absolute inset-0 z-[2] w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+
+    <!-- Upper Hero Copy Overlay -->
+    <div class="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-2 text-center flex flex-col items-center pointer-events-none">
+      
+      <!-- Live Morph Geometry Pill -->
+      <button
+        id="btn-hero-morph"
+        type="button"
+        title="Tap to morph 3D neural core geometry"
+        class="pointer-events-auto mb-5 px-4 py-1.5 rounded-full bg-slate-950/85 border border-sky-400/40 backdrop-blur-md font-mono text-[10px] sm:text-xs tracking-[0.18em] text-sky-300 hover:border-sky-300 active:scale-95 transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_22px_rgba(56,189,248,0.16)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-sky-400 pulse-dot"></span>
+        <span>AETHER // v9.4 ONLINE</span>
+        <span class="text-slate-600">|</span>
+        <span id="hero-shape-label" class="text-purple-300">NEURAL GEODESIC SPHERE</span>
+      </button>
+
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.12] max-w-3xl">
+        Curiosity Meets a <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-sky-300 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
+          Living 3D Neural Core
+        </span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="mt-4 text-sm sm:text-base md:text-lg text-slate-300/90 max-w-2xl leading-relaxed">
+        Ask any mind-bending science question, explore big ideas in plain language, or launch into AETHER's built-in Holographic Code Studio to bring concepts to life.
+      </p>
+    </div>
+
+    <!-- Center Stage for the Bright 3D Neural Core + Live AZM Telemetry Pill -->
+    <div id="hero-core-stage" class="relative z-10 flex-1 min-h-[250px] sm:min-h-[290px] flex flex-col items-center justify-end pb-3 pointer-events-none">
+      <div class="px-4 py-1.5 rounded-full bg-slate-950/80 border border-sky-500/35 backdrop-blur-md font-mono text-[10px] sm:text-[11px] text-slate-200 tracking-widest uppercase flex items-center gap-2.5 shadow-[0_0_24px_rgba(56,189,248,0.18)]">
+        <span id="hero-azm-readout" class="text-sky-400 font-bold">AZM 142°</span>
+        <span class="text-slate-500">•</span>
+        <span>DRAG TO ORBIT CORE • TAP TO MORPH GEOMETRY</span>
+      </div>
+    </div>
+
+    <!-- Lower Thumb-Reachable Command Console Docked at Bottom of Hero -->
+    <div id="hero-bottom-console" class="relative z-30 w-full max-w-2xl mx-auto px-4 sm:px-6 pb-8 sm:pb-11 pt-2 pointer-events-auto scroll-mt-24">
+      
+      <!-- Slide-Up "AETHER // LIVE SYNTHESIS" Card (Appears Right Inside the Hero on Send!) -->
+      <div
+        id="hero-ai-drawer"
+        class="hidden mb-4 rounded-2xl hud-glass border border-sky-400/50 p-4 sm:p-5 text-left shadow-[0_24px_70px_rgba(0,0,0,0.92)] animate-drawer-in">
+        <div class="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-slate-800/90">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400 pulse-dot"></span>
+            <span class="font-mono text-[10px] sm:text-xs font-bold tracking-widest text-sky-300 uppercase">
+              AETHER // LIVE SYNTHESIS
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button
+              id="btn-drawer-morph"
+              type="button"
+              title="Morph 3D Core"
+              class="px-2.5 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/40 font-mono text-[10px] text-purple-200 transition-colors cursor-pointer">
+              MORPH CORE ✦
+            </button>
+            <button
+              id="btn-close-ai-drawer"
+              type="button"
+              title="Close Response"
+              class="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 font-mono text-[11px] text-slate-400 hover:text-white transition-colors cursor-pointer">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div id="hero-ai-question" class="font-mono text-[11px] text-purple-300 mb-2"></div>
+        <div id="hero-ai-output" class="text-xs sm:text-sm text-slate-100 leading-relaxed space-y-2.5 max-h-64 overflow-y-auto pr-1"></div>
+
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+          <span id="hero-ai-telemetry" class="font-mono text-[10px] text-emerald-300">SYNTHESIS COMPLETE</span>
+          <a
+            id="btn-continue-full-studio"
+            href="app.html"
+            data-open-full-app="true"
+            class="px-4 py-1.5 rounded-full bg-sky-500/20 hover:bg-sky-400/35 border border-sky-400/50 font-mono text-[11px] font-bold text-sky-200 hover:text-white flex items-center gap-1.5 transition-all">
+            <span>Open AETHER Full App -&gt;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Primary "Open AETHER" & "Try Studio Now" Buttons Above the Prompt Bar -->
+      <div class="mb-3.5 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="app.html"
+          data-open-full-app="true"
+          class="btn-neon-primary px-7 py-3 rounded-full font-mono text-xs sm:text-sm font-extrabold tracking-wider uppercase inline-flex items-center justify-center gap-2.5">
+          <span>Open AETHER</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a
+          href="#code-studio"
+          class="cta-cyan px-6 py-3 rounded-full font-mono text-xs sm:text-sm font-bold tracking-wider uppercase text-sky-100 hover:text-white inline-flex items-center justify-center gap-2">
+          <span>Try Studio Now</span>
+          <svg class="w-4 h-4 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </a>
+      </div>
+
+      <!-- 4 Curiosity & Explanation Quick-Prompt Pills (Zero Coding Prompts!) -->
+      <div class="mb-3 flex flex-wrap items-center justify-center gap-2">
+        <button
+          type="button"
+          data-explain-prompt="How do black holes bend space and time?"
+          class="hero-quick-chip px-3.5 py-2 rounded-full bg-purple-950/85 hover:bg-purple-500/30 border border-purple-400/50 hover:border-purple-300 font-mono text-[11px] sm:text-xs font-medium text-purple-100 shadow-[0_0_16px_rgba(168,85,247,0.18)] transition-all active:scale-95 cursor-pointer">
+          How do black holes bend space and time?
+        </button>
+        <button
+          type="button"
+          data-explain-prompt="Why do we dream at night?"
+          class="hero-quick-chip px-3.5 py-2 rounded-full bg-sky-950/85 hover:bg-sky-500/30 border border-sky-400/50 hover:border-sky-300 font-mono text-[11px] sm:text-xs font-medium text-sky-100 shadow-[0_0_16px_rgba(56,189,248,0.18)] transition-all active:scale-95 cursor-pointer">
+          Why do we dream at night?
+        </button>
+        <button
+          type="button"
+          data-explain-prompt="What if the Moon disappeared tomorrow?"
+          class="hero-quick-chip px-3.5 py-2 rounded-full bg-sky-950/85 hover:bg-sky-500/30 border border-sky-400/50 hover:border-sky-300 font-mono text-[11px] sm:text-xs font-medium text-sky-100 shadow-[0_0_16px_rgba(56,189,248,0.18)] transition-all active:scale-95 cursor-pointer">
+          What if the Moon disappeared tomorrow?
+        </button>
+        <button
+          type="button"
+          data-explain-prompt="Explain quantum entanglement like I am 12"
+          class="hero-quick-chip px-3.5 py-2 rounded-full bg-purple-950/85 hover:bg-purple-500/30 border border-purple-400/50 hover:border-purple-300 font-mono text-[11px] sm:text-xs font-medium text-purple-100 shadow-[0_0_16px_rgba(168,85,247,0.18)] transition-all active:scale-95 cursor-pointer">
+          Explain quantum entanglement like I am 12
+        </button>
+      </div>
+
+      <!-- Prompt Console Status Row -->
+      <div class="flex items-center justify-between px-3 mb-2">
+        <span class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-sky-300 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-sky-400 pulse-dot"></span>
+          <span>ASK AETHER ANYTHING</span>
+        </span>
+        <span id="hero-console-status" class="font-mono text-[10px] sm:text-[11px] text-purple-300">
+          TAP A TOPIC OR TYPE BELOW
+        </span>
+      </div>
+
+      <!-- Glowing Prompt Input Bar -->
+      <form
+        id="hero-prompt-form"
+        class="hero-console rounded-2xl sm:rounded-full p-2 sm:p-2.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+        <div class="flex items-center flex-1 min-w-0 px-2.5 py-1.5 sm:py-1">
+          <span class="text-sky-300 mr-2.5 shrink-0 font-mono text-xs font-bold">&gt;_</span>
+          <input
+            id="hero-prompt-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Ask about black holes, dreams, quantum physics, or any big idea..."
+            class="flex-1 bg-transparent text-white placeholder-sky-100/60 text-sm sm:text-base font-medium focus:outline-none min-w-0"
+          />
+        </div>
+        <button
+          id="btn-hero-send"
+          type="submit"
+          class="btn-neon-primary px-6 py-3 rounded-xl sm:rounded-full font-mono text-xs sm:text-sm font-extrabold tracking-wider uppercase shrink-0 flex items-center justify-center gap-2 cursor-pointer">
+          <span>Send</span>
+          <svg class="w-4 h-4 translate-x-[1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 3. INTERACTIVE "WHAT AETHER CAN DO" PLAYGROUND (HANDS-ON BENTO GRID)     -->
+  <!-- ======================================================================= -->
+  <section id="explore" class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-[0.2em] text-sky-400 mb-2">
+          INTERACTIVE PLAYGROUND // HANDS-ON CAPABILITIES
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
+          What AETHER Can Do
+        </h2>
+      </div>
+      <p class="text-sm text-slate-400 max-w-md">
+        Tap the live controls right inside each card below to test how AETHER adapts its 3D visuals, explanation depth, and creative tools.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+      
+      <!-- Card 1: Interactive 3D Neural Core (Live Morph Button Right on Card) -->
+      <div class="hud-glass rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-5">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-2xl bg-sky-500/15 border border-sky-400/40 flex items-center justify-center text-sky-300 shadow-[0_0_20px_rgba(56,189,248,0.2)]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </div>
+            <button
+              id="btn-card-morph"
+              type="button"
+              class="px-3.5 py-1.5 rounded-full bg-sky-500/20 hover:bg-sky-400/35 border border-sky-400/50 font-mono text-[11px] font-bold text-sky-200 hover:text-white active:scale-95 transition-all cursor-pointer">
+              MORPH CORE ↻
+            </button>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Interactive 3D Neural Core</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Orbit, tap, and morph a living 3D geodesic lattice in real time—switching seamlessly between a Geodesic Sphere, Quantum Polyhedron, Orbital Atom Matrix, and Event Horizon Torus.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-slate-950/85 border border-sky-500/25 flex items-center justify-between gap-2">
+          <div>
+            <div class="font-mono text-[10px] text-slate-400 uppercase">ACTIVE HERO GEOMETRY</div>
+            <div id="card-geometry-readout" class="font-mono text-xs font-bold text-sky-300 mt-0.5">NEURAL GEODESIC SPHERE</div>
+          </div>
+          <div class="flex gap-1.5">
+            <button type="button" data-card-shape="0" class="card-shape-dot w-7 h-7 rounded-full bg-sky-500/25 border border-sky-400 font-mono text-[10px] text-white cursor-pointer">1</button>
+            <button type="button" data-card-shape="1" class="card-shape-dot w-7 h-7 rounded-full bg-slate-900 border border-slate-700 font-mono text-[10px] text-slate-300 hover:border-sky-400 cursor-pointer">2</button>
+            <button type="button" data-card-shape="2" class="card-shape-dot w-7 h-7 rounded-full bg-slate-900 border border-slate-700 font-mono text-[10px] text-slate-300 hover:border-sky-400 cursor-pointer">3</button>
+            <button type="button" data-card-shape="3" class="card-shape-dot w-7 h-7 rounded-full bg-slate-900 border border-slate-700 font-mono text-[10px] text-slate-300 hover:border-sky-400 cursor-pointer">4</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Crystal-Clear Explanations (Live Toggle Between Quick Summary & Deep Dive) -->
+      <div class="hud-glass rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-5">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <div class="w-11 h-11 rounded-2xl bg-purple-500/15 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.2)]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+            <!-- Interactive Depth Toggle Switch -->
+            <div class="inline-flex rounded-full bg-slate-950/90 p-1 border border-purple-400/35">
+              <button
+                id="btn-depth-quick"
+                type="button"
+                class="px-3 py-1 rounded-full bg-purple-500/30 border border-purple-400/60 font-mono text-[10px] font-bold text-white transition-all cursor-pointer">
+                Quick Summary
+              </button>
+              <button
+                id="btn-depth-deep"
+                type="button"
+                class="px-3 py-1 rounded-full border border-transparent font-mono text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer">
+                Deep Dive
+              </button>
+            </div>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Crystal-Clear Explanations</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-3">
+            Toggle the switch above to see how AETHER transforms complex science from an intuitive 10-second analogy into a rich technical breakdown.
+          </p>
+        </div>
+
+        <div id="depth-preview-box" class="p-3.5 rounded-2xl bg-slate-950/85 border border-purple-400/30 text-xs text-slate-200 leading-relaxed transition-all">
+          <span class="font-mono text-[10px] uppercase tracking-wider text-purple-300 block mb-1">TOPIC: GRAVITATIONAL LENSING // QUICK SUMMARY</span>
+          Massive galaxies act like giant cosmic magnifying glasses—bending light from distant stars around them so we can see galaxies hidden billions of light-years behind.
+        </div>
+      </div>
+
+      <!-- Card 3: Built-in Holographic Code Studio -->
+      <div class="hud-glass rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-5">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+                <polyline points="7 10 5.5 12 7 14"></polyline>
+                <polyline points="17 10 18.5 12 17 14"></polyline>
+              </svg>
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300">
+              LIVE SANDBOX
+            </span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Built-in Holographic Code Studio</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Whenever you want to turn an idea into software inside the full app, a split-screen Holographic Studio slides open—writing clean code on the left while running your interactive app live on the right.
+          </p>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between font-mono text-[11px]">
+          <span class="text-emerald-300">ZERO COMPILERS OR SETUP</span>
+          <a href="#code-studio" class="text-sky-300 hover:text-white font-semibold">TRY INTERACTIVE LAB ↓</a>
+        </div>
+      </div>
+
+      <!-- Card 4: Zero-Friction Flow -->
+      <div class="hud-glass rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-5">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <rect x="5" y="2" width="14" height="20" rx="2.5"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300">
+              TOUCH-FIRST DESIGN
+            </span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Zero-Friction Flow</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Built from the ground up for instant browser access on tablets, phones, and laptops—featuring thumb-reachable controls, voice resonance input, and zero sign-up walls.
+          </p>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between font-mono text-[11px]">
+          <span class="text-cyan-300">TABLET • PHONE • DESKTOP</span>
+          <a href="app.html" data-open-full-app="true" class="text-sky-300 hover:text-white font-semibold">OPEN AETHER -&gt;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 4. SELF-CONTAINED VIRTUAL CODE STUDIO SHOWCASE (INDEPENDENT LAB)        -->
+  <!-- ======================================================================= -->
+  <section id="code-studio" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-22">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-10">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-[0.2em] text-purple-400 mb-2">
+          VIRTUAL CODE STUDIO // INTERACTIVE VISUAL LAB
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
+          Watch Code Become Playable Reality
+        </h2>
+        <p class="mt-2 text-sm text-slate-400 max-w-xl">
+          Switch between three live visual experiments below. Watch syntax-highlighted code stream on the left, then tap or drag inside the live canvas on the right.
+        </p>
+      </div>
+
+      <!-- 3 Self-Contained Visual Tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          data-studio-tab="gravity"
+          class="studio-lab-tab px-4 py-2 rounded-full bg-sky-500/20 border border-sky-400/60 font-mono text-xs font-semibold text-sky-200 transition-all cursor-pointer">
+          Neon Gravity Orb
+        </button>
+        <button
+          type="button"
+          data-studio-tab="starfield"
+          class="studio-lab-tab px-4 py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 font-mono text-xs font-medium text-slate-300 transition-all cursor-pointer">
+          Cosmic Starfield
+        </button>
+        <button
+          type="button"
+          data-studio-tab="pulse"
+          class="studio-lab-tab px-4 py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 font-mono text-xs font-medium text-slate-300 transition-all cursor-pointer">
+          Pulse Wave Visualizer
+        </button>
+      </div>
+    </div>
+
+    <!-- Split-Screen Holographic Studio Showcase Frame -->
+    <div class="hud-glass rounded-3xl border border-sky-400/35 overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.88)]">
+      
+      <!-- Studio Top Window Bar -->
+      <div class="px-4 sm:px-6 py-3 bg-[#03060e] border-b border-sky-500/20 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 pulse-dot"></span>
+          <span class="font-mono text-xs font-bold tracking-wider text-white">AETHER // CODE STUDIO</span>
+          <span class="hidden sm:inline-block font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-purple-500/15 border border-purple-400/35 text-purple-300">
+            SPLIT-SCREEN SANDBOX
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            id="btn-replay-code"
+            type="button"
+            class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-sky-500/20 border border-sky-400/35 font-mono text-[11px] text-sky-300 hover:text-white active:scale-95 transition-all cursor-pointer">
+            ↻ REPLAY CODE
+          </button>
+          <a
+            href="app.html"
+            data-open-full-app="true"
+            class="btn-neon-primary px-4 py-1.5 rounded-full font-mono text-[11px] font-bold transition-all">
+            Open AETHER -&gt;
+          </a>
+        </div>
+      </div>
+
+      <!-- Two-Column Code + Touch-Reactive Canvas -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[370px] sm:min-h-[410px]">
+        
+        <!-- Left Column: Live Syntax-Highlighted Code Stream -->
+        <div class="flex flex-col bg-[#030814] border-b lg:border-b-0 lg:border-r border-sky-500/25">
+          <div class="px-4 py-2.5 bg-slate-950 border-b border-sky-500/20 flex items-center justify-between font-mono text-[11px]">
+            <span id="lab-filename-label" class="text-sky-300 font-semibold">TARGET // NEON_GRAVITY_ORB.JS</span>
+            <span id="lab-stream-status" class="text-emerald-300 font-semibold">STREAMED &amp; ACTIVE</span>
+          </div>
+          <div
+            id="lab-code-lines"
+            class="p-4 sm:p-5 bg-[#030814] font-mono text-xs sm:text-[13px] leading-6 text-slate-100 overflow-x-auto overflow-y-auto max-h-[340px] flex-1 select-text">
+            <!-- Populated safely via DOM createElement/textContent -->
+          </div>
+        </div>
+
+        <!-- Right Column: Real Touch-Reactive Mini Canvas Simulation -->
+        <div class="flex flex-col bg-[#050a16]">
+          <div class="px-4 py-2.5 bg-slate-950 border-b border-slate-800/90 flex items-center justify-between font-mono text-[11px] text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>TOUCH-REACTIVE SIMULATION</span>
+            </div>
+            <span id="lab-canvas-hint" class="text-sky-300">TAP OR DRAG INSIDE CANVAS</span>
+          </div>
+
+          <div class="relative flex-1 min-h-[270px] sm:min-h-[330px] p-3 sm:p-4 flex flex-col">
+            <canvas
+              id="lab-interactive-canvas"
+              class="w-full flex-1 rounded-2xl bg-[#030712] border border-sky-500/25 block cursor-crosshair touch-none">
+            </canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 5. HOW IT WORKS + VISITOR FAQ + FINAL CTA BANNER                        -->
+  <!-- ======================================================================= -->
+  <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 pb-14 sm:pb-18">
+    <div class="mb-8">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-sky-400">HOW IT WORKS // THREE SIMPLE STEPS</span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Effortless Exploration from First Tap</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="hud-glass rounded-3xl p-6 space-y-3">
+        <div class="font-mono text-xs font-bold text-sky-400">01 // STEP ONE</div>
+        <h3 class="text-lg font-bold text-white">1. Ask Anything Naturally</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Type a curiosity question, tap a suggested topic, or use voice input—no special commands or technical phrasing required.
+        </p>
+      </div>
+
+      <div class="hud-glass rounded-3xl p-6 space-y-3">
+        <div class="font-mono text-xs font-bold text-purple-400">02 // STEP TWO</div>
+        <h3 class="text-lg font-bold text-white">2. Explore Interactive Visuals</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Orbit and morph the 3D neural core while AETHER delivers clear, structured answers and interactive visual demonstrations.
+        </p>
+      </div>
+
+      <div class="hud-glass rounded-3xl p-6 space-y-3">
+        <div class="font-mono text-xs font-bold text-emerald-400">03 // STEP THREE</div>
+        <h3 class="text-lg font-bold text-white">3. Open the Full Studio</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Launch the full AETHER workspace anytime to dive deeper into conversations or build and preview live web apps in the Code Studio.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISITOR FAQ STRIP -->
+  <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 pb-14 sm:pb-18">
+    <div class="hud-glass rounded-3xl p-6 sm:p-8 border border-sky-500/20">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-6 mb-6 border-b border-slate-800/80">
+        <div>
+          <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-sky-400">VISITOR FAQ // GOOD TO KNOW</span>
+          <h3 class="text-lg sm:text-xl font-bold text-white mt-1">Built for Instant Curiosity</h3>
+        </div>
+        <span class="font-mono text-xs text-emerald-300 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          ALL SYSTEMS ONLINE
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-sky-500/15 border border-sky-400/35 flex items-center justify-center text-sky-300 shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm sm:text-base text-white">Free to Use — No Sign-Up Required</h4>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Jump straight in with zero account creation or paywalls. Tap <strong class="text-slate-200">Open AETHER</strong> and start exploring immediately.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-400/35 flex items-center justify-center text-purple-300 shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm sm:text-base text-white">Designed for Touch &amp; Desktop</h4>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Whether you are on an iPad, Android tablet, phone, or laptop, every 3D control and panel adapts smoothly to your screen.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center text-emerald-300 shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm sm:text-base text-white">Instant Live Previews</h4>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Everything built inside AETHER's Virtual Code Studio runs live right inside your browser with one-tap code copying.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA BANNER -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+    <div class="hud-glass rounded-3xl p-8 sm:p-12 text-center border border-sky-400/35 relative overflow-hidden">
+      <div class="font-mono text-xs uppercase tracking-[0.22em] text-sky-400 mb-3">
+        AETHER // NEURAL STUDIO
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+        Ready to explore with AETHER?
+      </h2>
+      <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto mb-8 leading-relaxed">
+        Step into the full interactive 3D core, ask anything you're curious about, and experience the built-in Holographic Code Studio.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="app.html"
+          data-open-full-app="true"
+          class="btn-neon-primary inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-mono text-xs sm:text-sm font-extrabold tracking-wider uppercase">
+          <span>Open AETHER</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLEAN FOOTER -->
+  <footer class="border-t border-sky-500/20 bg-[#03060e]/95">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full bg-sky-400 pulse-dot"></span>
+        <span class="font-mono text-sm font-bold tracking-[0.18em] text-white">
+          AETHER // STUDIO
+        </span>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-400 text-center sm:text-right">
+        Interactive AI Core &amp; Built-in Virtual Code Studio
+      </p>
+    </div>
+  </footer>
+
+  <!-- STANDALONE PREVIEW NOTICE TOAST -->
+  <div id="preview-notice-toast" class="fixed bottom-5 right-5 z-50 hidden max-w-sm rounded-2xl hud-glass border border-sky-400/50 p-4 shadow-2xl">
+    <div class="flex items-start justify-between gap-3">
+      <div class="space-y-1">
+        <div class="font-mono text-[10px] uppercase tracking-widest text-sky-300 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-sky-400 pulse-dot"></span>
+          <span>AETHER FULL APP LINK</span>
+        </div>
+        <p id="preview-notice-text" class="text-xs text-slate-200 leading-relaxed"></p>
+      </div>
+      <button id="btn-close-notice-toast" type="button" class="text-slate-400 hover:text-white font-mono text-xs px-1.5 py-0.5 cursor-pointer">✕</button>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: 3D PARTICLE CORE + LIVE EXPLANATION ENGINE + CODE LAB       -->
+  <!-- ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      // =========================================================================
+      // 1. HERO INTERACTIVE 3D PARTICLE GEODESIC SPHERE ENGINE
+      // =========================================================================
+      const canvas = document.getElementById('hero-core-canvas');
+      const ctx = canvas ? canvas.getContext('2d') : null;
+      const canvasContainer = document.getElementById('hero-canvas-container');
+      const heroShapeLabel = document.getElementById('hero-shape-label');
+      const heroAzmReadout = document.getElementById('hero-azm-readout');
+      const cardGeometryReadout = document.getElementById('card-geometry-readout');
+
+      let width = 0;
+      let height = 0;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      const SHAPES = [
+        { name: 'NEURAL GEODESIC SPHERE' },
+        { name: 'QUANTUM POLYHEDRON' },
+        { name: 'ORBITAL ATOM MATRIX' },
+        { name: 'EVENT HORIZON TORUS' }
+      ];
+
+      let currentShapeIndex = 0;
+      const PARTICLE_COUNT = 136;
+      const particles = [];
+      const starfield = [];
+
+      let rotX = 0.24;
+      let rotY = 0.42;
+      const targetVelX = 0.0022;
+      const targetVelY = 0.0046;
+      let isDragging = false;
+      let lastPointerX = 0;
+      let lastPointerY = 0;
+      let pointerDownTime = 0;
+      let pointerMovedDist = 0;
+
+      function getCoreCenterY() {
+        const stageEl = document.getElementById('hero-core-stage');
+        if (stageEl && canvasContainer) {
+          const containerRect = canvasContainer.getBoundingClientRect();
+          const stageRect = stageEl.getBoundingClientRect();
+          if (stageRect.height > 40) {
+            return (stageRect.top - containerRect.top) + stageRect.height * 0.44;
+          }
+        }
+        return height * 0.52;
+      }
+
+      function buildShapeTargets(shapeIdx) {
+        const stageEl = document.getElementById('hero-core-stage');
+        const stageH = stageEl ? stageEl.getBoundingClientRect().height : height * 0.34;
+        const radius = Math.min(width * 0.26, Math.max(stageH * 0.45, 128));
+        const clampedR = Math.max(118, Math.min(radius, 188));
+        const pts = [];
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          let x = 0, y = 0, z = 0;
+
+          if (shapeIdx === 0) {
+            const phi = Math.acos(1 - 2 * (i + 0.5) / PARTICLE_COUNT);
+            const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+            x = clampedR * Math.sin(phi) * Math.cos(theta);
+            y = clampedR * Math.sin(phi) * Math.sin(theta);
+            z = clampedR * Math.cos(phi);
+          } else if (shapeIdx === 1) {
+            const phi = Math.acos(1 - 2 * (i + 0.5) / PARTICLE_COUNT);
+            const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+            const spike = (i % 6 === 0) ? 1.38 : 0.8;
+            x = clampedR * spike * Math.sin(phi) * Math.cos(theta);
+            y = clampedR * spike * Math.sin(phi) * Math.sin(theta);
+            z = clampedR * spike * Math.cos(phi);
+          } else if (shapeIdx === 2) {
+            if (i < 24) {
+              const phi = Math.acos(1 - 2 * (i + 0.5) / 24);
+              const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+              const coreR = clampedR * 0.36;
+              x = coreR * Math.sin(phi) * Math.cos(theta);
+              y = coreR * Math.sin(phi) * Math.sin(theta);
+              z = coreR * Math.cos(phi);
+            } else {
+              const ring = i % 3;
+              const a = ((i - 24) / (PARTICLE_COUNT - 24)) * Math.PI * 2 * 3;
+              const orbitR = clampedR * 1.05;
+              const px = Math.cos(a) * orbitR;
+              const py = 0;
+              const pz = Math.sin(a) * orbitR;
+              const tilt = (ring * Math.PI) / 3;
+              x = px * Math.cos(tilt) - py * Math.sin(tilt);
+              y = px * Math.sin(tilt) + py * Math.cos(tilt);
+              z = pz;
+            }
+          } else {
+            const u = (i / PARTICLE_COUNT) * Math.PI * 2 * 6;
+            const v = (i / PARTICLE_COUNT) * Math.PI * 2;
+            const R = clampedR * 0.86;
+            const r = clampedR * 0.34;
+            x = (R + r * Math.cos(u)) * Math.cos(v);
+            y = r * Math.sin(u) * 1.15;
+            z = (R + r * Math.cos(u)) * Math.sin(v);
+          }
+          pts.push({ x, y, z });
+        }
+        return pts;
+      }
+
+      function initHeroCore() {
+        const targets = buildShapeTargets(0);
+        particles.length = 0;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push({
+            x: targets[i].x,
+            y: targets[i].y,
+            z: targets[i].z,
+            tx: targets[i].x,
+            ty: targets[i].y,
+            tz: targets[i].z,
+            isViolet: i % 4 === 0
+          });
+        }
+
+        starfield.length = 0;
+        for (let i = 0; i < 115; i++) {
+          starfield.push({
+            x: Math.random() * (width || window.innerWidth),
+            y: Math.random() * (height || window.innerHeight),
+            r: Math.random() * 1.7 + 0.5,
+            alpha: Math.random() * 0.65 + 0.2,
+            speed: Math.random() * 0.16 + 0.04
+          });
+        }
+      }
+
+      function morphHeroShape(nextIndex) {
+        currentShapeIndex = (nextIndex !== undefined)
+          ? nextIndex
+          : (currentShapeIndex + 1) % SHAPES.length;
+
+        const targets = buildShapeTargets(currentShapeIndex);
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          if (particles[i]) {
+            particles[i].tx = targets[i].x;
+            particles[i].ty = targets[i].y;
+            particles[i].tz = targets[i].z;
+          }
+        }
+
+        const shapeName = SHAPES[currentShapeIndex].name;
+        if (heroShapeLabel) heroShapeLabel.textContent = shapeName;
+        if (cardGeometryReadout) cardGeometryReadout.textContent = shapeName;
+
+        document.querySelectorAll('.card-shape-dot').forEach((btn) => {
+          const idx = Number(btn.getAttribute('data-card-shape'));
+          if (idx === currentShapeIndex) {
+            btn.className = 'card-shape-dot w-7 h-7 rounded-full bg-sky-500/25 border border-sky-400 font-mono text-[10px] text-white cursor-pointer';
+          } else {
+            btn.className = 'card-shape-dot w-7 h-7 rounded-full bg-slate-900 border border-slate-700 font-mono text-[10px] text-slate-300 hover:border-sky-400 cursor-pointer';
+          }
+        });
+      }
+
+      function resizeHeroCanvas() {
+        if (!canvas || !ctx || !canvasContainer) return;
+        const rect = canvasContainer.getBoundingClientRect();
+        width = rect.width || window.innerWidth;
+        height = rect.height || Math.max(window.innerHeight * 0.92, 680);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (particles.length === 0) {
+          initHeroCore();
+        } else {
+          morphHeroShape(currentShapeIndex);
+        }
+      }
+
+      function animateHeroCore() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < starfield.length; i++) {
+          const s = starfield[i];
+          s.y -= s.speed;
+          if (s.y < 0) s.y = height;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(186, 230, 253, ' + s.alpha + ')';
+          ctx.fill();
+        }
+
+        const cx = width * 0.5;
+        const cy = getCoreCenterY();
+
+        const glowRadius = Math.max(175, Math.min(width, height) * 0.33);
+        const coreGlow = ctx.createRadialGradient(cx, cy, 6, cx, cy, glowRadius);
+        coreGlow.addColorStop(0, 'rgba(56, 189, 248, 0.44)');
+        coreGlow.addColorStop(0.38, 'rgba(34, 211, 238, 0.22)');
+        coreGlow.addColorStop(0.68, 'rgba(168, 85, 247, 0.15)');
+        coreGlow.addColorStop(1, 'rgba(4, 7, 17, 0)');
+        ctx.fillStyle = coreGlow;
+        ctx.fillRect(0, 0, width, height);
+
+        if (!isDragging) {
+          rotX += targetVelX;
+          rotY += targetVelY;
+        }
+
+        if (heroAzmReadout) {
+          const deg = Math.floor(((rotY * 180) / Math.PI) % 360 + 360) % 360;
+          heroAzmReadout.textContent = 'AZM ' + String(deg).padStart(3, '0') + '°';
+        }
+
+        const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+        const fov = 540;
+        const projected = [];
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += (p.tx - p.x) * 0.08;
+          p.y += (p.ty - p.y) * 0.08;
+          p.z += (p.tz - p.z) * 0.08;
+
+          const x1 = p.x * cosY - p.z * sinY;
+          const z1 = p.z * cosY + p.x * sinY;
+          const y2 = p.y * cosX - z1 * sinX;
+          const z2 = z1 * cosX + p.y * sinX;
+
+          const scale = fov / (fov + z2 + 250);
+          projected.push({
+            sx: cx + x1 * scale,
+            sy: cy + y2 * scale,
+            z: z2,
+            scale: scale,
+            isViolet: p.isViolet
+          });
+        }
+
+        const maxLinkDist = Math.min(width, height) * 0.125;
+        const clampedLink = Math.max(66, Math.min(maxLinkDist, 98));
+
+        for (let i = 0; i < projected.length; i++) {
+          for (let j = i + 1; j < projected.length; j++) {
+            const dx = projected[i].sx - projected[j].sx;
+            const dy = projected[i].sy - projected[j].sy;
+            const dist = Math.hypot(dx, dy);
+            if (dist < clampedLink) {
+              const alpha = (1 - dist / clampedLink) * 0.56;
+              ctx.beginPath();
+              ctx.moveTo(projected[i].sx, projected[i].sy);
+              ctx.lineTo(projected[j].sx, projected[j].sy);
+              ctx.strokeStyle = (projected[i].isViolet || projected[j].isViolet)
+                ? 'rgba(192, 132, 252, ' + alpha + ')'
+                : 'rgba(56, 189, 248, ' + alpha + ')';
+              ctx.lineWidth = 1.15;
+              ctx.stroke();
+            }
+          }
+        }
+
+        for (let i = 0; i < projected.length; i++) {
+          const pt = projected[i];
+          const r = Math.max(1.8, 3.3 * pt.scale);
+          ctx.beginPath();
+          ctx.arc(pt.sx, pt.sy, r * 2.1, 0, Math.PI * 2);
+          ctx.fillStyle = pt.isViolet ? 'rgba(192, 132, 252, 0.24)' : 'rgba(56, 189, 248, 0.26)';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(pt.sx, pt.sy, r, 0, Math.PI * 2);
+          ctx.fillStyle = pt.isViolet ? '#e9d5ff' : '#bae6fd';
+          ctx.fill();
+        }
+
+        const ringR = Math.max(134, Math.min(Math.min(width, height) * 0.24, 212));
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotY * 0.45);
+        ctx.beginPath();
+        ctx.arc(0, 0, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.36)';
+        ctx.setLineDash([5, 9]);
+        ctx.lineWidth = 1.3;
+        ctx.stroke();
+
+        ctx.rotate(-rotY * 0.9);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, ringR * 1.16, ringR * 0.42, 0.35, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.34)';
+        ctx.setLineDash([]);
+        ctx.lineWidth = 1.1;
+        ctx.stroke();
+        ctx.restore();
+
+        requestAnimationFrame(animateHeroCore);
+      }
+
+      if (canvasContainer) {
+        canvasContainer.addEventListener('pointerdown', (e) => {
+          if (e.target.closest('button, a, input, form')) return;
+          isDragging = true;
+          lastPointerX = e.clientX;
+          lastPointerY = e.clientY;
+          pointerDownTime = performance.now();
+          pointerMovedDist = 0;
+        });
+
+        window.addEventListener('pointermove', (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - lastPointerX;
+          const dy = e.clientY - lastPointerY;
+          pointerMovedDist += Math.hypot(dx, dy);
+          rotY += dx * 0.0065;
+          rotX += dy * 0.0065;
+          lastPointerX = e.clientX;
+          lastPointerY = e.clientY;
+        }, { passive: true });
+
+        window.addEventListener('pointerup', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          const elapsed = performance.now() - pointerDownTime;
+          if (elapsed < 240 && pointerMovedDist < 10) {
+            morphHeroShape();
+          }
+        });
+      }
+
+      const btnHeroMorph = document.getElementById('btn-hero-morph');
+      if (btnHeroMorph) btnHeroMorph.addEventListener('click', () => morphHeroShape());
+
+      const btnCardMorph = document.getElementById('btn-card-morph');
+      if (btnCardMorph) btnCardMorph.addEventListener('click', () => morphHeroShape());
+
+      const btnDrawerMorph = document.getElementById('btn-drawer-morph');
+      if (btnDrawerMorph) btnDrawerMorph.addEventListener('click', () => morphHeroShape());
+
+      document.querySelectorAll('.card-shape-dot').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-card-shape'));
+          morphHeroShape(idx);
+        });
+      });
+
+      // =========================================================================
+      // 2. HERO EXPLANATION CONSOLE & IN-HERO LIVE SYNTHESIS DRAWER
+      // =========================================================================
+      const heroPromptForm = document.getElementById('hero-prompt-form');
+      const heroPromptInput = document.getElementById('hero-prompt-input');
+      const heroConsoleStatus = document.getElementById('hero-console-status');
+      const heroAiDrawer = document.getElementById('hero-ai-drawer');
+      const heroAiQuestion = document.getElementById('hero-ai-question');
+      const heroAiOutput = document.getElementById('hero-ai-output');
+      const heroAiTelemetry = document.getElementById('hero-ai-telemetry');
+      const btnCloseAiDrawer = document.getElementById('btn-close-ai-drawer');
+      const btnContinueFullStudio = document.getElementById('btn-continue-full-studio');
+      const previewNoticeToast = document.getElementById('preview-notice-toast');
+      const previewNoticeText = document.getElementById('preview-notice-text');
+      const btnCloseNoticeToast = document.getElementById('btn-close-notice-toast');
+
+      let isHeroGenerating = false;
+      let heroStreamTimer = null;
+
+      if (btnCloseNoticeToast && previewNoticeToast) {
+        btnCloseNoticeToast.addEventListener('click', () => {
+          previewNoticeToast.classList.add('hidden');
+        });
+      }
+
+      if (btnCloseAiDrawer && heroAiDrawer) {
+        btnCloseAiDrawer.addEventListener('click', () => {
+          heroAiDrawer.classList.add('hidden');
+          if (heroStreamTimer) {
+            clearInterval(heroStreamTimer);
+            heroStreamTimer = null;
+          }
+          isHeroGenerating = false;
+        });
+      }
+
+      function fillHeroPrompt(promptText, shouldFocus) {
+        if (!heroPromptInput) return;
+        heroPromptInput.value = promptText;
+
+        if (heroPromptForm) {
+          heroPromptForm.classList.add('prompt-loaded');
+        }
+
+        if (heroConsoleStatus) {
+          heroConsoleStatus.textContent = 'TOPIC LOADED — PRESS SEND →';
+          heroConsoleStatus.classList.remove('text-purple-300', 'text-emerald-300');
+          heroConsoleStatus.classList.add('text-sky-300');
+        }
+
+        document.querySelectorAll('.hero-quick-chip').forEach((chip) => {
+          const chipPrompt = chip.getAttribute('data-explain-prompt') || '';
+          if (chipPrompt === promptText) {
+            chip.classList.add('ring-2', 'ring-sky-300', 'bg-sky-500/35', 'text-white');
+          } else {
+            chip.classList.remove('ring-2', 'ring-sky-300', 'bg-sky-500/35', 'text-white');
+          }
+        });
+
+        if (shouldFocus) {
+          setTimeout(() => {
+            heroPromptInput.focus({ preventScroll: true });
+            const len = heroPromptInput.value.length;
+            try {
+              heroPromptInput.setSelectionRange(len, len);
+            } catch (e) {}
+          }, 40);
+        }
+      }
+
+      function formatCleanAnswer(rawText) {
+        const escaped = rawText
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        return escaped
+          .split(/\n{2,}/)
+          .map((block) => {
+            const withBold = block.replace(/\*\*(.+?)\*\*/g, '<strong class="text-sky-300 font-semibold">$1</strong>');
+            if (withBold.trim().startsWith('• ') || withBold.trim().startsWith('- ')) {
+              const items = withBold
+                .split('\n')
+                .map((line) => line.replace(/^[•\-]\s+/, '').trim())
+                .filter(Boolean)
+                .map((item) => '<li class="ml-4 list-disc">' + item + '</li>')
+                .join('');
+              return '<ul class="space-y-1.5">' + items + '</ul>';
+            }
+            return '<p>' + withBold.replace(/\n/g, '<br>') + '</p>';
+          })
+          .join('');
+      }
+
+      function getCuratedExplanation(promptText) {
+        const q = promptText.toLowerCase();
+
+        if (q.includes('black hole')) {
+          return '**Imagine space and time woven together like a stretchy trampoline.** Every planet and star makes a gentle dip in that fabric—but a **black hole** squeezes the mass of a giant star into a microscopic point, punching a bottomless funnel into spacetime.\n\n' +
+            '• **The Event Horizon:** Around the core sits an invisible boundary where space curves inward faster than light can climb out—meaning anything that crosses it is locked inside forever.\n' +
+            '• **Time Slows Down:** Because gravity stretches time itself, a clock near a black hole ticks dramatically slower than one on Earth. One hour near the edge could equal years back home.\n' +
+            '• **Cosmic Lenses:** Light passing near a black hole bends around its curve, warping background stars into glowing rings.';
+        }
+
+        if (q.includes('dream')) {
+          return '**While you sleep, your brain shifts into an overnight theater and memory workshop.** During **REM (Rapid Eye Movement) sleep**, your visual and emotional centers light up almost as brightly as when you are awake.\n\n' +
+            '• **Memory Sorting:** Your brain replays fragments of the day, filing important lessons into long-term storage and clearing out mental clutter.\n' +
+            '• **Emotional Rehearsal:** Dreams let you safely process stress, excitement, and tricky social scenarios without real-world risk.\n' +
+            '• **Creative Remixing:** With your logical filter dialed down, your brain connects distant memories—sparking surreal stories and sudden breakthroughs.';
+        }
+
+        if (q.includes('moon')) {
+          return '**If the Moon vanished in an instant, Earth would feel the shockwave within hours.** Our Moon is far more than a nightlight—it acts as Earth\'s gravitational anchor.\n\n' +
+            '• **Tides Would Drop by 75%:** Ocean tides driven by lunar gravity would shrink dramatically, disrupting coastal ecosystems and ocean currents worldwide.\n' +
+            '• **Shorter, Windier Days:** Without the Moon\'s gravitational tug slowing Earth\'s spin, our planet would rotate faster and whip up fierce global winds.\n' +
+            '• **Wobbling Seasons:** Over thousands of years, Earth\'s tilt would wobble wildly without the Moon\'s stabilizing pull, triggering extreme ice ages and heatwaves.';
+        }
+
+        if (q.includes('quantum') || q.includes('entanglement')) {
+          return '**Imagine a pair of magic cosmic dice.** Even if you carry one die to Mars and leave its twin on Earth, the instant you roll a 6 on Mars, the Earth die lands on 6 at the exact same moment.\n\n' +
+            '• **One Shared State:** When two quantum particles become **entangled**, they stop behaving like separate objects and share a single invisible connection across any distance.\n' +
+            '• **Instant Correlation:** Measuring one particle immediately reveals the state of its partner—something Einstein famously called *"spooky action at a distance."*\n' +
+            '• **Real-World Superpower:** Scientists use entanglement today to build unhackable quantum networks and ultra-fast quantum computers.';
+        }
+
+        return '**Here is a clear look at "' + promptText + '":**\n\n' +
+          '• **The Big Picture:** Every complex phenomenon starts with a few simple rules interacting together—when you zoom out, hidden patterns suddenly snap into focus.\n' +
+          '• **Why It Matters:** Understanding the core mechanism lets you predict how the system behaves in new situations rather than memorizing isolated facts.\n' +
+          '• **Keep Exploring:** Tap **Open AETHER Full App** below to ask follow-up questions, switch explanation modes, or visualize ideas in the full studio.';
+      }
+
+      async function fetchExplanationResponse(promptText) {
+        const apiKey = "";
+        const apiUrl = apiKey && apiKey.trim().length > 0
+          ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=' + apiKey
+          : '/api/chat';
+
+        const payload = {
+          contents: [{ role: 'user', parts: [{ text: promptText }] }],
+          systemInstruction: {
+            parts: [{
+              text: 'You are AETHER, a warm, polite, brilliant AI science and ideas explainer. Explain the user\'s topic clearly in 3 concise paragraphs or bullet points (under 165 words) using vivid analogies and **bold** key terms.'
+            }]
+          },
+          generationConfig: {
+            temperature: 0.65,
+            maxOutputTokens: 420
+          }
+        };
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7000);
+
+        try {
+          const res = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          const text = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+          if (!text) throw new Error('Empty response');
+          return text.trim();
+        } catch (err) {
+          clearTimeout(timeoutId);
+          return getCuratedExplanation(promptText);
+        }
+      }
+
+      function streamExplanationIntoHero(fullMarkdown) {
+        if (!heroAiOutput) {
+          isHeroGenerating = false;
+          return;
+        }
+        if (heroStreamTimer) {
+          clearInterval(heroStreamTimer);
+          heroStreamTimer = null;
+        }
+
+        const tokens = fullMarkdown.split(/(\s+)/);
+        let idx = 0;
+        let accumulated = '';
+
+        heroStreamTimer = setInterval(() => {
+          const step = Math.min(idx + 5, tokens.length);
+          accumulated += tokens.slice(idx, step).join('');
+          idx = step;
+
+          heroAiOutput.innerHTML = formatCleanAnswer(accumulated) + (idx < tokens.length ? '<span class="cursor-blink"></span>' : '');
+          heroAiOutput.scrollTop = heroAiOutput.scrollHeight;
+
+          if (idx >= tokens.length) {
+            clearInterval(heroStreamTimer);
+            heroStreamTimer = null;
+            isHeroGenerating = false;
+            if (heroAiTelemetry) heroAiTelemetry.textContent = 'SYNTHESIS COMPLETE';
+            if (heroConsoleStatus) {
+              heroConsoleStatus.textContent = 'EXPLANATION READY';
+              heroConsoleStatus.classList.remove('text-purple-300');
+              heroConsoleStatus.classList.add('text-emerald-300');
+            }
+          }
+        }, 28);
+      }
+
+      async function handleHeroSend(rawText) {
+        const cleaned = (rawText || '').trim();
+        if (!cleaned) {
+          if (heroPromptInput) heroPromptInput.focus();
+          return;
+        }
+        if (isHeroGenerating) return;
+
+        isHeroGenerating = true;
+        morphHeroShape();
+
+        const encodedUrl = 'app.html?prompt=' + encodeURIComponent(cleaned);
+        if (btnContinueFullStudio) {
+          btnContinueFullStudio.setAttribute('href', encodedUrl);
+          btnContinueFullStudio.setAttribute('data-app-prompt', cleaned);
+        }
+
+        if (heroConsoleStatus) {
+          heroConsoleStatus.textContent = 'SYNTHESIZING ANSWER...';
+          heroConsoleStatus.classList.remove('text-purple-300', 'text-emerald-300');
+          heroConsoleStatus.classList.add('text-sky-300');
+        }
+
+        if (heroAiDrawer && heroAiQuestion && heroAiOutput) {
+          heroAiQuestion.textContent = 'TOPIC // "' + cleaned + '"';
+          heroAiOutput.innerHTML = '<p class="font-mono text-xs text-sky-300">Synthesizing clear explanation...<span class="cursor-blink"></span></p>';
+          if (heroAiTelemetry) heroAiTelemetry.textContent = 'NEURAL CORE ACTIVE...';
+          heroAiDrawer.classList.remove('hidden');
+          heroAiDrawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        const answerMarkdown = await fetchExplanationResponse(cleaned);
+        streamExplanationIntoHero(answerMarkdown);
+      }
+
+      document.querySelectorAll('.hero-quick-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const prompt = chip.getAttribute('data-explain-prompt') || '';
+          fillHeroPrompt(prompt, true);
+        });
+      });
+
+      if (heroPromptForm) {
+        heroPromptForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          handleHeroSend(heroPromptInput ? heroPromptInput.value : '');
+        });
+      }
+
+      if (heroPromptInput) {
+        heroPromptInput.addEventListener('input', () => {
+          const val = heroPromptInput.value.trim();
+          if (heroPromptForm) {
+            if (val) {
+              heroPromptForm.classList.add('prompt-loaded');
+            } else {
+              heroPromptForm.classList.remove('prompt-loaded');
+            }
+          }
+          if (heroConsoleStatus && !isHeroGenerating) {
+            heroConsoleStatus.textContent = val ? 'READY — PRESS SEND →' : 'TAP A TOPIC OR TYPE BELOW';
+          }
+        });
+      }
+
+      function handleOpenFullApp(promptText) {
+        const cleaned = (promptText || '').trim();
+        const targetUrl = cleaned ? 'app.html?prompt=' + encodeURIComponent(cleaned) : 'app.html';
+        const isSandboxedPreview =
+          window.location.protocol === 'about:' ||
+          window.location.protocol === 'blob:' ||
+          window.frameElement !== null;
+
+        if (!isSandboxedPreview) {
+          fetch('app.html', { method: 'HEAD' })
+            .then((res) => {
+              if (res.ok) {
+                window.location.href = targetUrl;
+              } else {
+                throw new Error('Standalone preview');
+              }
+            })
+            .catch(() => {
+              if (previewNoticeToast && previewNoticeText) {
+                previewNoticeText.textContent = 'Full AETHER App target (' + targetUrl + ') is wired and ready for deployment!';
+                previewNoticeToast.classList.remove('hidden');
+              }
+            });
+        } else if (previewNoticeToast && previewNoticeText) {
+          previewNoticeText.textContent = 'Full AETHER App target (' + targetUrl + ') is wired and ready when hosted alongside app.html!';
+          previewNoticeToast.classList.remove('hidden');
+        }
+      }
+
+      document.querySelectorAll('[data-open-full-app="true"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const promptAttr = link.getAttribute('data-app-prompt') || (heroPromptInput ? heroPromptInput.value : '');
+          handleOpenFullApp(promptAttr);
+        });
+      });
+
+      // =========================================================================
+      // 3. PLAYGROUND CARD 2: EXPLANATION DEPTH TOGGLE
+      // =========================================================================
+      const btnDepthQuick = document.getElementById('btn-depth-quick');
+      const btnDepthDeep = document.getElementById('btn-depth-deep');
+      const depthPreviewBox = document.getElementById('depth-preview-box');
+
+      function setExplanationDepth(mode) {
+        if (!depthPreviewBox || !btnDepthQuick || !btnDepthDeep) return;
+        depthPreviewBox.innerHTML = '';
+
+        const tag = document.createElement('span');
+        tag.className = 'font-mono text-[10px] uppercase tracking-wider text-purple-300 block mb-1';
+
+        const body = document.createElement('span');
+
+        if (mode === 'deep') {
+          btnDepthDeep.className = 'px-3 py-1 rounded-full bg-purple-500/30 border border-purple-400/60 font-mono text-[10px] font-bold text-white transition-all cursor-pointer';
+          btnDepthQuick.className = 'px-3 py-1 rounded-full border border-transparent font-mono text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer';
+          tag.textContent = 'TOPIC: GRAVITATIONAL LENSING // DEEP DIVE';
+          body.textContent = 'According to General Relativity, massive galaxy clusters curve the metric of spacetime itself. Photons follow null geodesics along this curvature, producing Einstein rings and magnifying faint high-redshift galaxies by up to 30x.';
+        } else {
+          btnDepthQuick.className = 'px-3 py-1 rounded-full bg-purple-500/30 border border-purple-400/60 font-mono text-[10px] font-bold text-white transition-all cursor-pointer';
+          btnDepthDeep.className = 'px-3 py-1 rounded-full border border-transparent font-mono text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer';
+          tag.textContent = 'TOPIC: GRAVITATIONAL LENSING // QUICK SUMMARY';
+          body.textContent = 'Massive galaxies act like giant cosmic magnifying glasses—bending light from distant stars around them so we can see galaxies hidden billions of light-years behind.';
+        }
+
+        depthPreviewBox.appendChild(tag);
+        depthPreviewBox.appendChild(body);
+      }
+
+      if (btnDepthQuick) btnDepthQuick.addEventListener('click', () => setExplanationDepth('quick'));
+      if (btnDepthDeep) btnDepthDeep.addEventListener('click', () => setExplanationDepth('deep'));
+
+      // =========================================================================
+      // 4. SELF-CONTAINED VIRTUAL CODE STUDIO LAB (SAFE DOM + TOUCH CANVAS)
+      // =========================================================================
+      const labCanvas = document.getElementById('lab-interactive-canvas');
+      const labCtx = labCanvas ? labCanvas.getContext('2d') : null;
+      const labCodeLines = document.getElementById('lab-code-lines');
+      const labFilenameLabel = document.getElementById('lab-filename-label');
+      const labStreamStatus = document.getElementById('lab-stream-status');
+      const labCanvasHint = document.getElementById('lab-canvas-hint');
+
+      const STUDIO_LAB_EXPERIMENTS = {
+        gravity: {
+          filename: 'TARGET // NEON_GRAVITY_ORB.JS',
+          hint: 'TAP OR DRAG TO SPAWN GRAVITY RIPPLES',
+          codeLines: [
+            [['const ', 'text-purple-300'], ['orb = { x: ', 'text-slate-100'], ['180', 'text-amber-300'], [', y: ', 'text-slate-100'], ['110', 'text-amber-300'], [', vx: ', 'text-slate-100'], ['2.4', 'text-amber-300'], [', vy: ', 'text-slate-100'], ['0', 'text-amber-300'], [' };', 'text-slate-100']],
+            [['const ', 'text-purple-300'], ['ripples = [];', 'text-slate-100']],
+            [['function ', 'text-purple-300'], ['onPointerPulse', 'text-sky-300'], ['(px, py) {', 'text-slate-100']],
+            [['  ripples.', 'text-slate-100'], ['push', 'text-sky-300'], ['({ x: px, y: py, r: ', 'text-slate-100'], ['8', 'text-amber-300'], [', alpha: ', 'text-slate-100'], ['1', 'text-amber-300'], [' });', 'text-slate-100']],
+            [['  orb.vx += (px - orb.x) * ', 'text-slate-100'], ['0.035', 'text-amber-300'], [';', 'text-slate-100']],
+            [['  orb.vy = ', 'text-slate-100'], ['-6.8', 'text-amber-300'], ['; ', 'text-slate-100'], ['// Anti-gravity impulse', 'text-slate-500']],
+            [['}', 'text-slate-100']],
+            [['function ', 'text-purple-300'], ['stepPhysics', 'text-sky-300'], ['() {', 'text-slate-100']],
+            [['  orb.vy += ', 'text-slate-100'], ['0.32', 'text-amber-300'], ['; orb.x += orb.vx; orb.y += orb.vy;', 'text-slate-100']],
+            [['  renderOrbAndRipples', 'text-sky-300'], ['(orb, ripples, ', 'text-slate-100'], ['"#38bdf8"', 'text-emerald-300'], [');', 'text-slate-100']],
+            [['}', 'text-slate-100']]
+          ]
+        },
+        starfield: {
+          filename: 'TARGET // COSMIC_STARFIELD.JS',
+          hint: 'TAP OR DRAG TO ATTRACT & BURST STARS',
+          codeLines: [
+            [['const ', 'text-purple-300'], ['stars = ', 'text-slate-100'], ['Array', 'text-sky-300'], ['.from({ length: ', 'text-slate-100'], ['85', 'text-amber-300'], [' }, createStar);', 'text-slate-100']],
+            [['let ', 'text-purple-300'], ['attractor = { x: ', 'text-slate-100'], ['null', 'text-amber-300'], [', y: ', 'text-slate-100'], ['null', 'text-amber-300'], [' };', 'text-slate-100']],
+            [['function ', 'text-purple-300'], ['warpStarfield', 'text-sky-300'], ['() {', 'text-slate-100']],
+            [['  for ', 'text-purple-300'], ['(const s of stars) {', 'text-slate-100']],
+            [['    if ', 'text-purple-300'], ['(attractor.x !== ', 'text-slate-100'], ['null', 'text-amber-300'], [') {', 'text-slate-100']],
+            [['      s.vx += (attractor.x - s.x) * ', 'text-slate-100'], ['0.0025', 'text-amber-300'], [';', 'text-slate-100']],
+            [['      s.vy += (attractor.y - s.y) * ', 'text-slate-100'], ['0.0025', 'text-amber-300'], [';', 'text-slate-100']],
+            [['    }', 'text-slate-100']],
+            [['    drawStarTrail', 'text-sky-300'], ['(s, ', 'text-slate-100'], ['"#a855f7"', 'text-emerald-300'], [', ', 'text-slate-100'], ['"#38bdf8"', 'text-emerald-300'], [');', 'text-slate-100']],
+            [['  }', 'text-slate-100']],
+            [['}', 'text-slate-100']]
+          ]
+        },
+        pulse: {
+          filename: 'TARGET // PULSE_WAVE_VISUALIZER.JS',
+          hint: 'TAP OR DRAG TO MODULATE HARMONIC WAVES',
+          codeLines: [
+            [['let ', 'text-purple-300'], ['phase = ', 'text-slate-100'], ['0', 'text-amber-300'], [', amplitude = ', 'text-slate-100'], ['36', 'text-amber-300'], [', freq = ', 'text-slate-100'], ['0.032', 'text-amber-300'], [';', 'text-slate-100']],
+            [['function ', 'text-purple-300'], ['modulateWave', 'text-sky-300'], ['(px, py, h) {', 'text-slate-100']],
+            [['  amplitude = ', 'text-slate-100'], ['Math', 'text-sky-300'], ['.', 'text-slate-100'], ['max', 'text-sky-300'], ['(', 'text-slate-100'], ['14', 'text-amber-300'], [', (h - py) * ', 'text-slate-100'], ['0.32', 'text-amber-300'], [');', 'text-slate-100']],
+            [['  freq = ', 'text-slate-100'], ['0.015', 'text-amber-300'], [' + (px / ', 'text-slate-100'], ['600', 'text-amber-300'], [') * ', 'text-slate-100'], ['0.05', 'text-amber-300'], [';', 'text-slate-100']],
+            [['}', 'text-slate-100']],
+            [['function ', 'text-purple-300'], ['drawHarmonics', 'text-sky-300'], ['(ctx, w, h) {', 'text-slate-100']],
+            [['  phase += ', 'text-slate-100'], ['0.07', 'text-amber-300'], [';', 'text-slate-100']],
+            [['  for ', 'text-purple-300'], ['(let band = ', 'text-slate-100'], ['0', 'text-amber-300'], ['; band < ', 'text-slate-100'], ['3', 'text-amber-300'], ['; band++) {', 'text-slate-100']],
+            [['    traceNeonSine', 'text-sky-300'], ['(ctx, band, phase, amplitude, freq);', 'text-slate-100']],
+            [['  }', 'text-slate-100']],
+            [['}', 'text-slate-100']]
+          ]
+        }
+      };
+
+      let activeLabTab = 'gravity';
+      let labCodeTimer = null;
+
+      // Simulation state for the touch-reactive lab canvas
+      const labSim = {
+        w: 360,
+        h: 280,
+        pointerX: null,
+        pointerY: null,
+        pointerDown: false,
+        orb: { x: 180, y: 110, vx: 2.3, vy: 0, r: 16 },
+        ripples: [],
+        stars: [],
+        phase: 0,
+        amplitude: 34,
+        freq: 0.03
+      };
+
+      for (let i = 0; i < 75; i++) {
+        labSim.stars.push({
+          x: Math.random() * 400,
+          y: Math.random() * 300,
+          vx: (Math.random() - 0.5) * 1.4,
+          vy: (Math.random() - 0.5) * 1.4,
+          size: Math.random() * 2.2 + 0.8,
+          violet: i % 3 === 0
+        });
+      }
+
+      function spawnLabInteraction(px, py) {
+        labSim.pointerX = px;
+        labSim.pointerY = py;
+
+        if (activeLabTab === 'gravity') {
+          labSim.ripples.push({ x: px, y: py, r: 8, alpha: 0.95, violet: labSim.ripples.length % 2 === 1 });
+          labSim.orb.vx += (px - labSim.orb.x) * 0.03;
+          labSim.orb.vy = -6.4;
+        } else if (activeLabTab === 'starfield') {
+          labSim.ripples.push({ x: px, y: py, r: 6, alpha: 0.85, violet: true });
+          for (let i = 0; i < labSim.stars.length; i++) {
+            const s = labSim.stars[i];
+            const dx = px - s.x;
+            const dy = py - s.y;
+            const d = Math.max(24, Math.hypot(dx, dy));
+            if (d < 140) {
+              s.vx += (dx / d) * 1.35;
+              s.vy += (dy / d) * 1.35;
+            }
+          }
+        } else if (activeLabTab === 'pulse') {
+          labSim.amplitude = Math.max(14, Math.min(72, (labSim.h - py) * 0.34));
+          labSim.freq = 0.014 + (px / Math.max(1, labSim.w)) * 0.052;
+          labSim.ripples.push({ x: px, y: py, r: 6, alpha: 0.85, violet: false });
+        }
+      }
+
+      if (labCanvas) {
+        labCanvas.addEventListener('pointerdown', (e) => {
+          labSim.pointerDown = true;
+          const rect = labCanvas.getBoundingClientRect();
+          spawnLabInteraction(e.clientX - rect.left, e.clientY - rect.top);
+        });
+
+        labCanvas.addEventListener('pointermove', (e) => {
+          if (!labSim.pointerDown) return;
+          const rect = labCanvas.getBoundingClientRect();
+          spawnLabInteraction(e.clientX - rect.left, e.clientY - rect.top);
+        });
+
+        window.addEventListener('pointerup', () => {
+          labSim.pointerDown = false;
+          labSim.pointerX = null;
+          labSim.pointerY = null;
+        });
+      }
+
+      function renderLabSimulationFrame() {
+        if (!labCanvas || !labCtx) return;
+
+        const rect = labCanvas.getBoundingClientRect();
+        const w = Math.max(220, Math.floor(rect.width || 360));
+        const h = Math.max(220, Math.floor(rect.height || 290));
+        if (labCanvas.width !== w || labCanvas.height !== h) {
+          labCanvas.width = w;
+          labCanvas.height = h;
+          labSim.w = w;
+          labSim.h = h;
+          labSim.orb.x = w * 0.5;
+        }
+
+        labCtx.fillStyle = 'rgba(3, 7, 18, 0.32)';
+        labCtx.fillRect(0, 0, w, h);
+
+        // Draw subtle grid lines
+        labCtx.strokeStyle = 'rgba(56, 189, 248, 0.05)';
+        labCtx.lineWidth = 1;
+        for (let gx = 0; gx < w; gx += 36) {
+          labCtx.beginPath();
+          labCtx.moveTo(gx, 0);
+          labCtx.lineTo(gx, h);
+          labCtx.stroke();
+        }
+
+        // Draw expanding touch ripples
+        for (let i = labSim.ripples.length - 1; i >= 0; i--) {
+          const rp = labSim.ripples[i];
+          rp.r += 3.2;
+          rp.alpha *= 0.94;
+          labCtx.beginPath();
+          labCtx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+          labCtx.strokeStyle = rp.violet
+            ? 'rgba(168, 85, 247, ' + rp.alpha + ')'
+            : 'rgba(56, 189, 248, ' + rp.alpha + ')';
+          labCtx.lineWidth = 1.6;
+          labCtx.stroke();
+          if (rp.alpha < 0.04) labSim.ripples.splice(i, 1);
+        }
+
+        if (activeLabTab === 'gravity') {
+          const orb = labSim.orb;
+          orb.vy += 0.32;
+          orb.vx *= 0.994;
+          orb.x += orb.vx;
+          orb.y += orb.vy;
+
+          if (orb.y + orb.r > h - 14) {
+            orb.y = h - 14 - orb.r;
+            orb.vy = Math.abs(orb.vy) < 1.2 ? -6.2 : -orb.vy * 0.88;
+            labSim.ripples.push({ x: orb.x, y: h - 14, r: 6, alpha: 0.65, violet: false });
+          }
+          if (orb.x + orb.r > w - 14) {
+            orb.x = w - 14 - orb.r;
+            orb.vx = -Math.abs(orb.vx);
+          } else if (orb.x - orb.r < 14) {
+            orb.x = 14 + orb.r;
+            orb.vx = Math.abs(orb.vx);
+          }
+
+          const grad = labCtx.createRadialGradient(orb.x, orb.y, 2, orb.x, orb.y, orb.r * 2.8);
+          grad.addColorStop(0, '#e0f2fe');
+          grad.addColorStop(0.4, 'rgba(56, 189, 248, 0.7)');
+          grad.addColorStop(0.75, 'rgba(168, 85, 247, 0.28)');
+          grad.addColorStop(1, 'rgba(3, 7, 18, 0)');
+          labCtx.fillStyle = grad;
+          labCtx.beginPath();
+          labCtx.arc(orb.x, orb.y, orb.r * 2.8, 0, Math.PI * 2);
+          labCtx.fill();
+
+          labCtx.beginPath();
+          labCtx.arc(orb.x, orb.y, orb.r * 0.62, 0, Math.PI * 2);
+          labCtx.fillStyle = '#ffffff';
+          labCtx.fill();
+        } else if (activeLabTab === 'starfield') {
+          for (let i = 0; i < labSim.stars.length; i++) {
+            const s = labSim.stars[i];
+            if (labSim.pointerDown && labSim.pointerX !== null) {
+              const dx = labSim.pointerX - s.x;
+              const dy = labSim.pointerY - s.y;
+              s.vx += dx * 0.0018;
+              s.vy += dy * 0.0018;
+            }
+            s.vx *= 0.97;
+            s.vy *= 0.97;
+            s.x += s.vx + 0.35;
+            s.y += s.vy;
+
+            if (s.x > w) s.x = 0;
+            if (s.x < 0) s.x = w;
+            if (s.y > h) s.y = 0;
+            if (s.y < 0) s.y = h;
+
+            labCtx.beginPath();
+            labCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            labCtx.fillStyle = s.violet ? '#c084fc' : '#7dd3fc';
+            labCtx.fill();
+          }
+
+          for (let i = 0; i < labSim.stars.length; i++) {
+            for (let j = i + 1; j < labSim.stars.length; j++) {
+              const d = Math.hypot(labSim.stars[i].x - labSim.stars[j].x, labSim.stars[i].y - labSim.stars[j].y);
+              if (d < 54) {
+                labCtx.beginPath();
+                labCtx.moveTo(labSim.stars[i].x, labSim.stars[i].y);
+                labCtx.lineTo(labSim.stars[j].x, labSim.stars[j].y);
+                labCtx.strokeStyle = 'rgba(56, 189, 248, ' + ((1 - d / 54) * 0.35) + ')';
+                labCtx.lineWidth = 1;
+                labCtx.stroke();
+              }
+            }
+          }
+        } else if (activeLabTab === 'pulse') {
+          labSim.phase += 0.065;
+          const bands = [
+            { color: 'rgba(56, 189, 248, 0.9)', offset: 0, mult: 1.0 },
+            { color: 'rgba(168, 85, 247, 0.85)', offset: 1.4, mult: 0.78 },
+            { color: 'rgba(34, 211, 238, 0.5)', offset: 2.8, mult: 0.55 }
+          ];
+
+          for (let b = 0; b < bands.length; b++) {
+            const band = bands[b];
+            labCtx.beginPath();
+            for (let x = 12; x <= w - 12; x += 4) {
+              const env = Math.sin(((x - 12) / Math.max(1, w - 24)) * Math.PI);
+              const y = h * 0.5 + Math.sin(x * labSim.freq + labSim.phase + band.offset) * labSim.amplitude * band.mult * env;
+              if (x === 12) labCtx.moveTo(x, y);
+              else labCtx.lineTo(x, y);
+            }
+            labCtx.strokeStyle = band.color;
+            labCtx.lineWidth = 2.2;
+            labCtx.stroke();
+          }
+        }
+
+        requestAnimationFrame(renderLabSimulationFrame);
+      }
+
+      function createSafeCodeRow(lineNumber, tokens, withCursor) {
+        const row = document.createElement('div');
+        row.className = 'flex items-start py-0.5';
+
+        const num = document.createElement('span');
+        num.className = 'w-7 text-sky-500/75 select-none shrink-0 font-semibold';
+        num.textContent = String(lineNumber);
+        row.appendChild(num);
+
+        const code = document.createElement('span');
+        code.className = 'text-slate-100 whitespace-pre';
+
+        tokens.forEach((pair) => {
+          const span = document.createElement('span');
+          span.className = pair[1] || 'text-slate-100';
+          span.textContent = pair[0];
+          code.appendChild(span);
+        });
+
+        if (withCursor) {
+          const cursor = document.createElement('span');
+          cursor.className = 'cursor-blink';
+          code.appendChild(cursor);
+        }
+
+        row.appendChild(code);
+        return row;
+      }
+
+      function activateStudioLabTab(tabKey, instant) {
+        activeLabTab = tabKey;
+        const spec = STUDIO_LAB_EXPERIMENTS[tabKey] || STUDIO_LAB_EXPERIMENTS.gravity;
+
+        if (labFilenameLabel) labFilenameLabel.textContent = spec.filename;
+        if (labCanvasHint) labCanvasHint.textContent = spec.hint;
+
+        document.querySelectorAll('.studio-lab-tab').forEach((btn) => {
+          const key = btn.getAttribute('data-studio-tab');
+          if (key === tabKey) {
+            btn.className = 'studio-lab-tab px-4 py-2 rounded-full bg-sky-500/20 border border-sky-400/60 font-mono text-xs font-semibold text-sky-200 transition-all cursor-pointer';
+          } else {
+            btn.className = 'studio-lab-tab px-4 py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 font-mono text-xs font-medium text-slate-300 transition-all cursor-pointer';
+          }
+        });
+
+        if (labCodeTimer) {
+          clearInterval(labCodeTimer);
+          labCodeTimer = null;
+        }
+
+        if (!labCodeLines) return;
+
+        if (instant) {
+          labCodeLines.innerHTML = '';
+          spec.codeLines.forEach((tokens, idx) => {
+            labCodeLines.appendChild(createSafeCodeRow(idx + 1, tokens, false));
+          });
+          if (labStreamStatus) {
+            labStreamStatus.textContent = 'STREAMED & ACTIVE';
+            labStreamStatus.className = 'text-emerald-300 font-semibold';
+          }
+          return;
+        }
+
+        labCodeLines.innerHTML = '';
+        if (labStreamStatus) {
+          labStreamStatus.textContent = 'STREAMING LIVE...';
+          labStreamStatus.className = 'text-sky-400 font-semibold';
+        }
+
+        let lineIdx = 0;
+        labCodeTimer = setInterval(() => {
+          if (lineIdx >= spec.codeLines.length) {
+            clearInterval(labCodeTimer);
+            labCodeTimer = null;
+            const cur = labCodeLines.querySelector('.cursor-blink');
+            if (cur) cur.remove();
+            if (labStreamStatus) {
+              labStreamStatus.textContent = 'STREAMED & ACTIVE';
+              labStreamStatus.className = 'text-emerald-300 font-semibold';
+            }
+            return;
+          }
+
+          const oldCur = labCodeLines.querySelector('.cursor-blink');
+          if (oldCur) oldCur.remove();
+
+          labCodeLines.appendChild(createSafeCodeRow(lineIdx + 1, spec.codeLines[lineIdx], true));
+          labCodeLines.scrollTop = labCodeLines.scrollHeight;
+          lineIdx++;
+        }, 80);
+      }
+
+      document.querySelectorAll('.studio-lab-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-studio-tab');
+          if (tab) activateStudioLabTab(tab, false);
+        });
+      });
+
+      const btnReplayCode = document.getElementById('btn-replay-code');
+      if (btnReplayCode) {
+        btnReplayCode.addEventListener('click', () => {
+          activateStudioLabTab(activeLabTab, false);
+        });
+      }
+
+      // =========================================================================
+      // 5. BOOT ALL INTERACTIVE SYSTEMS ON LOAD
+      // =========================================================================
+      function bootLandingPage() {
+        resizeHeroCanvas();
+        animateHeroCore();
+        activateStudioLabTab('gravity', true);
+        renderLabSimulationFrame();
+      }
+
+      window.addEventListener('resize', resizeHeroCanvas);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootLandingPage);
+      } else {
+        bootLandingPage();
+      }
+    })();
+  </script>
+</body>
+</html>

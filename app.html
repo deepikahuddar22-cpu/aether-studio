@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AETHER // v9.4 — Quantum Neural Intelligence</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Marked.js for Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cosmos: '#03060c',
+            nebulaCyan: '#22d3ee',
+            nebulaViolet: '#a855f7',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #03060c;
+      color: #e2e8f0;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* Deep Cosmic Nebula Radial Lighting */
+    .cosmic-backdrop {
+      background:
+        radial-gradient(circle at 50% 34%, rgba(34, 211, 238, 0.14) 0%, rgba(129, 140, 248, 0.08) 28%, rgba(168, 85, 247, 0.05) 48%, rgba(3, 6, 12, 1) 78%),
+        #03060c;
+    }
+
+    /* Custom Subtle Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(34, 211, 238, 0.22);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(34, 211, 238, 0.45);
+    }
+
+    /* Glassmorphic HUD Pills & Panels */
+    .hud-pill {
+      background: rgba(8, 15, 28, 0.68);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(34, 211, 238, 0.05);
+    }
+
+    .glass-terminal {
+      background: linear-gradient(180deg, rgba(8, 16, 30, 0.56) 0%, rgba(6, 12, 24, 0.84) 35%, rgba(5, 10, 20, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(125, 211, 252, 0.15);
+    }
+
+    .user-bubble {
+      background: rgba(19, 29, 54, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(129, 140, 248, 0.28);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .input-pill {
+      background: rgba(10, 17, 32, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.65), inset 0 0 16px rgba(34, 211, 238, 0.04);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .input-pill:focus-within {
+      border-color: rgba(34, 211, 238, 0.65);
+      box-shadow: 0 10px 38px rgba(0, 0, 0, 0.7), 0 0 22px rgba(34, 211, 238, 0.16);
+    }
+
+    /* Markdown Typography inside AETHER Responses */
+    .aether-prose {
+      color: #cbd5e1;
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+    @media (min-width: 640px) {
+      .aether-prose {
+        font-size: 0.98rem;
+        line-height: 1.7;
+      }
+    }
+    .aether-prose p {
+      margin-bottom: 0.85rem;
+    }
+    .aether-prose p:last-child {
+      margin-bottom: 0;
+    }
+    .aether-prose strong {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .aether-prose em {
+      color: #c4b5fd;
+    }
+    .aether-prose h1, .aether-prose h2, .aether-prose h3 {
+      color: #22d3ee;
+      font-weight: 600;
+      margin-top: 1.1rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.01em;
+    }
+    .aether-prose h2 { font-size: 1.05rem; }
+    .aether-prose h3 { font-size: 0.98rem; }
+
+    .aether-prose ul, .aether-prose ol {
+      margin: 0.65rem 0 0.9rem 1.25rem;
+    }
+    .aether-prose ul { list-style-type: disc; }
+    .aether-prose ol { list-style-type: decimal; }
+    .aether-prose li {
+      margin-bottom: 0.5rem;
+      padding-left: 0.2rem;
+    }
+    .aether-prose li::marker {
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+    }
+
+    /* Interactive Tappable Bracketed Options like [THE EVENT HORIZON] */
+    .bracket-trigger {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.84rem;
+      color: #38bdf8;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      border-radius: 0.45rem;
+      padding: 0.12rem 0.48rem;
+      margin: 0.08rem 0.1rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .bracket-trigger:hover, .bracket-trigger:active {
+      background: rgba(34, 211, 238, 0.24);
+      border-color: #22d3ee;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .aether-prose code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #67e8f9;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      padding: 0.12rem 0.38rem;
+      border-radius: 0.35rem;
+    }
+
+    .aether-prose pre {
+      background: rgba(4, 9, 19, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 0.75rem;
+      padding: 0.9rem;
+      overflow-x: auto;
+      margin: 0.85rem 0;
+    }
+    .aether-prose pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: #e2e8f0;
+    }
+
+    .aether-prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.85rem 0;
+      font-size: 0.84rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .aether-prose th {
+      background: rgba(14, 26, 48, 0.9);
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      text-align: left;
+    }
+    .aether-prose td {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(56, 189, 248, 0.16);
+    }
+
+    /* Animations */
+    @keyframes pulseCyan {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px #22d3ee, 0 0 20px rgba(34, 211, 238, 0.6); }
+      50% { opacity: 0.45; box-shadow: 0 0 4px #22d3ee; }
+    }
+    .status-dot-pulse {
+      animation: pulseCyan 2.2s infinite ease-in-out;
+    }
+
+    @keyframes msgRise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-msg {
+      animation: msgRise 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes micPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.5); }
+      50% { transform: scale(1.08); box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+    }
+    .mic-recording {
+      animation: micPulse 1.3s infinite ease-in-out;
+      color: #fb7185 !important;
+      background: rgba(244, 63, 94, 0.18) !important;
+    }
+
+    /* ===================================================================== */
+    /* HOLOGRAPHIC CODE STUDIO OVERLAY STYLES (ADD-ON ONLY)                  */
+    /* ===================================================================== */
+    .holo-studio-backdrop {
+      background: rgba(2, 5, 11, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .holo-studio-window {
+      background: linear-gradient(165deg, rgba(7, 15, 29, 0.92) 0%, rgba(4, 9, 19, 0.96) 100%);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      box-shadow:
+        0 0 0 1px rgba(168, 85, 247, 0.15),
+        0 25px 80px rgba(0, 0, 0, 0.85),
+        inset 0 1px 0 rgba(125, 211, 252, 0.25);
+      transform: translateY(28px) scale(0.96);
+      opacity: 0;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
+    }
+
+    .holo-studio-backdrop.active .holo-studio-window {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .code-line-row {
+      display: flex;
+      align-items: flex-start;
+      min-height: 1.35rem;
+    }
+    .code-line-num {
+      width: 3rem;
+      padding-right: 0.85rem;
+      text-align: right;
+      color: rgba(100, 116, 139, 0.65);
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .code-line-text {
+      white-space: pre;
+      color: #e2e8f0;
+      tab-size: 2;
+    }
+
+    @keyframes cursorBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .live-stream-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1.05em;
+      background-color: #22d3ee;
+      vertical-align: middle;
+      margin-left: 2px;
+      box-shadow: 0 0 8px #22d3ee;
+      animation: cursorBlink 0.8s infinite;
+    }
+  </style>
+</head>
+<body class="cosmic-backdrop relative select-none sm:select-auto">
+
+  <!-- FULL-VIEWPORT INTERACTIVE 3D NEURAL CORE & STARFIELD CANVAS -->
+  <div id="canvas-wrapper" class="fixed inset-0 z-0 cursor-pointer touch-none" title="Tap or hold the core to morph infinite 3D science structures">
+    <canvas id="aether-canvas" class="w-full h-full block"></canvas>
+  </div>
+
+  <!-- FOREGROUND HUD LAYER -->
+  <div class="relative z-10 w-full h-full flex flex-col justify-between pointer-events-none">
+
+    <!-- TOP HUD BAR -->
+    <header class="w-full px-3 sm:px-6 pt-3 sm:pt-4 flex items-center justify-between gap-2 pointer-events-auto">
+      
+      <!-- Left Status Pill + Optional Reset Trigger -->
+      <div class="flex items-center gap-2 min-w-0">
+        <button
+          id="btn-reset-stage"
+          type="button"
+          title="Return to Core Visualizer / Reset Session"
+          class="hud-pill w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-300 hover:text-cyan-300 active:scale-95 transition-all shrink-0 cursor-pointer">
+          <svg id="reset-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.6-6.4-2.1 2.1M7.7 16.3l-2.1 2.1m12.8 0-2.1-2.1M7.7 7.7 5.6 5.6"></path>
+          </svg>
+        </button>
+
+        <div class="hud-pill px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-2.5 min-w-0">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse shrink-0"></span>
+          <span class="font-mono text-[10px] sm:text-xs tracking-wider text-cyan-300 font-semibold truncate">
+            AETHER // v9.4 <span class="text-slate-500 mx-1">|</span> <span class="text-slate-300 font-normal">CORE ONLINE</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Right Mode Selector Pill ('SYNTHESIS') -->
+      <div class="relative shrink-0">
+        <button
+          id="btn-mode-toggle"
+          type="button"
+          class="hud-pill px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-2.5 text-cyan-300 hover:text-white hover:border-cyan-400/60 active:scale-95 transition-all cursor-pointer">
+          <span id="active-mode-label" class="font-mono text-[11px] sm:text-xs font-semibold tracking-widest uppercase">SYNTHESIS</span>
+          <!-- Slider / Telemetry Bars Icon -->
+          <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <circle cx="9" cy="7" r="2" fill="#03060c"></circle>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <circle cx="15" cy="12" r="2" fill="#03060c"></circle>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+            <circle cx="11" cy="17" r="2" fill="#03060c"></circle>
+          </svg>
+        </button>
+
+        <!-- Dropdown Mode Switcher -->
+        <div id="mode-dropdown" class="hidden absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl hud-pill border border-cyan-400/35 p-2 shadow-2xl z-50">
+          <div class="px-3 py-1.5 flex items-center justify-between border-b border-slate-800/80 mb-1.5">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-slate-400">Select Neural Core Mode</span>
+            <span id="structure-badge" class="font-mono text-[10px] text-purple-300">SPHERE</span>
+          </div>
+          <div id="mode-options-list" class="space-y-1">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CENTER STAGE: IDLE HERO PROMPT OR GLASSMORPHIC CHAT TERMINAL -->
+    <main class="flex-1 w-full max-w-4xl mx-auto px-3 sm:px-6 flex flex-col justify-end pb-2 sm:pb-3 min-h-0">
+
+      <!-- IDLE OVERLAY (Visible before first message, lets user admire & morph the 3D core) -->
+      <div id="idle-overlay" class="flex flex-col items-center text-center mb-4 sm:mb-6 pointer-events-none transition-opacity duration-300">
+        <div class="pointer-events-auto inline-flex flex-col items-center gap-2 max-w-md px-4">
+          <button
+            id="btn-morph-core"
+            type="button"
+            class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 font-mono text-[11px] sm:text-xs tracking-[0.2em] text-cyan-300 hover:bg-cyan-500/20 active:scale-95 transition-all cursor-pointer">
+            NEURAL INTERFACE SYNCHRONIZED
+          </button>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            Tap or hold the core to morph infinite 3D science structures (<span id="idle-shape-name" class="text-cyan-300 font-mono text-xs">NEURAL GEODESIC SPHERE</span>), or transmit a pulse below.
+          </p>
+        </div>
+      </div>
+
+      <!-- TRANSLUCENT GLASSMORPHIC CHAT FEED (Hidden until conversation starts) -->
+      <div id="chat-stage" class="hidden flex-1 flex flex-col justify-end min-h-0 mb-2">
+        <div id="chat-scroll-area" class="w-full max-h-[66vh] sm:max-h-[68vh] overflow-y-auto px-1 sm:px-2 space-y-4 pointer-events-auto scroll-smooth">
+          <!-- Messages dynamically appended here -->
+        </div>
+      </div>
+
+    </main>
+
+    <!-- BOTTOM FLOATING INPUT PILL -->
+    <footer class="w-full max-w-3xl mx-auto px-3 sm:px-6 pb-4 sm:pb-6 pt-1 pointer-events-auto">
+      <form id="aether-form" class="input-pill rounded-full px-2.5 sm:px-3 py-2 flex items-center gap-2">
+        
+        <!-- Microphone / Voice Input Button -->
+        <button
+          id="btn-mic"
+          type="button"
+          title="Voice Resonance Input"
+          class="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-slate-400 hover:text-cyan-300 hover:bg-slate-800/70 active:scale-95 transition-all shrink-0 cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+            <path d="M5 10a7 7 0 0 0 14 0"></path>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+          </svg>
+        </button>
+
+        <!-- Text Input -->
+        <input
+          id="prompt-input"
+          type="text"
+          autocomplete="off"
+          placeholder="Interface with AETHER..."
+          class="flex-1 bg-transparent text-slate-100 placeholder-slate-400/80 text-sm sm:text-base px-2 py-2 focus:outline-none min-w-0"
+        />
+
+        <!-- Glowing Cyan Send Button -->
+        <button
+          id="btn-submit"
+          type="submit"
+          title="Transmit Resonance Pulse"
+          class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-cyan-500/20 hover:bg-cyan-400/35 border border-cyan-400/50 flex items-center justify-center text-cyan-300 hover:text-white active:scale-90 disabled:opacity-40 transition-all shrink-0 shadow-[0_0_18px_rgba(34,211,238,0.28)] cursor-pointer">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 translate-x-[1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
+        </button>
+      </form>
+    </footer>
+  </div>
+
+  <!-- TOAST NOTIFICATION (Replaces alert()) -->
+  <div id="hud-toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2 rounded-full hud-pill border border-cyan-400/50 font-mono text-xs text-cyan-200 tracking-wide shadow-2xl pointer-events-none">
+    <span id="hud-toast-text">MORPHING CORE GEOMETRY</span>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- HOLOGRAPHIC CODE STUDIO OVERLAY (TRIGGERS ON CODING REQUESTS)           -->
+  <!-- ======================================================================= -->
+  <div id="holo-code-studio" class="holo-studio-backdrop fixed inset-0 z-40 hidden flex items-center justify-center p-2 sm:p-4 md:p-6 pointer-events-auto">
+    <div class="holo-studio-window w-full h-full max-w-6xl rounded-2xl sm:rounded-3xl flex flex-col overflow-hidden">
+      
+      <!-- Studio Top Header Bar -->
+      <div class="px-3 sm:px-5 py-3 border-b border-cyan-500/20 bg-slate-950/75 flex flex-wrap items-center justify-between gap-2 shrink-0">
+        
+        <!-- Left: Return to Core + Title -->
+        <div class="flex items-center gap-2.5 min-w-0">
+          <button
+            id="btn-close-studio"
+            type="button"
+            class="px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-cyan-500/20 border border-cyan-400/35 text-cyan-300 hover:text-white font-mono text-[11px] tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer shrink-0">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>RETURN TO CORE</span>
+          </button>
+
+          <div class="flex items-center gap-2 min-w-0">
+            <span id="studio-status-dot" class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse shrink-0"></span>
+            <span class="font-mono text-xs sm:text-sm font-semibold tracking-wider text-white truncate">
+              AETHER // CODE STUDIO
+            </span>
+            <span id="studio-lang-badge" class="hidden sm:inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-purple-500/15 border border-purple-400/35 text-purple-300 uppercase">
+              LIVE STREAM
+            </span>
+          </div>
+        </div>
+
+        <!-- Center: View Mode Tabs (Split View / Code / Live Preview) -->
+        <div class="flex items-center bg-slate-950/90 p-1 rounded-full border border-slate-800/90">
+          <button type="button" data-studio-tab="split" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 transition-all cursor-pointer">
+            Split View
+          </button>
+          <button type="button" data-studio-tab="code" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide text-slate-400 hover:text-slate-200 border border-transparent transition-all cursor-pointer">
+            Code
+          </button>
+          <button type="button" data-studio-tab="preview" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide text-slate-400 hover:text-slate-200 border border-transparent transition-all cursor-pointer">
+            Live Preview
+          </button>
+        </div>
+
+        <!-- Right: Copy Code Action -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            id="btn-copy-studio-code"
+            type="button"
+            class="px-3 py-1.5 rounded-full bg-cyan-500/15 hover:bg-cyan-500/30 border border-cyan-400/45 text-cyan-200 hover:text-white font-mono text-[11px] tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>COPY CODE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Main Workspace (Split / Code / Live Preview) -->
+      <div id="studio-workspace" class="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden bg-[#030711]">
+        
+        <!-- Left/Top Pane: Live Streaming Code Editor -->
+        <div id="studio-code-pane" class="flex-1 flex flex-col min-h-0 border-b lg:border-b-0 lg:border-r border-cyan-500/20">
+          <div class="px-4 py-2 bg-slate-950/70 border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
+            <span id="studio-prompt-caption" class="truncate max-w-[72%]">TARGET // LIVE SYNTHESIS</span>
+            <span id="studio-stream-state" class="text-cyan-400">STANDBY</span>
+          </div>
+          <div id="studio-code-scroll" class="flex-1 overflow-auto p-3 sm:p-4 font-mono text-xs sm:text-[13px] leading-relaxed select-text">
+            <div id="studio-code-lines"></div>
+          </div>
+        </div>
+
+        <!-- Right/Bottom Pane: Live Interactive Sandboxed Preview -->
+        <div id="studio-preview-pane" class="flex-1 flex flex-col min-h-0 bg-slate-950">
+          <div class="px-4 py-2 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>HOLOGRAPHIC SANDBOX // LIVE EXECUTION</span>
+            </div>
+            <button id="btn-reload-preview" type="button" class="text-cyan-400 hover:text-cyan-200 cursor-pointer">
+              REFRESH
+            </button>
+          </div>
+          <div class="flex-1 relative min-h-0 bg-[#070b14]">
+            <iframe
+              id="studio-preview-iframe"
+              title="AETHER Live Code Preview"
+              sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock"
+              class="w-full h-full border-0 bg-white">
+            </iframe>
+            <!-- Non-HTML Code Notice Overlay -->
+            <div id="studio-non-html-notice" class="hidden absolute inset-0 bg-[#050a15]/95 flex flex-col items-center justify-center p-6 text-center">
+              <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-400/35 flex items-center justify-center text-purple-300 mb-3">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <p class="font-mono text-xs text-cyan-300 uppercase tracking-wider mb-1">SOURCE CODE READY</p>
+              <p class="text-xs sm:text-sm text-slate-400 max-w-sm">
+                This snippet is written in a non-browser language. Use <strong class="text-slate-200">Copy Code</strong> above to run it in your local environment, or ask AETHER to build an interactive web version.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Studio Bottom Inline Tweak Prompt Bar -->
+      <form id="studio-tweak-form" class="p-2.5 sm:p-3.5 bg-slate-950/90 border-t border-cyan-500/20 flex items-center gap-2 shrink-0">
+        <span class="hidden sm:inline-block font-mono text-[11px] text-cyan-400/80 pl-2 shrink-0">REFINE //</span>
+        <input
+          id="studio-tweak-input"
+          type="text"
+          autocomplete="off"
+          placeholder="Ask AETHER to tweak, upgrade, or add features live..."
+          class="flex-1 bg-slate-900/90 text-slate-100 placeholder-slate-400/80 text-xs sm:text-sm rounded-full px-4 py-2.5 border border-cyan-500/25 focus:border-cyan-400 focus:outline-none min-w-0"
+        />
+        <button
+          id="btn-studio-tweak"
+          type="submit"
+          class="px-4 py-2.5 rounded-full bg-cyan-500/25 hover:bg-cyan-400/40 border border-cyan-400/55 text-cyan-200 hover:text-white font-mono text-xs font-semibold tracking-wider active:scale-95 disabled:opacity-40 transition-all shrink-0 cursor-pointer">
+          UPDATE LIVE
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: 3D MORPHING NEURAL CORE ENGINE + GEMINI SYNTHESIS CORE      -->
+  <!-- ======================================================================= -->
+  <script>
+    // =========================================================================
+    // 4. GEMINI API INTEGRATION WITH EXPONENTIAL BACKOFF & VERCEL PROXY
+    // =========================================================================
+    function resolveGeminiEndpoint() {
+      const apiKey = ""; // Injected at runtime inside preview environment
+      if (apiKey && apiKey.trim().length > 0) {
+        return `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+      }
+      // When deployed on Vercel (e.g. aether-studio.vercel.app), route via serverless proxy
+      return '/api/chat';
+    }
+
+    async function queryGeminiCore(userText) {
+      const apiUrl = resolveGeminiEndpoint();
+
+      const activeMode = MODES[currentModeKey];
+      const fullSystemInstruction = AETHER_BASE_PERSONA + activeMode.directive;
+// ... existing code ... -->
+    async function fetchCodeFromGemini(promptText, isRefinement = false) {
+      const apiUrl = resolveGeminiEndpoint();
+
+      const studioSystemPrompt = `You are AETHER's Code Synthesis Engine.
+Generate complete, clean, runnable, well-styled code for the user's request.
+CRITICAL OUTPUT RULES:
+1. If the user asks for an app, game, webpage, simulation, UI, or doesn't specify a non-web language, output a COMPLETE single-file HTML document (<!DOCTYPE html>...) with embedded Tailwind CSS (<script src="https://cdn.tailwindcss.com"><\/script>) or <style> and <script> so it runs immediately in a browser preview. Make web apps/games visually sleek, responsive, and interactive.
+2. If the user explicitly asks for Python, C++, SQL, etc., output complete, runnable code in that language.
+3. Wrap the entire code output in a single fenced markdown code block (e.g. \`\`\`html ... \`\`\`) with NO extra conversational text outside the code block.`;
+
+      const userContent = isRefinement && latestStudioCode
+        ? `Here is the current code:\n\`\`\`${latestStudioLang}\n${latestStudioCode}\n\`\`\`\n\nApply this update/change and return the complete updated code:\n${promptText}`
+        : promptText;
+
+      const payload = {
+        contents: [{ role: 'user', parts: [{ text: userContent }] }],
+        systemInstruction: { parts: [{ text: studioSystemPrompt }] },
+        generationConfig: {
+          temperature: 0.55,
+          maxOutputTokens: 4096
+        }
+      };
+
+      const maxRetries = 4;
+      let delay = 1000;
+
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            if ((response.status === 429 || response.status >= 500) && attempt < maxRetries) {
+              await new Promise((r) => setTimeout(r, delay));
+              delay *= 2;
+              continue;
+            }
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawText) throw new Error('Empty code synthesis packet');
+          return extractCleanCodeBlock(rawText);
+        } catch (err) {
+          if (attempt === maxRetries) throw err;
+          await new Promise((r) => setTimeout(r, delay));
+          delay *= 2;
+        }
+      }
+    }
+
+    async function openHolographicCodeStudio(promptText, isRefinement = false) {
+      if (isStudioGenerating) return;
+      isStudioGenerating = true;
+      btnStudioTweak.disabled = true;
+
+      showStudioOverlay();
+      morphToShape(2, false); // Morph 3D core behind translucent studio
+      energyBoost = 1.0;
+
+      studioPromptCaption.textContent = `TARGET // ${promptText.toUpperCase()}`;
+      studioStreamState.textContent = 'COMPILING MATRIX...';
+      studioNonHtmlNotice.classList.add('hidden');
+
+      if (!isRefinement) {
+        studioCodeLines.innerHTML = `<div class="code-line-row"><span class="code-line-num">1</span><span class="code-line-text text-cyan-300">// Initializing AETHER Code Studio synthesis...<span class="live-stream-cursor"></span></span></div>`;
+        studioPreviewIframe.srcdoc = `<!DOCTYPE html><html><body style="margin:0;background:#050a15;color:#38bdf8;font-family:monospace;display:flex;align-items:center;justify-content:center;height:100vh;letter-spacing:0.1em;">GENERATING LIVE PREVIEW...</body></html>`;
+      } else {
+        renderCodeWithLineNumbers(latestStudioCode, true);
+      }
+
+      try {
+        const { lang, code } = await fetchCodeFromGemini(promptText, isRefinement);
+        latestStudioLang = lang;
+        latestStudioCode = code;
+        animateLiveCodeStream(code, lang);
+      } catch (err) {
+        studioStreamState.textContent = 'TRANSMISSION ERROR';
+        renderCodeWithLineNumbers(`// Unable to complete code synthesis right now.\n// Please check your connection and try updating again.`, false);
+      } finally {
+        isStudioGenerating = false;
+        btnStudioTweak.disabled = false;
+      }
+    }
+
+    // Studio Event Listeners
+    document.getElementById('btn-close-studio').addEventListener('click', hideStudioOverlay);
+
+    document.querySelectorAll('.studio-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setStudioTab(btn.getAttribute('data-studio-tab'));
+      });
+    });
+
+    document.getElementById('btn-reload-preview').addEventListener('click', () => {
+      if (latestStudioCode) {
+        updateSandboxPreview(latestStudioCode, latestStudioLang);
+        showHudToast('SANDBOX PREVIEW REFRESHED');
+      }
+    });
+
+    document.getElementById('btn-copy-studio-code').addEventListener('click', () => {
+      if (!latestStudioCode) return;
+      const tempArea = document.createElement('textarea');
+      tempArea.value = latestStudioCode;
+      tempArea.style.position = 'fixed';
+      tempArea.style.opacity = '0';
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        showHudToast('CODE COPIED TO CLIPBOARD');
+      } catch (e) {
+        showHudToast('SELECT CODE TO COPY');
+      }
+      document.body.removeChild(tempArea);
+    });
+
+    document.getElementById('studio-tweak-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const tweakText = studioTweakInput.value.trim();
+      if (!tweakText || isStudioGenerating) return;
+      studioTweakInput.value = '';
+      openHolographicCodeStudio(tweakText, true);
+    });
+
+    // =========================================================================
+    // 5. VOICE RECOGNITION (WEB SPEECH API)
+    // =========================================================================
+    const btnMic = document.getElementById('btn-mic');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      let isListening = false;
+
+      btnMic.addEventListener('click', () => {
+        if (isProcessing) return;
+        if (isListening) {
+          recognition.stop();
+          return;
+        }
+        try {
+          recognition.start();
+        } catch (e) {
+          showHudToast('VOICE SENSOR BUSY');
+        }
+      });
+
+      recognition.onstart = () => {
+        isListening = true;
+        btnMic.classList.add('mic-recording');
+        promptInput.placeholder = 'Listening for voice resonance...';
+        showHudToast('VOICE CHANNEL OPEN');
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        if (transcript) {
+          promptInput.value = transcript;
+          sendQueryToAether(transcript);
+        }
+      };
+
+      recognition.onerror = () => {
+        showHudToast('VOICE SIGNAL UNCLEAR // USE TEXT INPUT');
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        btnMic.classList.remove('mic-recording');
+        promptInput.placeholder = 'Interface with AETHER...';
+      };
+    } else {
+      btnMic.addEventListener('click', () => {
+        showHudToast('VOICE MODULE UNAVAILABLE ON THIS BROWSER');
+        promptInput.focus();
+      });
+    }
+
+    // =========================================================================
+    // 6. INITIALIZE SYSTEM ON LOAD
+    // =========================================================================
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('DOMContentLoaded', () => {
+      initCoreGeometry();
+      resizeCanvas();
+      renderModeDropdown();
+      renderLoop();
+    });
+  </script>
+</body>
+</html>
