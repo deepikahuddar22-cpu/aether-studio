@@ -43,7 +43,6 @@
       font-family: 'Inter', system-ui, sans-serif;
     }
 
-    /* Deep Luminous Cosmic Nebula Backdrop */
     .cosmic-backdrop {
       background:
         radial-gradient(circle at 50% 38%, rgba(34, 211, 238, 0.22) 0%, rgba(99, 102, 241, 0.14) 26%, rgba(168, 85, 247, 0.10) 48%, rgba(2, 4, 10, 1) 80%),
@@ -103,6 +102,22 @@
       border-color: rgba(34, 211, 238, 0.7);
       box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
       transform: translateY(-1px);
+    }
+
+    .showcase-card {
+      background: linear-gradient(160deg, rgba(10, 20, 40, 0.88) 0%, rgba(4, 9, 20, 0.96) 100%);
+      border: 1px solid rgba(34, 211, 238, 0.38);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 36px rgba(34, 211, 238, 0.14);
+    }
+
+    .feature-tile {
+      background: rgba(8, 16, 32, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .feature-tile:hover {
+      border-color: rgba(34, 211, 238, 0.55);
+      transform: translateY(-2px);
     }
 
     .aether-prose { color: #e2e8f0; font-size: 0.95rem; line-height: 1.68; }
@@ -215,9 +230,18 @@
 
       <div class="flex items-center gap-2 shrink-0">
         <button
+          id="btn-open-showcase"
+          type="button"
+          title="About AETHER & System Capabilities"
+          class="hud-pill px-3 sm:px-3.5 py-2 rounded-full flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 hover:border-cyan-400/70 active:scale-95 transition-all cursor-pointer font-mono text-[10px] sm:text-[11px] font-semibold tracking-wider">
+          <span class="text-cyan-400">ⓘ</span>
+          <span>ABOUT</span>
+        </button>
+
+        <button
           id="btn-open-studio-top"
           type="button"
-          class="hidden sm:flex hud-pill px-3.5 py-2 rounded-full items-center gap-2 text-purple-300 hover:text-white hover:border-purple-400/70 active:scale-95 transition-all cursor-pointer font-mono text-[11px] font-semibold tracking-wider">
+          class="hidden md:flex hud-pill px-3.5 py-2 rounded-full items-center gap-2 text-purple-300 hover:text-white hover:border-purple-400/70 active:scale-95 transition-all cursor-pointer font-mono text-[11px] font-semibold tracking-wider">
           <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
           <span>CODE STUDIO</span>
         </button>
@@ -248,6 +272,33 @@
         </div>
       </div>
     </header>
+
+    <!-- DISMISSIBLE VISITOR SHOWCASE BANNER -->
+    <div id="visitor-banner" class="w-full max-w-2xl mx-auto px-3 sm:px-6 mt-2.5 pointer-events-auto">
+      <div class="hud-pill rounded-2xl px-3.5 py-2.5 flex items-center justify-between gap-3 border-purple-400/35">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/40 font-mono text-[10px] text-purple-200 shrink-0">NEW</span>
+          <p class="text-xs text-slate-200 truncate">
+            Explore <strong class="text-cyan-300">Quantum Science AI</strong>, an interactive <strong class="text-purple-300">3D Core</strong>, and a <strong class="text-cyan-300">Live Code Studio</strong>.
+          </p>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button
+            id="btn-banner-tour"
+            type="button"
+            class="px-2.5 py-1 rounded-full bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/45 font-mono text-[10px] font-semibold text-cyan-200 cursor-pointer transition-all">
+            SPECS
+          </button>
+          <button
+            id="btn-dismiss-banner"
+            type="button"
+            title="Dismiss banner"
+            class="w-6 h-6 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/80 cursor-pointer text-xs">
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- CENTER STAGE -->
     <main class="flex-1 w-full max-w-4xl mx-auto px-3 sm:px-6 flex flex-col justify-end pb-2 sm:pb-3 min-h-0">
@@ -283,7 +334,7 @@
 
       <!-- CHAT STAGE -->
       <div id="chat-stage" class="hidden flex-1 flex flex-col justify-end min-h-0 mb-2">
-        <div id="chat-scroll-area" class="w-full max-h-[65vh] sm:max-h-[67vh] overflow-y-auto px-1 sm:px-2 space-y-4 pointer-events-auto scroll-smooth"></div>
+        <div id="chat-scroll-area" class="w-full max-h-[62vh] sm:max-h-[65vh] overflow-y-auto px-1 sm:px-2 space-y-4 pointer-events-auto scroll-smooth"></div>
       </div>
     </main>
 
@@ -321,6 +372,75 @@
         </button>
       </form>
     </footer>
+  </div>
+
+  <!-- SHOWCASE & SYSTEM ARCHITECTURE MODAL -->
+  <div id="showcase-modal" class="holo-studio-backdrop fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 pointer-events-auto">
+    <div class="showcase-card w-full max-w-2xl rounded-3xl p-5 sm:p-7 relative overflow-y-auto max-h-[90vh]">
+      <div class="flex items-start justify-between gap-3 mb-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/35 font-mono text-[10px] text-cyan-300 tracking-widest mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 status-dot-pulse"></span>
+            <span>SYSTEM OVERVIEW // v9.4</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            AETHER <span class="text-cyan-400">//</span> Quantum Neural Core
+          </h2>
+          <p class="text-xs sm:text-sm text-purple-300 font-mono mt-0.5">
+            Architected &amp; Built by Aadiraj
+          </p>
+        </div>
+        <button
+          id="btn-close-showcase"
+          type="button"
+          class="w-9 h-9 rounded-full bg-slate-900/90 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400/50 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-all">
+          ✕
+        </button>
+      </div>
+
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+        AETHER combines an interactive 3D particle physics core with real-time neural intelligence and a sandboxed live code generator—designed to make exploring science, physics, and software feel tactile and alive.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <div class="feature-tile rounded-2xl p-3.5">
+          <div class="font-mono text-xs font-semibold text-cyan-300 mb-1">01 // 3D CORE</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Drag to orbit or tap to morph 220 luminous nodes between Geodesic Sphere, Quantum Torus, DNA Helix, and Wave Matrix.
+          </p>
+        </div>
+        <div class="feature-tile rounded-2xl p-3.5">
+          <div class="font-mono text-xs font-semibold text-purple-300 mb-1">02 // NEURAL MODES</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Switch between Synthesis, Quantum Lab, Explorer, and Code Studio modes—or speak directly using voice input.
+          </p>
+        </div>
+        <div class="feature-tile rounded-2xl p-3.5">
+          <div class="font-mono text-xs font-semibold text-emerald-300 mb-1">03 // CODE STUDIO</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Ask AETHER to build games, simulators, or web apps and watch them stream and run live in an instant split-screen sandbox.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/90">
+        <span class="font-mono text-[11px] text-slate-400">CREATOR: <strong class="text-cyan-300">AADIRAJ</strong></span>
+        <div class="flex items-center gap-2">
+          <button
+            id="btn-modal-try-studio"
+            type="button"
+            class="px-3.5 py-2 rounded-full bg-purple-500/20 hover:bg-purple-500/35 border border-purple-400/50 font-mono text-xs text-purple-200 cursor-pointer transition-all">
+            TRY CODE STUDIO
+          </button>
+          <button
+            id="btn-modal-start"
+            type="button"
+            class="px-4 py-2 rounded-full bg-cyan-500/25 hover:bg-cyan-400/40 border border-cyan-400/65 font-mono text-xs font-semibold text-cyan-100 shadow-[0_0_20px_rgba(34,211,238,0.25)] cursor-pointer transition-all">
+            ENTER CORE →
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- TOAST NOTIFICATION -->
@@ -497,7 +617,40 @@
     }
 
     // =========================================================================
-    // 2. LUMINOUS 3D MORPHING PARTICLE & NEURAL CORE ENGINE
+    // 2. SHOWCASE MODAL & VISITOR BANNER CONTROLS
+    // =========================================================================
+    const showcaseModal = document.getElementById('showcase-modal');
+    const visitorBanner = document.getElementById('visitor-banner');
+
+    function openShowcaseModal() {
+      showcaseModal.classList.remove('hidden');
+    }
+
+    function closeShowcaseModal() {
+      showcaseModal.classList.add('hidden');
+    }
+
+    document.getElementById('btn-open-showcase').addEventListener('click', openShowcaseModal);
+    document.getElementById('btn-banner-tour').addEventListener('click', openShowcaseModal);
+    document.getElementById('btn-close-showcase').addEventListener('click', closeShowcaseModal);
+    document.getElementById('btn-modal-start').addEventListener('click', () => {
+      closeShowcaseModal();
+      promptInput.focus();
+    });
+    document.getElementById('btn-modal-try-studio').addEventListener('click', () => {
+      closeShowcaseModal();
+      openHolographicCodeStudio('Build a futuristic neon particle gravity playground', false);
+    });
+    showcaseModal.addEventListener('click', (e) => {
+      if (e.target === showcaseModal) closeShowcaseModal();
+    });
+
+    document.getElementById('btn-dismiss-banner').addEventListener('click', () => {
+      visitorBanner.classList.add('hidden');
+    });
+
+    // =========================================================================
+    // 3. LUMINOUS 3D MORPHING PARTICLE & NEURAL CORE ENGINE
     // =========================================================================
     const NODE_COUNT = 220;
     const nodes = [];
@@ -571,8 +724,7 @@
           x: Math.random(),
           y: Math.random(),
           r: Math.random() * 1.6 + 0.3,
-          a: Math.random() * 0.65 + 0.15,
-          speed: Math.random() * 0.002 + 0.0005
+          a: Math.random() * 0.65 + 0.15
         });
       }
     }
@@ -607,7 +759,6 @@
       const now = performance.now() * 0.001;
       ctx.clearRect(0, 0, w, h);
 
-      // Twinkling Cosmic Starfield
       for (const s of stars) {
         const twinkle = 0.6 + 0.4 * Math.sin(now * 2 + s.x * 20);
         ctx.beginPath();
@@ -618,11 +769,10 @@
 
       const isIdle = chatStage.classList.contains('hidden');
       const cx = w * 0.5;
-      const cy = isIdle ? h * 0.38 : h * 0.24;
+      const cy = isIdle ? h * 0.41 : h * 0.25;
       const pulseScale = 1 + Math.sin(now * 2.2) * 0.035 + energyBoost * 0.12;
-      const baseRadius = Math.min(w, h) * (isIdle ? 0.195 : 0.125) * pulseScale;
+      const baseRadius = Math.min(w, h) * (isIdle ? 0.185 : 0.12) * pulseScale;
 
-      // Central Luminous Plasma Halo
       const coreGlow = ctx.createRadialGradient(cx, cy, baseRadius * 0.05, cx, cy, baseRadius * 1.65);
       coreGlow.addColorStop(0, 'rgba(34, 211, 238, 0.24)');
       coreGlow.addColorStop(0.45, 'rgba(139, 92, 246, 0.11)');
@@ -632,7 +782,6 @@
       ctx.arc(cx, cy, baseRadius * 1.65, 0, Math.PI * 2);
       ctx.fill();
 
-      // Dual Counter-Rotating Orbital Rings
       ctx.save();
       ctx.beginPath();
       ctx.ellipse(cx, cy, baseRadius * 1.54, baseRadius * 0.50, -0.22 + Math.sin(now * 0.5) * 0.05, 0, Math.PI * 2);
@@ -681,7 +830,6 @@
         });
       }
 
-      // Luminous Additive Blending for Mesh & Nodes
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
 
@@ -712,7 +860,6 @@
         const radius = Math.max(1.1, p.node.size * p.scale);
         const frontFactor = p.z > 0 ? 1 : 0.48;
 
-        // Soft outer glow halo on foreground nodes
         if (p.z > 0.15) {
           ctx.beginPath();
           ctx.arc(p.sx, p.sy, radius * 2.5, 0, Math.PI * 2);
@@ -773,7 +920,7 @@
     });
 
     // =========================================================================
-    // 3. MODE SWITCHER, QUICK CHIPS & CHAT TERMINAL RENDERING
+    // 4. MODE SWITCHER, QUICK CHIPS & CHAT TERMINAL RENDERING
     // =========================================================================
     function renderModeDropdown() {
       const list = document.getElementById('mode-options-list');
@@ -832,6 +979,7 @@
 
     function appendMessageBubble(role, content, isMarkdown = false) {
       idleOverlay.classList.add('hidden');
+      visitorBanner.classList.add('hidden');
       chatStage.classList.remove('hidden');
 
       const wrapper = document.createElement('div');
@@ -908,7 +1056,7 @@
     });
 
     // =========================================================================
-    // 4. GEMINI API INTEGRATION VIA VERCEL PROXY (/api/chat)
+    // 5. GEMINI API INTEGRATION VIA VERCEL PROXY (/api/chat)
     // =========================================================================
     function resolveGeminiEndpoint() {
       const apiKey = "";
@@ -982,7 +1130,7 @@
     }
 
     // =========================================================================
-    // 5. HOLOGRAPHIC CODE STUDIO CONTROLLER
+    // 6. HOLOGRAPHIC CODE STUDIO CONTROLLER
     // =========================================================================
     const holoCodeStudio = document.getElementById('holo-code-studio');
     const studioCodeLines = document.getElementById('studio-code-lines');
@@ -1152,7 +1300,7 @@
     });
 
     // =========================================================================
-    // 6. VOICE RECOGNITION & SYSTEM BOOT
+    // 7. VOICE RECOGNITION & SYSTEM BOOT
     // =========================================================================
     const btnMic = document.getElementById('btn-mic');
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
