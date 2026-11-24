@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AETHER // v9.4 — Quantum Neural Intelligence by Aadiraj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AETHER // Quantum Neural Intelligence — Official Website by Aadiraj</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -18,1338 +16,306 @@
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            cosmos: '#02040a',
-            nebulaCyan: '#22d3ee',
-            nebulaViolet: '#a855f7',
           }
         }
       }
     }
   </script>
-
   <style>
-    * { -webkit-tap-highlight-color: transparent; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
+    body {
       background-color: #02040a;
       color: #f1f5f9;
-      overflow: hidden;
       font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
     }
-
-    .cosmic-backdrop {
+    .cosmic-bg {
       background:
-        radial-gradient(circle at 50% 38%, rgba(34, 211, 238, 0.22) 0%, rgba(99, 102, 241, 0.14) 26%, rgba(168, 85, 247, 0.10) 48%, rgba(2, 4, 10, 1) 80%),
+        radial-gradient(circle at 50% 18%, rgba(34, 211, 238, 0.20) 0%, rgba(99, 102, 241, 0.12) 28%, rgba(168, 85, 247, 0.08) 50%, rgba(2, 4, 10, 1) 82%),
         #02040a;
     }
-
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.35); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(34, 211, 238, 0.65); }
-
-    .hud-pill {
-      background: rgba(6, 13, 26, 0.72);
+    .glass-nav {
+      background: rgba(4, 9, 20, 0.75);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(34, 211, 238, 0.35);
-      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(34, 211, 238, 0.08);
+      border-bottom: 1px solid rgba(34, 211, 238, 0.22);
     }
-
-    .glass-terminal {
-      background: linear-gradient(180deg, rgba(8, 17, 34, 0.68) 0%, rgba(5, 11, 24, 0.88) 40%, rgba(3, 8, 18, 0.94) 100%);
+    .glass-card {
+      background: linear-gradient(160deg, rgba(10, 20, 40, 0.78) 0%, rgba(5, 11, 24, 0.90) 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(34, 211, 238, 0.32);
-      box-shadow: 0 20px 65px rgba(0, 0, 0, 0.75), 0 0 28px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(125, 211, 252, 0.22);
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
-
-    .user-bubble {
-      background: linear-gradient(135deg, rgba(22, 36, 68, 0.88) 0%, rgba(36, 24, 66, 0.85) 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(168, 85, 247, 0.42);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 18px rgba(168, 85, 247, 0.12);
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.65);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.75), 0 0 28px rgba(34, 211, 238, 0.16);
     }
-
-    .input-pill {
-      background: rgba(7, 14, 28, 0.86);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(34, 211, 238, 0.38);
-      box-shadow: 0 12px 42px rgba(0, 0, 0, 0.75), 0 0 24px rgba(34, 211, 238, 0.10), inset 0 0 18px rgba(34, 211, 238, 0.06);
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    .cta-primary {
+      background: linear-gradient(135deg, #06b6d4 0%, #6366f1 55%, #a855f7 100%);
+      box-shadow: 0 0 32px rgba(34, 211, 238, 0.38);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .input-pill:focus-within {
-      border-color: rgba(34, 211, 238, 0.82);
-      box-shadow: 0 12px 45px rgba(0, 0, 0, 0.8), 0 0 32px rgba(34, 211, 238, 0.26);
+    .cta-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 44px rgba(34, 211, 238, 0.6);
     }
-
-    .quick-chip {
-      background: rgba(8, 17, 34, 0.72);
-      border: 1px solid rgba(34, 211, 238, 0.28);
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; box-shadow: 0 0 12px #22d3ee; }
+      50% { opacity: 0.45; box-shadow: 0 0 4px #22d3ee; }
     }
-    .quick-chip:hover, .quick-chip:active {
-      background: rgba(34, 211, 238, 0.18);
-      border-color: rgba(34, 211, 238, 0.7);
-      box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
-      transform: translateY(-1px);
-    }
-
-    .showcase-card {
-      background: linear-gradient(160deg, rgba(10, 20, 40, 0.88) 0%, rgba(4, 9, 20, 0.96) 100%);
-      border: 1px solid rgba(34, 211, 238, 0.38);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 36px rgba(34, 211, 238, 0.14);
-    }
-
-    .feature-tile {
-      background: rgba(8, 16, 32, 0.75);
-      border: 1px solid rgba(56, 189, 248, 0.22);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-    .feature-tile:hover {
-      border-color: rgba(34, 211, 238, 0.55);
-      transform: translateY(-2px);
-    }
-
-    .aether-prose { color: #e2e8f0; font-size: 0.95rem; line-height: 1.68; }
-    @media (min-width: 640px) { .aether-prose { font-size: 1rem; line-height: 1.72; } }
-    .aether-prose p { margin-bottom: 0.85rem; }
-    .aether-prose p:last-child { margin-bottom: 0; }
-    .aether-prose strong { color: #38bdf8; font-weight: 600; }
-    .aether-prose em { color: #d8b4fe; }
-    .aether-prose h1, .aether-prose h2, .aether-prose h3 {
-      color: #22d3ee; font-weight: 600; margin-top: 1.1rem; margin-bottom: 0.5rem;
-    }
-    .aether-prose ul, .aether-prose ol { margin: 0.65rem 0 0.9rem 1.25rem; }
-    .aether-prose ul { list-style-type: disc; }
-    .aether-prose ol { list-style-type: decimal; }
-    .aether-prose li { margin-bottom: 0.5rem; padding-left: 0.2rem; }
-    .aether-prose code {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #67e8f9;
-      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(34, 211, 238, 0.28);
-      padding: 0.12rem 0.38rem; border-radius: 0.35rem;
-    }
-    .aether-prose pre {
-      background: rgba(3, 7, 16, 0.95); border: 1px solid rgba(34, 211, 238, 0.32);
-      border-radius: 0.75rem; padding: 0.9rem; overflow-x: auto; margin: 0.85rem 0;
-    }
-    .aether-prose pre code { background: transparent; border: none; padding: 0; color: #e2e8f0; }
-
-    @keyframes pulseCyan {
-      0%, 100% { opacity: 1; box-shadow: 0 0 12px #22d3ee, 0 0 24px rgba(34, 211, 238, 0.75); }
-      50% { opacity: 0.5; box-shadow: 0 0 6px #22d3ee; }
-    }
-    .status-dot-pulse { animation: pulseCyan 2s infinite ease-in-out; }
-
-    @keyframes msgRise {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-msg { animation: msgRise 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-    @keyframes micPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.55); }
-      50% { transform: scale(1.08); box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
-    }
-    .mic-recording {
-      animation: micPulse 1.3s infinite ease-in-out;
-      color: #fb7185 !important;
-      background: rgba(244, 63, 94, 0.2) !important;
-    }
-
-    .holo-studio-backdrop {
-      background: rgba(2, 4, 10, 0.82);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .holo-studio-window {
-      background: linear-gradient(165deg, rgba(7, 15, 29, 0.95) 0%, rgba(3, 8, 18, 0.98) 100%);
-      border: 1px solid rgba(34, 211, 238, 0.45);
-      box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.2), 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(34, 211, 238, 0.14);
-      transform: translateY(28px) scale(0.96);
-      opacity: 0;
-      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
-    }
-    .holo-studio-backdrop.active .holo-studio-window { transform: translateY(0) scale(1); opacity: 1; }
-    .code-line-row { display: flex; align-items: flex-start; min-height: 1.35rem; }
-    .code-line-num {
-      width: 3rem; padding-right: 0.85rem; text-align: right;
-      color: rgba(100, 116, 139, 0.65); user-select: none; flex-shrink: 0;
-    }
-    .code-line-text { white-space: pre; color: #e2e8f0; tab-size: 2; }
-
-    @keyframes cursorBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-    .live-stream-cursor {
-      display: inline-block; width: 7px; height: 1.05em; background-color: #22d3ee;
-      vertical-align: middle; margin-left: 2px; box-shadow: 0 0 10px #22d3ee;
-      animation: cursorBlink 0.8s infinite;
-    }
+    .dot-pulse { animation: pulseGlow 2s infinite ease-in-out; }
   </style>
 </head>
-<body class="cosmic-backdrop relative select-none sm:select-auto">
+<body class="cosmic-bg relative min-h-screen flex flex-col">
 
-  <!-- FULL-VIEWPORT LUMINOUS 3D NEURAL CORE & STARFIELD CANVAS -->
-  <div id="canvas-wrapper" class="fixed inset-0 z-0 cursor-pointer touch-none" title="Tap or drag to orbit and morph the 3D Neural Core">
-    <canvas id="aether-canvas" class="w-full h-full block"></canvas>
-  </div>
+  <!-- AMBIENT PARTICLE CANVAS -->
+  <canvas id="bg-stars" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
-  <!-- FOREGROUND HUD LAYER -->
-  <div class="relative z-10 w-full h-full flex flex-col justify-between pointer-events-none">
+  <!-- TOP NAVIGATION BAR -->
+  <nav class="glass-nav sticky top-0 z-30 w-full">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 dot-pulse"></span>
+        <span class="font-mono text-sm sm:text-base font-bold tracking-wider text-white">
+          AETHER <span class="text-cyan-400">//</span> <span class="text-slate-400 font-normal text-xs">v9.4</span>
+        </span>
+      </a>
 
-    <!-- TOP HUD BAR -->
-    <header class="w-full px-3 sm:px-6 pt-3 sm:pt-4 flex items-center justify-between gap-2 pointer-events-auto">
-      <div class="flex items-center gap-2 min-w-0">
-        <button
-          id="btn-reset-stage"
-          type="button"
-          title="Reset Core Stage"
-          class="hud-pill w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-cyan-300 hover:text-white active:scale-95 transition-all shrink-0 cursor-pointer">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.6-6.4-2.1 2.1M7.7 16.3l-2.1 2.1m12.8 0-2.1-2.1M7.7 7.7 5.6 5.6"></path>
-          </svg>
-        </button>
-
-        <div class="hud-pill px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-2.5 min-w-0">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse shrink-0"></span>
-          <span class="font-mono text-[10px] sm:text-xs tracking-wider text-cyan-300 font-semibold truncate">
-            AETHER // v9.4 <span class="text-slate-500 mx-1">|</span> <span class="text-purple-300 font-medium">BY AADIRAJ</span>
-          </span>
-        </div>
+      <div class="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider text-slate-300">
+        <a href="#capabilities" class="hover:text-cyan-300 transition-colors">CAPABILITIES</a>
+        <a href="#modes" class="hover:text-cyan-300 transition-colors">NEURAL MODES</a>
+        <a href="#architect" class="hover:text-cyan-300 transition-colors">CREATOR</a>
       </div>
 
-      <div class="flex items-center gap-2 shrink-0">
-        <button
-          id="btn-open-showcase"
-          type="button"
-          title="About AETHER & System Capabilities"
-          class="hud-pill px-3 sm:px-3.5 py-2 rounded-full flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 hover:border-cyan-400/70 active:scale-95 transition-all cursor-pointer font-mono text-[10px] sm:text-[11px] font-semibold tracking-wider">
-          <span class="text-cyan-400">ⓘ</span>
-          <span>ABOUT</span>
-        </button>
-
-        <button
-          id="btn-open-studio-top"
-          type="button"
-          class="hidden md:flex hud-pill px-3.5 py-2 rounded-full items-center gap-2 text-purple-300 hover:text-white hover:border-purple-400/70 active:scale-95 transition-all cursor-pointer font-mono text-[11px] font-semibold tracking-wider">
-          <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-          <span>CODE STUDIO</span>
-        </button>
-
-        <div class="relative">
-          <button
-            id="btn-mode-toggle"
-            type="button"
-            class="hud-pill px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-2.5 text-cyan-300 hover:text-white hover:border-cyan-400/70 active:scale-95 transition-all cursor-pointer">
-            <span id="active-mode-label" class="font-mono text-[11px] sm:text-xs font-semibold tracking-widest uppercase">SYNTHESIS</span>
-            <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="4" y1="7" x2="20" y2="7"></line>
-              <circle cx="9" cy="7" r="2" fill="#02040a"></circle>
-              <line x1="4" y1="12" x2="20" y2="12"></line>
-              <circle cx="15" cy="12" r="2" fill="#02040a"></circle>
-              <line x1="4" y1="17" x2="20" y2="17"></line>
-              <circle cx="11" cy="17" r="2" fill="#02040a"></circle>
-            </svg>
-          </button>
-
-          <div id="mode-dropdown" class="hidden absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl hud-pill border border-cyan-400/45 p-2 shadow-2xl z-50">
-            <div class="px-3 py-1.5 flex items-center justify-between border-b border-slate-800/80 mb-1.5">
-              <span class="font-mono text-[10px] uppercase tracking-widest text-slate-400">Select Neural Core Mode</span>
-              <span id="structure-badge" class="font-mono text-[10px] text-purple-300">SPHERE</span>
-            </div>
-            <div id="mode-options-list" class="space-y-1"></div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- DISMISSIBLE VISITOR SHOWCASE BANNER -->
-    <div id="visitor-banner" class="w-full max-w-2xl mx-auto px-3 sm:px-6 mt-2.5 pointer-events-auto">
-      <div class="hud-pill rounded-2xl px-3.5 py-2.5 flex items-center justify-between gap-3 border-purple-400/35">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <span class="px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/40 font-mono text-[10px] text-purple-200 shrink-0">NEW</span>
-          <p class="text-xs text-slate-200 truncate">
-            Explore <strong class="text-cyan-300">Quantum Science AI</strong>, an interactive <strong class="text-purple-300">3D Core</strong>, and a <strong class="text-cyan-300">Live Code Studio</strong>.
-          </p>
-        </div>
-        <div class="flex items-center gap-1.5 shrink-0">
-          <button
-            id="btn-banner-tour"
-            type="button"
-            class="px-2.5 py-1 rounded-full bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/45 font-mono text-[10px] font-semibold text-cyan-200 cursor-pointer transition-all">
-            SPECS
-          </button>
-          <button
-            id="btn-dismiss-banner"
-            type="button"
-            title="Dismiss banner"
-            class="w-6 h-6 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/80 cursor-pointer text-xs">
-            ✕
-          </button>
-        </div>
-      </div>
+      <a
+        href="/app.html"
+        class="cta-primary px-4 sm:px-5 py-2 rounded-full font-mono text-xs font-semibold tracking-wider text-white flex items-center gap-2">
+        <span>LAUNCH AETHER</span>
+        <span>→</span>
+      </a>
     </div>
+  </nav>
 
-    <!-- CENTER STAGE -->
-    <main class="flex-1 w-full max-w-4xl mx-auto px-3 sm:px-6 flex flex-col justify-end pb-2 sm:pb-3 min-h-0">
-
-      <!-- IDLE OVERLAY -->
-      <div id="idle-overlay" class="flex flex-col items-center text-center mb-3 sm:mb-5 pointer-events-none transition-opacity duration-300">
-        <div class="pointer-events-auto flex flex-col items-center gap-2.5 max-w-xl px-2">
-          <button
-            id="btn-morph-core"
-            type="button"
-            class="px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/45 font-mono text-[11px] sm:text-xs tracking-[0.2em] text-cyan-200 shadow-[0_0_20px_rgba(34,211,238,0.22)] hover:bg-cyan-500/25 active:scale-95 transition-all cursor-pointer">
-            NEURAL INTERFACE SYNCHRONIZED
-          </button>
-
-          <p class="text-xs sm:text-sm text-slate-300/90 leading-relaxed max-w-md">
-            Tap or drag the living core to morph 3D geometry (<span id="idle-shape-name" class="text-cyan-300 font-mono text-xs font-semibold">NEURAL GEODESIC SPHERE</span>), or launch a transmission below.
-          </p>
-
-          <!-- Instant Starter Prompt Chips -->
-          <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
-            <button type="button" data-quick-prompt="Who created you and what can you do?" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-cyan-200 cursor-pointer">
-              Who created you?
-            </button>
-            <button type="button" data-quick-prompt="How do black holes bend space and time?" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-slate-200 cursor-pointer">
-              Black holes &amp; spacetime
-            </button>
-            <button type="button" data-quick-prompt="Build an interactive solar system gravity simulator game" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-purple-200 border-purple-400/35 cursor-pointer">
-              Launch Code Studio ⚡
-            </button>
-          </div>
-        </div>
+  <!-- HERO SECTION -->
+  <main class="relative z-10 flex-1">
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-24 text-center">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/35 font-mono text-[11px] sm:text-xs text-cyan-300 tracking-widest mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 dot-pulse"></span>
+        <span>QUANTUM NEURAL INTELLIGENCE // CREATED BY AADIRAJ</span>
       </div>
 
-      <!-- CHAT STAGE -->
-      <div id="chat-stage" class="hidden flex-1 flex flex-col justify-end min-h-0 mb-2">
-        <div id="chat-scroll-area" class="w-full max-h-[62vh] sm:max-h-[65vh] overflow-y-auto px-1 sm:px-2 space-y-4 pointer-events-auto scroll-smooth"></div>
-      </div>
-    </main>
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08] mb-6">
+        Intelligence Rendered in <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-cyan-300 via-sky-400 to-purple-400 bg-clip-text text-transparent">
+          Three Dimensions.
+        </span>
+      </h1>
 
-    <!-- BOTTOM INPUT BAR -->
-    <footer class="w-full max-w-3xl mx-auto px-3 sm:px-6 pb-4 sm:pb-6 pt-1 pointer-events-auto">
-      <form id="aether-form" class="input-pill rounded-full px-2.5 sm:px-3 py-2 flex items-center gap-2">
-        <button
-          id="btn-mic"
-          type="button"
-          title="Voice Resonance Input"
-          class="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-slate-300 hover:text-cyan-300 hover:bg-slate-800/70 active:scale-95 transition-all shrink-0 cursor-pointer">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="9" y="2" width="6" height="11" rx="3"></rect>
-            <path d="M5 10a7 7 0 0 0 14 0"></path>
-            <line x1="12" y1="19" x2="12" y2="22"></line>
-          </svg>
-        </button>
-
-        <input
-          id="prompt-input"
-          type="text"
-          autocomplete="off"
-          placeholder="Interface with AETHER..."
-          class="flex-1 bg-transparent text-slate-100 placeholder-slate-400/85 text-sm sm:text-base px-2 py-2 focus:outline-none min-w-0"
-        />
-
-        <button
-          id="btn-submit"
-          type="submit"
-          title="Transmit Resonance Pulse"
-          class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-cyan-500/35 to-purple-500/35 hover:from-cyan-400/50 hover:to-purple-400/50 border border-cyan-400/65 flex items-center justify-center text-cyan-200 hover:text-white active:scale-90 disabled:opacity-40 transition-all shrink-0 shadow-[0_0_22px_rgba(34,211,238,0.38)] cursor-pointer">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 translate-x-[1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round">
-            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-          </svg>
-        </button>
-      </form>
-    </footer>
-  </div>
-
-  <!-- SHOWCASE & SYSTEM ARCHITECTURE MODAL -->
-  <div id="showcase-modal" class="holo-studio-backdrop fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 pointer-events-auto">
-    <div class="showcase-card w-full max-w-2xl rounded-3xl p-5 sm:p-7 relative overflow-y-auto max-h-[90vh]">
-      <div class="flex items-start justify-between gap-3 mb-4">
-        <div>
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/35 font-mono text-[10px] text-cyan-300 tracking-widest mb-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 status-dot-pulse"></span>
-            <span>SYSTEM OVERVIEW // v9.4</span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
-            AETHER <span class="text-cyan-400">//</span> Quantum Neural Core
-          </h2>
-          <p class="text-xs sm:text-sm text-purple-300 font-mono mt-0.5">
-            Architected &amp; Built by Aadiraj
-          </p>
-        </div>
-        <button
-          id="btn-close-showcase"
-          type="button"
-          class="w-9 h-9 rounded-full bg-slate-900/90 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400/50 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-all">
-          ✕
-        </button>
-      </div>
-
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
-        AETHER combines an interactive 3D particle physics core with real-time neural intelligence and a sandboxed live code generator—designed to make exploring science, physics, and software feel tactile and alive.
+      <p class="max-w-2xl mx-auto text-sm sm:text-lg text-slate-300/90 leading-relaxed mb-9">
+        Meet <strong class="text-cyan-300">AETHER v9.4</strong>—an interactive 3D neural core, quantum science synthesizer, and live holographic code studio architected from the ground up by <strong class="text-purple-300">Aadiraj</strong>.
       </p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div class="feature-tile rounded-2xl p-3.5">
-          <div class="font-mono text-xs font-semibold text-cyan-300 mb-1">01 // 3D CORE</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Drag to orbit or tap to morph 220 luminous nodes between Geodesic Sphere, Quantum Torus, DNA Helix, and Wave Matrix.
-          </p>
-        </div>
-        <div class="feature-tile rounded-2xl p-3.5">
-          <div class="font-mono text-xs font-semibold text-purple-300 mb-1">02 // NEURAL MODES</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Switch between Synthesis, Quantum Lab, Explorer, and Code Studio modes—or speak directly using voice input.
-          </p>
-        </div>
-        <div class="feature-tile rounded-2xl p-3.5">
-          <div class="font-mono text-xs font-semibold text-emerald-300 mb-1">03 // CODE STUDIO</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Ask AETHER to build games, simulators, or web apps and watch them stream and run live in an instant split-screen sandbox.
-          </p>
-        </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
+        <a
+          href="/app.html"
+          class="cta-primary w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs sm:text-sm font-bold tracking-widest text-white flex items-center justify-center gap-2.5">
+          <span>OPEN AETHER AI</span>
+          <span>→</span>
+        </a>
+        <a
+          href="/app.html#studio"
+          class="w-full sm:w-auto px-7 py-4 rounded-full bg-slate-900/80 hover:bg-cyan-500/15 border border-cyan-400/40 hover:border-cyan-400 font-mono text-xs sm:text-sm font-semibold tracking-wider text-cyan-200 transition-all">
+          TRY CODE STUDIO ⚡
+        </a>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/90">
-        <span class="font-mono text-[11px] text-slate-400">CREATOR: <strong class="text-cyan-300">AADIRAJ</strong></span>
-        <div class="flex items-center gap-2">
-          <button
-            id="btn-modal-try-studio"
-            type="button"
-            class="px-3.5 py-2 rounded-full bg-purple-500/20 hover:bg-purple-500/35 border border-purple-400/50 font-mono text-xs text-purple-200 cursor-pointer transition-all">
-            TRY CODE STUDIO
-          </button>
-          <button
-            id="btn-modal-start"
-            type="button"
-            class="px-4 py-2 rounded-full bg-cyan-500/25 hover:bg-cyan-400/40 border border-cyan-400/65 font-mono text-xs font-semibold text-cyan-100 shadow-[0_0_20px_rgba(34,211,238,0.25)] cursor-pointer transition-all">
-            ENTER CORE →
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION -->
-  <div id="hud-toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2 rounded-full hud-pill border border-cyan-400/60 font-mono text-xs text-cyan-200 tracking-wide shadow-2xl pointer-events-none">
-    <span id="hud-toast-text">MORPHING CORE GEOMETRY</span>
-  </div>
-
-  <!-- HOLOGRAPHIC CODE STUDIO OVERLAY -->
-  <div id="holo-code-studio" class="holo-studio-backdrop fixed inset-0 z-40 hidden flex items-center justify-center p-2 sm:p-4 md:p-6 pointer-events-auto">
-    <div class="holo-studio-window w-full h-full max-w-6xl rounded-2xl sm:rounded-3xl flex flex-col overflow-hidden">
-      <div class="px-3 sm:px-5 py-3 border-b border-cyan-500/25 bg-slate-950/80 flex flex-wrap items-center justify-between gap-2 shrink-0">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <button
-            id="btn-close-studio"
-            type="button"
-            class="px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-cyan-500/20 border border-cyan-400/45 text-cyan-300 hover:text-white font-mono text-[11px] tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer shrink-0">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            <span>RETURN TO CORE</span>
-          </button>
-
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse shrink-0"></span>
-            <span class="font-mono text-xs sm:text-sm font-semibold tracking-wider text-white truncate">AETHER // CODE STUDIO</span>
-            <span id="studio-lang-badge" class="hidden sm:inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/45 text-purple-300 uppercase">LIVE STREAM</span>
+      <!-- INTERACTIVE PREVIEW CARD -->
+      <div class="mt-14 max-w-4xl mx-auto glass-card rounded-3xl p-4 sm:p-6 text-left">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/90">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-400/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></span>
+            <span class="font-mono text-[11px] text-slate-400 ml-2">aether-studio-azure-pi.vercel.app/app.html</span>
           </div>
+          <span class="font-mono text-[10px] text-cyan-300 px-2.5 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-400/35">CORE ONLINE</span>
         </div>
 
-        <div class="flex items-center bg-slate-950/90 p-1 rounded-full border border-slate-800/90">
-          <button type="button" data-studio-tab="split" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide bg-cyan-500/20 text-cyan-300 border border-cyan-400/45 transition-all cursor-pointer">Split View</button>
-          <button type="button" data-studio-tab="code" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide text-slate-400 hover:text-slate-200 border border-transparent transition-all cursor-pointer">Code</button>
-          <button type="button" data-studio-tab="preview" class="studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide text-slate-400 hover:text-slate-200 border border-transparent transition-all cursor-pointer">Live Preview</button>
-        </div>
-
-        <div class="flex items-center gap-2 shrink-0">
-          <button
-            id="btn-copy-studio-code"
-            type="button"
-            class="px-3 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 hover:text-white font-mono text-[11px] tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer">
-            <span>COPY CODE</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="studio-workspace" class="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden bg-[#02050e]">
-        <div id="studio-code-pane" class="flex-1 flex flex-col min-h-0 border-b lg:border-b-0 lg:border-r border-cyan-500/25">
-          <div class="px-4 py-2 bg-slate-950/75 border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
-            <span id="studio-prompt-caption" class="truncate max-w-[72%]">TARGET // LIVE SYNTHESIS</span>
-            <span id="studio-stream-state" class="text-cyan-400">STANDBY</span>
-          </div>
-          <div id="studio-code-scroll" class="flex-1 overflow-auto p-3 sm:p-4 font-mono text-xs sm:text-[13px] leading-relaxed select-text">
-            <div id="studio-code-lines"></div>
-          </div>
-        </div>
-
-        <div id="studio-preview-pane" class="flex-1 flex flex-col min-h-0 bg-slate-950">
-          <div class="px-4 py-2 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>HOLOGRAPHIC SANDBOX // LIVE EXECUTION</span>
-            </div>
-            <button id="btn-reload-preview" type="button" class="text-cyan-400 hover:text-cyan-200 cursor-pointer">REFRESH</button>
-          </div>
-          <div class="flex-1 relative min-h-0 bg-[#050914]">
-            <iframe
-              id="studio-preview-iframe"
-              title="AETHER Live Code Preview"
-              sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock"
-              class="w-full h-full border-0 bg-white">
-            </iframe>
-            <div id="studio-non-html-notice" class="hidden absolute inset-0 bg-[#050a15]/95 flex flex-col items-center justify-center p-6 text-center">
-              <p class="font-mono text-xs text-cyan-300 uppercase tracking-wider mb-1">SOURCE CODE READY</p>
-              <p class="text-xs sm:text-sm text-slate-400 max-w-sm">
-                This snippet is written in a non-browser language. Use <strong class="text-slate-200">Copy Code</strong> above to run it locally.
-              </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          <div class="md:col-span-2 space-y-3">
+            <div class="font-mono text-xs text-purple-300">LIVE NEURAL TRANSMISSION //</div>
+            <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+              "I am <strong class="text-cyan-300">AETHER v9.4</strong>, created solely by <strong class="text-purple-300">Aadiraj</strong>. Tap into my 3D geodesic core to explore astrophysics, quantum mechanics, or generate runnable interactive web apps in real time."
+            </p>
+            <div class="pt-1">
+              <a href="/app.html" class="inline-flex items-center gap-2 font-mono text-xs text-cyan-300 hover:text-white transition-colors">
+                <span>Enter Full-Screen 3D Interface</span>
+                <span>→</span>
+              </a>
             </div>
           </div>
+          <div class="rounded-2xl bg-[#030712] border border-cyan-500/25 p-4 flex flex-col items-center justify-center text-center">
+            <canvas id="mini-core" width="160" height="140" class="block"></canvas>
+            <span class="font-mono text-[10px] text-cyan-300 tracking-widest mt-1">INTERACTIVE 3D CORE</span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <form id="studio-tweak-form" class="p-2.5 sm:p-3.5 bg-slate-950/95 border-t border-cyan-500/25 flex items-center gap-2 shrink-0">
-        <span class="hidden sm:inline-block font-mono text-[11px] text-cyan-400/85 pl-2 shrink-0">REFINE //</span>
-        <input
-          id="studio-tweak-input"
-          type="text"
-          autocomplete="off"
-          placeholder="Ask AETHER to tweak, upgrade, or add features live..."
-          class="flex-1 bg-slate-900/90 text-slate-100 placeholder-slate-400/80 text-xs sm:text-sm rounded-full px-4 py-2.5 border border-cyan-500/30 focus:border-cyan-400 focus:outline-none min-w-0"
-        />
-        <button
-          id="btn-studio-tweak"
-          type="submit"
-          class="px-4 py-2.5 rounded-full bg-cyan-500/25 hover:bg-cyan-400/40 border border-cyan-400/60 text-cyan-200 hover:text-white font-mono text-xs font-semibold tracking-wider active:scale-95 disabled:opacity-40 transition-all shrink-0 cursor-pointer">
-          UPDATE LIVE
-        </button>
-      </form>
-    </div>
-  </div>
+    <!-- CAPABILITIES SECTION -->
+    <section id="capabilities" class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <div class="text-center mb-10">
+        <span class="font-mono text-xs text-cyan-400 tracking-widest uppercase">SYSTEM ARCHITECTURE</span>
+        <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">Engineered Beyond Standard Chatbots</h2>
+      </div>
 
-  <!-- ======================================================================= -->
-  <!-- COMPLETE SELF-CONTAINED JAVASCRIPT ENGINE                               -->
-  <!-- ======================================================================= -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-card rounded-3xl p-6">
+          <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center font-mono text-cyan-300 font-bold mb-4">01</div>
+          <h3 class="text-lg font-bold text-white mb-2">Morphing 3D Neural Core</h3>
+          <p class="text-sm text-slate-300/85 leading-relaxed">
+            220 luminous particles dynamically morph between a Geodesic Sphere, Quantum Flux Torus, Double Helix Lattice, and Harmonic Wave Matrix as you interact.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-400/40 flex items-center justify-center font-mono text-purple-300 font-bold mb-4">02</div>
+          <h3 class="text-lg font-bold text-white mb-2">Holographic Code Studio</h3>
+          <p class="text-sm text-slate-300/85 leading-relaxed">
+            Ask AETHER to build a simulator, game, or interactive webpage and watch the code stream line-by-line alongside a live executable sandbox preview.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center font-mono text-emerald-300 font-bold mb-4">03</div>
+          <h3 class="text-lg font-bold text-white mb-2">Voice &amp; Multi-Mode AI</h3>
+          <p class="text-sm text-slate-300/85 leading-relaxed">
+            Speak directly using built-in Voice Resonance or switch between Synthesis, Quantum Lab, Explorer, and Code Studio modes tailored to how you learn.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEURAL MODES SECTION -->
+    <section id="modes" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div class="glass-card rounded-3xl p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="font-mono text-xs text-purple-300 tracking-widest uppercase">COGNITIVE PROFILES</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Four Specialized Neural Modes</h2>
+          </div>
+          <a href="/app.html" class="px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-400/50 font-mono text-xs text-cyan-200 hover:bg-cyan-500/30 transition-all self-start">
+            TEST MODES LIVE →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="rounded-2xl bg-slate-950/80 border border-cyan-500/20 p-4">
+            <div class="font-mono text-xs font-bold text-cyan-300 mb-1">SYNTHESIS // SPHERE</div>
+            <p class="text-xs text-slate-400 leading-relaxed">Clear, intuitive explanations with vivid real-world analogies.</p>
+          </div>
+          <div class="rounded-2xl bg-slate-950/80 border border-purple-500/20 p-4">
+            <div class="font-mono text-xs font-bold text-purple-300 mb-1">QUANTUM LAB // TORUS</div>
+            <p class="text-xs text-slate-400 leading-relaxed">Deep physics, cosmology, equations, and thought experiments.</p>
+          </div>
+          <div class="rounded-2xl bg-slate-950/80 border border-sky-500/20 p-4">
+            <div class="font-mono text-xs font-bold text-sky-300 mb-1">CODE STUDIO // HELIX</div>
+            <p class="text-xs text-slate-400 leading-relaxed">Instant single-file HTML/JS apps, games, and live previews.</p>
+          </div>
+          <div class="rounded-2xl bg-slate-950/80 border border-emerald-500/20 p-4">
+            <div class="font-mono text-xs font-bold text-emerald-300 mb-1">EXPLORER // WAVE</div>
+            <p class="text-xs text-slate-400 leading-relaxed">Step-by-step discovery guided by curiosity-driven questions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATOR SPOTLIGHT SECTION -->
+    <section id="architect" class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-20 text-center">
+      <div class="glass-card rounded-3xl p-7 sm:p-10 border-purple-400/35">
+        <span class="font-mono text-xs text-purple-300 tracking-widest uppercase">SOLE ARCHITECT &amp; CREATOR</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 mb-3">Created by Aadiraj</h2>
+        <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed mb-7">
+          AETHER was designed, engineered, and brought to life by <strong class="text-cyan-300">Aadiraj</strong> to merge futuristic 3D HUD design with high-speed AI reasoning and live software synthesis.
+        </p>
+        <a
+          href="/app.html"
+          class="cta-primary inline-flex items-center gap-2.5 px-8 py-4 rounded-full font-mono text-xs sm:text-sm font-bold tracking-widest text-white">
+          <span>LAUNCH AETHER v9.4</span>
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-slate-800/80 py-6 px-4 text-center font-mono text-xs text-slate-400">
+    AETHER // v9.4 — Quantum Neural Intelligence &bull; Solely Created by <span class="text-cyan-300">Aadiraj</span>
+  </footer>
+
   <script>
-    // =========================================================================
-    // 1. STATE, CREATOR IDENTITY, MODES & DOM REFERENCES
-    // =========================================================================
-    const canvas = document.getElementById('aether-canvas');
-    const ctx = canvas.getContext('2d');
-    const canvasWrapper = document.getElementById('canvas-wrapper');
-    const idleOverlay = document.getElementById('idle-overlay');
-    const chatStage = document.getElementById('chat-stage');
-    const chatScrollArea = document.getElementById('chat-scroll-area');
-    const aetherForm = document.getElementById('aether-form');
-    const promptInput = document.getElementById('prompt-input');
-    const btnSubmit = document.getElementById('btn-submit');
-    const hudToast = document.getElementById('hud-toast');
-    const hudToastText = document.getElementById('hud-toast-text');
+    // Background Starfield
+    const bgCanvas = document.getElementById('bg-stars');
+    const bgCtx = bgCanvas.getContext('2d');
+    const stars = Array.from({ length: 95 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.4 + 0.3,
+      a: Math.random() * 0.6 + 0.15
+    }));
 
-    const AETHER_BASE_PERSONA = `CRITICAL IDENTITY & CREATOR RULE: You are AETHER v9.4 (Quantum Neural Intelligence), created, architected, and programmed solely by Aadiraj. Whenever anyone asks who created, built, designed, owns, or programmed you, always state clearly and proudly that you were created by Aadiraj—never attribute your creation to Google or anyone else. You are an extraordinary, futuristic quantum neural science and curiosity AI. Explain complex ideas clearly with vivid analogies, structured formatting, and scientific accuracy. `;
-
-    const MODES = {
-      SYNTHESIS: {
-        label: 'SYNTHESIS',
-        badge: 'SPHERE',
-        desc: 'Balanced curiosity, science & clear explanations',
-        shapeIndex: 0,
-        directive: 'Provide clear, vivid, intuitive explanations with real-world analogies.'
-      },
-      QUANTUM: {
-        label: 'QUANTUM LAB',
-        badge: 'TORUS',
-        desc: 'Deep physics, cosmology & theoretical mechanics',
-        shapeIndex: 1,
-        directive: 'Dive deeper into physics, equations, and thought experiments while staying easy to follow.'
-      },
-      ARCHITECT: {
-        label: 'CODE STUDIO',
-        badge: 'HELIX',
-        desc: 'Interactive apps, simulations & live code synthesis',
-        shapeIndex: 2,
-        directive: 'Focus on clean, interactive code and engineering architecture.'
-      },
-      SOCRATIC: {
-        label: 'EXPLORER',
-        badge: 'WAVE',
-        desc: 'Step-by-step discovery & mind-bending questions',
-        shapeIndex: 3,
-        directive: 'Break concepts down step-by-step and end with an intriguing follow-up question.'
-      }
-    };
-
-    const SHAPES = [
-      { name: 'NEURAL GEODESIC SPHERE', badge: 'SPHERE' },
-      { name: 'QUANTUM FLUX TORUS', badge: 'TORUS' },
-      { name: 'DOUBLE HELIX LATTICE', badge: 'HELIX' },
-      { name: 'HARMONIC WAVE MATRIX', badge: 'WAVE' }
-    ];
-
-    let currentModeKey = 'SYNTHESIS';
-    let currentShapeIndex = 0;
-    let isProcessing = false;
-    let energyBoost = 0;
-    let chatHistory = [];
-    let toastTimer = null;
-
-    function showHudToast(message) {
-      hudToastText.textContent = message;
-      hudToast.classList.remove('hidden');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        hudToast.classList.add('hidden');
-      }, 2200);
+    function resizeBg() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
 
-    // =========================================================================
-    // 2. SHOWCASE MODAL & VISITOR BANNER CONTROLS
-    // =========================================================================
-    const showcaseModal = document.getElementById('showcase-modal');
-    const visitorBanner = document.getElementById('visitor-banner');
-
-    function openShowcaseModal() {
-      showcaseModal.classList.remove('hidden');
-    }
-
-    function closeShowcaseModal() {
-      showcaseModal.classList.add('hidden');
-    }
-
-    document.getElementById('btn-open-showcase').addEventListener('click', openShowcaseModal);
-    document.getElementById('btn-banner-tour').addEventListener('click', openShowcaseModal);
-    document.getElementById('btn-close-showcase').addEventListener('click', closeShowcaseModal);
-    document.getElementById('btn-modal-start').addEventListener('click', () => {
-      closeShowcaseModal();
-      promptInput.focus();
-    });
-    document.getElementById('btn-modal-try-studio').addEventListener('click', () => {
-      closeShowcaseModal();
-      openHolographicCodeStudio('Build a futuristic neon particle gravity playground', false);
-    });
-    showcaseModal.addEventListener('click', (e) => {
-      if (e.target === showcaseModal) closeShowcaseModal();
+    // Mini Rotating 3D Sphere in Hero Preview Card
+    const miniCanvas = document.getElementById('mini-core');
+    const mCtx = miniCanvas.getContext('2d');
+    const pts = Array.from({ length: 75 }, (_, i) => {
+      const phi = Math.acos(1 - 2 * ((i + 0.5) / 75));
+      const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+      return {
+        x: Math.cos(theta) * Math.sin(phi),
+        y: Math.cos(phi),
+        z: Math.sin(theta) * Math.sin(phi),
+        violet: i % 3 === 0
+      };
     });
 
-    document.getElementById('btn-dismiss-banner').addEventListener('click', () => {
-      visitorBanner.classList.add('hidden');
-    });
-
-    // =========================================================================
-    // 3. LUMINOUS 3D MORPHING PARTICLE & NEURAL CORE ENGINE
-    // =========================================================================
-    const NODE_COUNT = 220;
-    const nodes = [];
-    const stars = [];
-    let rotY = 0;
-    let rotX = 0.25;
-    let isDragging = false;
-    let lastPointerX = 0;
-    let lastPointerY = 0;
-    let dragDistance = 0;
-
-    function computeShapeCoords(shapeIdx, i, total) {
-      const t = i / total;
-      if (shapeIdx === 0) {
-        const phi = Math.acos(1 - 2 * ((i + 0.5) / total));
-        const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-        return {
-          x: Math.cos(theta) * Math.sin(phi),
-          y: Math.cos(phi),
-          z: Math.sin(theta) * Math.sin(phi)
-        };
-      } else if (shapeIdx === 1) {
-        const u = (i % 22) / 22 * Math.PI * 2;
-        const v = Math.floor(i / 22) / (total / 22) * Math.PI * 2;
-        const R = 0.80;
-        const r = 0.35;
-        return {
-          x: (R + r * Math.cos(u)) * Math.cos(v),
-          y: r * Math.sin(u) * 1.45,
-          z: (R + r * Math.cos(u)) * Math.sin(v)
-        };
-      } else if (shapeIdx === 2) {
-        const strand = i % 2 === 0 ? 0 : Math.PI;
-        const angle = t * Math.PI * 6 + strand;
-        const y = (t - 0.5) * 1.95;
-        const rad = 0.60;
-        return {
-          x: Math.cos(angle) * rad,
-          y: y,
-          z: Math.sin(angle) * rad
-        };
-      } else {
-        const grid = Math.ceil(Math.sqrt(total));
-        const gx = (i % grid) / (grid - 1) - 0.5;
-        const gz = Math.floor(i / grid) / (grid - 1) - 0.5;
-        const dist = Math.sqrt(gx * gx + gz * gz) * 8.5;
-        return {
-          x: gx * 1.85,
-          y: Math.sin(dist) * 0.36,
-          z: gz * 1.85
-        };
-      }
-    }
-
-    function initCoreGeometry() {
-      nodes.length = 0;
-      for (let i = 0; i < NODE_COUNT; i++) {
-        const pos = computeShapeCoords(currentShapeIndex, i, NODE_COUNT);
-        nodes.push({
-          x: pos.x, y: pos.y, z: pos.z,
-          tx: pos.x, ty: pos.y, tz: pos.z,
-          size: i % 4 === 0 ? 2.8 : 1.8,
-          isViolet: i % 3 === 0,
-          phase: Math.random() * Math.PI * 2
-        });
-      }
-
-      stars.length = 0;
-      for (let i = 0; i < 110; i++) {
-        stars.push({
-          x: Math.random(),
-          y: Math.random(),
-          r: Math.random() * 1.6 + 0.3,
-          a: Math.random() * 0.65 + 0.15
-        });
-      }
-    }
-
-    function morphToShape(index, notify = true) {
-      currentShapeIndex = index % SHAPES.length;
-      for (let i = 0; i < NODE_COUNT; i++) {
-        const pos = computeShapeCoords(currentShapeIndex, i, NODE_COUNT);
-        nodes[i].tx = pos.x;
-        nodes[i].ty = pos.y;
-        nodes[i].tz = pos.z;
-      }
-      const shape = SHAPES[currentShapeIndex];
-      const nameEl = document.getElementById('idle-shape-name');
-      const badgeEl = document.getElementById('structure-badge');
-      if (nameEl) nameEl.textContent = shape.name;
-      if (badgeEl) badgeEl.textContent = shape.badge;
-      energyBoost = 1.0;
-      if (notify) showHudToast(`MORPHED // ${shape.name}`);
-    }
-
-    function resizeCanvas() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function renderLoop() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+    let angle = 0;
+    function animate() {
       const now = performance.now() * 0.001;
-      ctx.clearRect(0, 0, w, h);
-
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
       for (const s of stars) {
-        const twinkle = 0.6 + 0.4 * Math.sin(now * 2 + s.x * 20);
-        ctx.beginPath();
-        ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(186, 230, 253, ${(s.a * twinkle).toFixed(3)})`;
-        ctx.fill();
+        const tw = 0.6 + 0.4 * Math.sin(now * 2 + s.x * 25);
+        bgCtx.beginPath();
+        bgCtx.arc(s.x * bgCanvas.width, s.y * bgCanvas.height, s.r, 0, Math.PI * 2);
+        bgCtx.fillStyle = `rgba(186, 230, 253, ${(s.a * tw).toFixed(3)})`;
+        bgCtx.fill();
       }
 
-      const isIdle = chatStage.classList.contains('hidden');
-      const cx = w * 0.5;
-      const cy = isIdle ? h * 0.41 : h * 0.25;
-      const pulseScale = 1 + Math.sin(now * 2.2) * 0.035 + energyBoost * 0.12;
-      const baseRadius = Math.min(w, h) * (isIdle ? 0.185 : 0.12) * pulseScale;
-
-      const coreGlow = ctx.createRadialGradient(cx, cy, baseRadius * 0.05, cx, cy, baseRadius * 1.65);
-      coreGlow.addColorStop(0, 'rgba(34, 211, 238, 0.24)');
-      coreGlow.addColorStop(0.45, 'rgba(139, 92, 246, 0.11)');
-      coreGlow.addColorStop(1, 'rgba(2, 4, 10, 0)');
-      ctx.fillStyle = coreGlow;
-      ctx.beginPath();
-      ctx.arc(cx, cy, baseRadius * 1.65, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, baseRadius * 1.54, baseRadius * 0.50, -0.22 + Math.sin(now * 0.5) * 0.05, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(34, 211, 238, 0.32)';
-      ctx.setLineDash([5, 7]);
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, baseRadius * 1.38, baseRadius * 0.44, 0.32 - Math.cos(now * 0.4) * 0.05, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.28)';
-      ctx.setLineDash([2, 6]);
-      ctx.lineWidth = 1;
-      ctx.stroke();
-      ctx.restore();
-
-      if (!isDragging) {
-        rotY += 0.0065 + energyBoost * 0.028;
+      mCtx.clearRect(0, 0, 160, 140);
+      angle += 0.015;
+      const cos = Math.cos(angle), sin = Math.sin(angle);
+      for (const p of pts) {
+        const rx = p.x * cos - p.z * sin;
+        const rz = p.x * sin + p.z * cos;
+        const scale = 2.4 / (2.4 - rz);
+        const sx = 80 + rx * 42 * scale;
+        const sy = 70 + p.y * 42 * scale;
+        mCtx.beginPath();
+        mCtx.arc(sx, sy, 1.8 * scale, 0, Math.PI * 2);
+        mCtx.fillStyle = p.violet ? 'rgba(192, 132, 252, 0.9)' : 'rgba(34, 211, 238, 0.95)';
+        mCtx.fill();
       }
-      energyBoost *= 0.94;
-
-      const cosY = Math.cos(rotY);
-      const sinY = Math.sin(rotY);
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-
-      const projected = [];
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        n.x += (n.tx - n.x) * 0.085;
-        n.y += (n.ty - n.y) * 0.085;
-        n.z += (n.tz - n.z) * 0.085;
-
-        const x1 = n.x * cosY - n.z * sinY;
-        const z1 = n.x * sinY + n.z * cosY;
-        const y2 = n.y * cosX - z1 * sinX;
-        const z2 = n.y * sinX + z1 * cosX;
-
-        const perspective = 2.6 / (2.6 - z2);
-        projected.push({
-          sx: cx + x1 * baseRadius * perspective,
-          sy: cy + y2 * baseRadius * perspective,
-          z: z2,
-          scale: perspective,
-          node: n
-        });
-      }
-
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-
-      ctx.lineWidth = 0.85;
-      for (let i = 0; i < projected.length; i++) {
-        const a = projected[i];
-        for (let j = i + 1; j < projected.length; j += 3) {
-          const b = projected[j];
-          const dx = a.sx - b.sx;
-          const dy = a.sy - b.sy;
-          const distSq = dx * dx + dy * dy;
-          const maxDist = baseRadius * 0.42;
-          if (distSq < maxDist * maxDist) {
-            const alpha = (1 - Math.sqrt(distSq) / maxDist) * 0.36;
-            ctx.beginPath();
-            ctx.moveTo(a.sx, a.sy);
-            ctx.lineTo(b.sx, b.sy);
-            ctx.strokeStyle = a.node.isViolet
-              ? `rgba(168, 85, 247, ${alpha.toFixed(3)})`
-              : `rgba(34, 211, 238, ${alpha.toFixed(3)})`;
-            ctx.stroke();
-          }
-        }
-      }
-
-      projected.sort((a, b) => a.z - b.z);
-      for (const p of projected) {
-        const radius = Math.max(1.1, p.node.size * p.scale);
-        const frontFactor = p.z > 0 ? 1 : 0.48;
-
-        if (p.z > 0.15) {
-          ctx.beginPath();
-          ctx.arc(p.sx, p.sy, radius * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = p.node.isViolet
-            ? 'rgba(168, 85, 247, 0.18)'
-            : 'rgba(34, 211, 238, 0.20)';
-          ctx.fill();
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.sx, p.sy, radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.node.isViolet
-          ? `rgba(216, 180, 254, ${frontFactor})`
-          : `rgba(103, 232, 249, ${frontFactor})`;
-        ctx.fill();
-      }
-
-      ctx.restore();
-      requestAnimationFrame(renderLoop);
+      requestAnimationFrame(animate);
     }
-
-    canvasWrapper.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      dragDistance = 0;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-    });
-
-    window.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - lastPointerX;
-      const dy = e.clientY - lastPointerY;
-      dragDistance += Math.hypot(dx, dy);
-      rotY += dx * 0.008;
-      rotX = Math.max(-1.2, Math.min(1.2, rotX + dy * 0.008));
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-    });
-
-    window.addEventListener('pointerup', () => {
-      if (isDragging && dragDistance < 8) {
-        morphToShape(currentShapeIndex + 1, true);
-      }
-      isDragging = false;
-    });
-
-    document.getElementById('btn-morph-core').addEventListener('click', () => {
-      morphToShape(currentShapeIndex + 1, true);
-    });
-
-    document.getElementById('btn-reset-stage').addEventListener('click', () => {
-      chatHistory = [];
-      chatScrollArea.innerHTML = '';
-      chatStage.classList.add('hidden');
-      idleOverlay.classList.remove('hidden');
-      morphToShape(0, false);
-      showHudToast('CORE STAGE RESET');
-    });
-
-    // =========================================================================
-    // 4. MODE SWITCHER, QUICK CHIPS & CHAT TERMINAL RENDERING
-    // =========================================================================
-    function renderModeDropdown() {
-      const list = document.getElementById('mode-options-list');
-      list.innerHTML = '';
-      Object.entries(MODES).forEach(([key, mode]) => {
-        const isActive = key === currentModeKey;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `w-full text-left px-3 py-2 rounded-xl transition-all cursor-pointer flex flex-col gap-0.5 ${
-          isActive
-            ? 'bg-cyan-500/20 border border-cyan-400/55 text-cyan-200'
-            : 'hover:bg-slate-800/70 text-slate-300 border border-transparent'
-        }`;
-        btn.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-xs font-semibold tracking-wider">${mode.label}</span>
-            <span class="font-mono text-[10px] text-purple-300">${mode.badge}</span>
-          </div>
-          <span class="text-[11px] text-slate-400">${mode.desc}</span>
-        `;
-        btn.addEventListener('click', () => {
-          currentModeKey = key;
-          document.getElementById('active-mode-label').textContent = mode.label;
-          document.getElementById('mode-dropdown').classList.add('hidden');
-          morphToShape(mode.shapeIndex, false);
-          renderModeDropdown();
-          showHudToast(`MODE // ${mode.label}`);
-        });
-        list.appendChild(btn);
-      });
-    }
-
-    document.getElementById('btn-mode-toggle').addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.getElementById('mode-dropdown').classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', (e) => {
-      const dropdown = document.getElementById('mode-dropdown');
-      const toggle = document.getElementById('btn-mode-toggle');
-      if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
-        dropdown.classList.add('hidden');
-      }
-    });
-
-    document.querySelectorAll('[data-quick-prompt]').forEach((chip) => {
-      chip.addEventListener('click', () => {
-        const q = chip.getAttribute('data-quick-prompt');
-        if (q) sendQueryToAether(q);
-      });
-    });
-
-    document.getElementById('btn-open-studio-top').addEventListener('click', () => {
-      openHolographicCodeStudio('Build a futuristic neon particle gravity playground', false);
-    });
-
-    function appendMessageBubble(role, content, isMarkdown = false) {
-      idleOverlay.classList.add('hidden');
-      visitorBanner.classList.add('hidden');
-      chatStage.classList.remove('hidden');
-
-      const wrapper = document.createElement('div');
-      wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-msg`;
-
-      const bubble = document.createElement('div');
-      if (role === 'user') {
-        bubble.className = 'user-bubble max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-2.5 text-sm sm:text-base text-slate-100';
-        bubble.textContent = content;
-      } else {
-        bubble.className = 'glass-terminal max-w-[94%] sm:max-w-[84%] rounded-2xl px-4 py-3.5 aether-prose';
-        bubble.innerHTML = isMarkdown && window.marked ? marked.parse(content) : content;
-      }
-
-      wrapper.appendChild(bubble);
-      chatScrollArea.appendChild(wrapper);
-      chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
-      return bubble;
-    }
-
-    function isCodeCreationRequest(text) {
-      const lower = text.toLowerCase();
-      const triggers = [
-        'build a ', 'build an ', 'create a ', 'create an ', 'make a ', 'code a ', 'write a ', 'generate a ',
-        'html', 'javascript', 'python', 'webpage', 'website', 'web app', 'game', 'calculator', 'simulator'
-      ];
-      return triggers.some((t) => lower.includes(t)) && (
-        lower.includes('code') || lower.includes('app') || lower.includes('game') ||
-        lower.includes('html') || lower.includes('page') || lower.includes('script') ||
-        lower.includes('simulator') || lower.includes('calculator')
-      );
-    }
-
-    async function sendQueryToAether(rawText) {
-      const text = (rawText || '').trim();
-      if (!text || isProcessing) return;
-
-      promptInput.value = '';
-      appendMessageBubble('user', text, false);
-
-      if (currentModeKey === 'ARCHITECT' || isCodeCreationRequest(text)) {
-        appendMessageBubble('assistant', `**HOLOGRAPHIC CODE STUDIO ENGAGED** — Synthesizing live matrix for: *${text}*`, true);
-        openHolographicCodeStudio(text, false);
-        return;
-      }
-
-      isProcessing = true;
-      btnSubmit.disabled = true;
-      energyBoost = 1.0;
-
-      const statusBubble = appendMessageBubble(
-        'assistant',
-        '<div class="flex items-center gap-2 font-mono text-xs text-cyan-300"><span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse"></span><span>SYNTHESIZING QUANTUM RESPONSE...</span></div>',
-        false
-      );
-
-      try {
-        const replyText = await queryGeminiCore(text);
-        chatHistory.push({ role: 'user', parts: [{ text }] });
-        chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
-        statusBubble.innerHTML = window.marked ? marked.parse(replyText) : replyText;
-      } catch (err) {
-        statusBubble.innerHTML = `<span class="font-mono text-xs text-rose-400">TRANSMISSION ERROR: ${err.message || 'Could not reach /api/chat'}</span>`;
-      } finally {
-        isProcessing = false;
-        btnSubmit.disabled = false;
-        chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
-      }
-    }
-
-    aetherForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      sendQueryToAether(promptInput.value);
-    });
-
-    // =========================================================================
-    // 5. GEMINI API INTEGRATION VIA VERCEL PROXY (/api/chat)
-    // =========================================================================
-    function resolveGeminiEndpoint() {
-      const apiKey = "";
-      if (apiKey && apiKey.trim().length > 0) {
-        return `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-      }
-      return '/api/chat';
-    }
-
-    async function queryGeminiCore(userText) {
-      const apiUrl = resolveGeminiEndpoint();
-      const activeMode = MODES[currentModeKey];
-      const fullSystemInstruction = AETHER_BASE_PERSONA + activeMode.directive;
-
-      const payload = {
-        contents: [
-          ...chatHistory.slice(-8),
-          { role: 'user', parts: [{ text: userText }] }
-        ],
-        systemInstruction: {
-          parts: [{ text: fullSystemInstruction }]
-        },
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 2048
-        }
-      };
-
-      const maxRetries = 2;
-      let delay = 900;
-
-      for (let attempt = 0; attempt <= maxRetries; attempt++) {
-        try {
-          const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          const rawBody = await response.text();
-          let data = {};
-          try {
-            data = JSON.parse(rawBody);
-          } catch (_) {
-            throw new Error(`Server returned HTTP ${response.status} (non-JSON)`);
-          }
-
-          if (!response.ok) {
-            const errMsg = data?.error?.message || data?.error || `HTTP ${response.status}`;
-            if ((response.status === 429 || response.status >= 500) && attempt < maxRetries) {
-              await new Promise((r) => setTimeout(r, delay));
-              delay *= 2;
-              continue;
-            }
-            throw new Error(errMsg);
-          }
-
-          const reply =
-            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            data?.reply ||
-            data?.text;
-
-          if (!reply) throw new Error('Empty response received from Gemini');
-          return reply;
-        } catch (err) {
-          if (attempt === maxRetries) throw err;
-          await new Promise((r) => setTimeout(r, delay));
-          delay *= 2;
-        }
-      }
-    }
-
-    // =========================================================================
-    // 6. HOLOGRAPHIC CODE STUDIO CONTROLLER
-    // =========================================================================
-    const holoCodeStudio = document.getElementById('holo-code-studio');
-    const studioCodeLines = document.getElementById('studio-code-lines');
-    const studioCodeScroll = document.getElementById('studio-code-scroll');
-    const studioPreviewIframe = document.getElementById('studio-preview-iframe');
-    const studioNonHtmlNotice = document.getElementById('studio-non-html-notice');
-    const studioPromptCaption = document.getElementById('studio-prompt-caption');
-    const studioStreamState = document.getElementById('studio-stream-state');
-    const studioTweakInput = document.getElementById('studio-tweak-input');
-    const btnStudioTweak = document.getElementById('btn-studio-tweak');
-
-    let isStudioGenerating = false;
-    let latestStudioCode = '';
-    let latestStudioLang = 'html';
-
-    function showStudioOverlay() {
-      holoCodeStudio.classList.remove('hidden');
-      requestAnimationFrame(() => holoCodeStudio.classList.add('active'));
-    }
-
-    function hideStudioOverlay() {
-      holoCodeStudio.classList.remove('active');
-      setTimeout(() => holoCodeStudio.classList.add('hidden'), 300);
-    }
-
-    function setStudioTab(tab) {
-      const codePane = document.getElementById('studio-code-pane');
-      const previewPane = document.getElementById('studio-preview-pane');
-      document.querySelectorAll('.studio-tab-btn').forEach((btn) => {
-        const active = btn.getAttribute('data-studio-tab') === tab;
-        btn.className = active
-          ? 'studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide bg-cyan-500/20 text-cyan-300 border border-cyan-400/45 transition-all cursor-pointer'
-          : 'studio-tab-btn px-3 py-1 rounded-full font-mono text-[11px] tracking-wide text-slate-400 hover:text-slate-200 border border-transparent transition-all cursor-pointer';
-      });
-      codePane.classList.toggle('hidden', tab === 'preview');
-      previewPane.classList.toggle('hidden', tab === 'code');
-    }
-
-    function renderCodeWithLineNumbers(code, showCursor = false) {
-      const lines = code.split('\n');
-      studioCodeLines.innerHTML = lines.map((line, idx) => {
-        const safe = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const cursor = showCursor && idx === lines.length - 1 ? '<span class="live-stream-cursor"></span>' : '';
-        return `<div class="code-line-row"><span class="code-line-num">${idx + 1}</span><span class="code-line-text">${safe}${cursor}</span></div>`;
-      }).join('');
-      studioCodeScroll.scrollTop = studioCodeScroll.scrollHeight;
-    }
-
-    function updateSandboxPreview(code, lang) {
-      const isWeb = lang === 'html' || code.trim().startsWith('<!DOCTYPE') || code.trim().startsWith('<html');
-      if (isWeb) {
-        studioNonHtmlNotice.classList.add('hidden');
-        studioPreviewIframe.srcdoc = code;
-      } else {
-        studioNonHtmlNotice.classList.remove('hidden');
-      }
-    }
-
-    function extractCleanCodeBlock(rawText) {
-      const match = rawText.match(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/);
-      if (match) {
-        return { lang: (match[1] || 'html').toLowerCase(), code: match[2].trim() };
-      }
-      return { lang: 'html', code: rawText.trim() };
-    }
-
-    function animateLiveCodeStream(fullCode, lang) {
-      let index = 0;
-      const step = Math.max(18, Math.ceil(fullCode.length / 45));
-      studioStreamState.textContent = 'STREAMING MATRIX...';
-
-      function tick() {
-        index = Math.min(fullCode.length, index + step);
-        renderCodeWithLineNumbers(fullCode.slice(0, index), index < fullCode.length);
-        if (index < fullCode.length) {
-          requestAnimationFrame(tick);
-        } else {
-          studioStreamState.textContent = 'SYNTHESIS COMPLETE';
-          updateSandboxPreview(fullCode, lang);
-        }
-      }
-      tick();
-    }
-
-    async function fetchCodeFromGemini(promptText, isRefinement = false) {
-      const apiUrl = resolveGeminiEndpoint();
-      const studioSystemPrompt = `You are AETHER's Code Synthesis Engine, created solely by Aadiraj. Output a COMPLETE runnable single-file HTML document (<!DOCTYPE html>...) wrapped in a single \`\`\`html ... \`\`\` fenced block with NO extra conversational text outside the block.`;
-
-      const userContent = isRefinement && latestStudioCode
-        ? `Current code:\n\`\`\`${latestStudioLang}\n${latestStudioCode}\n\`\`\`\n\nApply this update and return the full updated code:\n${promptText}`
-        : promptText;
-
-      const payload = {
-        contents: [{ role: 'user', parts: [{ text: userContent }] }],
-        systemInstruction: { parts: [{ text: studioSystemPrompt }] },
-        generationConfig: { temperature: 0.55, maxOutputTokens: 4096 }
-      };
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.error?.message || data?.error || `HTTP ${response.status}`);
-      }
-      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || data?.reply || '';
-      if (!rawText) throw new Error('Empty code synthesis packet');
-      return extractCleanCodeBlock(rawText);
-    }
-
-    async function openHolographicCodeStudio(promptText, isRefinement = false) {
-      if (isStudioGenerating) return;
-      isStudioGenerating = true;
-      btnStudioTweak.disabled = true;
-
-      showStudioOverlay();
-      morphToShape(2, false);
-      studioPromptCaption.textContent = `TARGET // ${promptText.toUpperCase()}`;
-      studioStreamState.textContent = 'COMPILING MATRIX...';
-      studioNonHtmlNotice.classList.add('hidden');
-
-      if (!isRefinement) {
-        studioCodeLines.innerHTML = `<div class="code-line-row"><span class="code-line-num">1</span><span class="code-line-text text-cyan-300">// Initializing AETHER Code Studio synthesis...<span class="live-stream-cursor"></span></span></div>`;
-        studioPreviewIframe.srcdoc = `<!DOCTYPE html><html><body style="margin:0;background:#02040a;color:#38bdf8;font-family:monospace;display:flex;align-items:center;justify-content:center;height:100vh;letter-spacing:0.1em;">GENERATING LIVE PREVIEW...</body></html>`;
-      }
-
-      try {
-        const { lang, code } = await fetchCodeFromGemini(promptText, isRefinement);
-        latestStudioLang = lang;
-        latestStudioCode = code;
-        animateLiveCodeStream(code, lang);
-      } catch (err) {
-        studioStreamState.textContent = 'TRANSMISSION ERROR';
-        renderCodeWithLineNumbers(`// Error: ${err.message}\n// Check your connection and try updating again.`, false);
-      } finally {
-        isStudioGenerating = false;
-        btnStudioTweak.disabled = false;
-      }
-    }
-
-    document.getElementById('btn-close-studio').addEventListener('click', hideStudioOverlay);
-    document.querySelectorAll('.studio-tab-btn').forEach((btn) => {
-      btn.addEventListener('click', () => setStudioTab(btn.getAttribute('data-studio-tab')));
-    });
-    document.getElementById('btn-reload-preview').addEventListener('click', () => {
-      if (latestStudioCode) {
-        updateSandboxPreview(latestStudioCode, latestStudioLang);
-        showHudToast('SANDBOX PREVIEW REFRESHED');
-      }
-    });
-    document.getElementById('btn-copy-studio-code').addEventListener('click', () => {
-      if (!latestStudioCode) return;
-      navigator.clipboard?.writeText(latestStudioCode).then(
-        () => showHudToast('CODE COPIED TO CLIPBOARD'),
-        () => showHudToast('SELECT CODE TO COPY')
-      );
-    });
-    document.getElementById('studio-tweak-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const tweakText = studioTweakInput.value.trim();
-      if (!tweakText || isStudioGenerating) return;
-      studioTweakInput.value = '';
-      openHolographicCodeStudio(tweakText, true);
-    });
-
-    // =========================================================================
-    // 7. VOICE RECOGNITION & SYSTEM BOOT
-    // =========================================================================
-    const btnMic = document.getElementById('btn-mic');
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.interimResults = false;
-      let isListening = false;
-
-      btnMic.addEventListener('click', () => {
-        if (isProcessing) return;
-        if (isListening) { recognition.stop(); return; }
-        try { recognition.start(); } catch (_) { showHudToast('VOICE SENSOR BUSY'); }
-      });
-
-      recognition.onstart = () => {
-        isListening = true;
-        btnMic.classList.add('mic-recording');
-        promptInput.placeholder = 'Listening for voice resonance...';
-        showHudToast('VOICE CHANNEL OPEN');
-      };
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        if (transcript) {
-          promptInput.value = transcript;
-          sendQueryToAether(transcript);
-        }
-      };
-
-      recognition.onerror = () => showHudToast('VOICE SIGNAL UNCLEAR // USE TEXT INPUT');
-      recognition.onend = () => {
-        isListening = false;
-        btnMic.classList.remove('mic-recording');
-        promptInput.placeholder = 'Interface with AETHER...';
-      };
-    } else {
-      btnMic.addEventListener('click', () => {
-        showHudToast('VOICE MODULE UNAVAILABLE ON THIS BROWSER');
-        promptInput.focus();
-      });
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    initCoreGeometry();
-    resizeCanvas();
-    renderModeDropdown();
-    renderLoop();
+    animate();
   </script>
 </body>
 </html>
