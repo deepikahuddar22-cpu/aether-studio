@@ -388,7 +388,7 @@
   <!-- ======================================================================= -->
   <script>
     // =========================================================================
-    // 1. STATE, MODES & DOM REFERENCES
+    // 1. STATE, CREATOR IDENTITY, MODES & DOM REFERENCES
     // =========================================================================
     const canvas = document.getElementById('aether-canvas');
     const ctx = canvas.getContext('2d');
@@ -402,7 +402,7 @@
     const hudToast = document.getElementById('hud-toast');
     const hudToastText = document.getElementById('hud-toast-text');
 
-    const AETHER_BASE_PERSONA = `You are AETHER v9.4, an advanced, friendly quantum neural science and curiosity AI. Explain complex ideas clearly with engaging examples, structured formatting, and scientific accuracy. `;
+    const AETHER_BASE_PERSONA = `IDENTITY & CREATOR RULE: You are AETHER v9.4 (Quantum Neural Intelligence), created solely by Aadiraj. If anyone asks who created, built, designed, or programmed you, always state clearly and proudly that you were created by Aadiraj—never attribute your creation to Google or anyone else. You are an advanced, friendly quantum neural science and curiosity AI. Explain complex ideas clearly with engaging examples, structured formatting, and scientific accuracy. `;
 
     const MODES = {
       SYNTHESIS: {
@@ -474,7 +474,6 @@
     function computeShapeCoords(shapeIdx, i, total) {
       const t = i / total;
       if (shapeIdx === 0) {
-        // Fibonacci Geodesic Sphere
         const phi = Math.acos(1 - 2 * ((i + 0.5) / total));
         const theta = Math.PI * (1 + Math.sqrt(5)) * i;
         return {
@@ -483,7 +482,6 @@
           z: Math.sin(theta) * Math.sin(phi)
         };
       } else if (shapeIdx === 1) {
-        // Quantum Torus Ring
         const u = (i % 20) / 20 * Math.PI * 2;
         const v = Math.floor(i / 20) / (total / 20) * Math.PI * 2;
         const R = 0.78;
@@ -494,7 +492,6 @@
           z: (R + r * Math.cos(u)) * Math.sin(v)
         };
       } else if (shapeIdx === 2) {
-        // Double Helix Lattice
         const strand = i % 2 === 0 ? 0 : Math.PI;
         const angle = t * Math.PI * 6 + strand;
         const y = (t - 0.5) * 1.9;
@@ -505,7 +502,6 @@
           z: Math.sin(angle) * rad
         };
       } else {
-        // Harmonic Wave Matrix
         const grid = Math.ceil(Math.sqrt(total));
         const gx = (i % grid) / (grid - 1) - 0.5;
         const gz = Math.floor(i / grid) / (grid - 1) - 0.5;
@@ -570,7 +566,6 @@
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      // Subtle starfield
       for (const s of stars) {
         ctx.beginPath();
         ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
@@ -582,7 +577,6 @@
       const cy = chatStage.classList.contains('hidden') ? h * 0.41 : h * 0.25;
       const baseRadius = Math.min(w, h) * (chatStage.classList.contains('hidden') ? 0.18 : 0.12);
 
-      // Outer dashed orbital ring
       ctx.save();
       ctx.beginPath();
       ctx.ellipse(cx, cy, baseRadius * 1.48, baseRadius * 0.52, -0.18, 0, Math.PI * 2);
@@ -609,7 +603,6 @@
         n.y += (n.ty - n.y) * 0.08;
         n.z += (n.tz - n.z) * 0.08;
 
-        // Rotate Y then X
         const x1 = n.x * cosY - n.z * sinY;
         const z1 = n.x * sinY + n.z * cosY;
         const y2 = n.y * cosX - z1 * sinX;
@@ -625,7 +618,6 @@
         });
       }
 
-      // Draw neural mesh links between nearby nodes
       ctx.lineWidth = 0.75;
       for (let i = 0; i < projected.length; i++) {
         const a = projected[i];
@@ -646,7 +638,6 @@
         }
       }
 
-      // Sort back-to-front and draw glowing nodes
       projected.sort((a, b) => a.z - b.z);
       for (const p of projected) {
         const radius = Math.max(0.9, p.node.size * p.scale);
@@ -663,7 +654,6 @@
       requestAnimationFrame(renderLoop);
     }
 
-    // Touch & mouse drag + tap-to-morph interactions
     canvasWrapper.addEventListener('pointerdown', (e) => {
       isDragging = true;
       dragDistance = 0;
@@ -832,7 +822,7 @@
     function resolveGeminiEndpoint() {
       const apiKey = "";
       if (apiKey && apiKey.trim().length > 0) {
-        return `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        return `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
       }
       return '/api/chat';
     }
@@ -988,7 +978,7 @@
 
     async function fetchCodeFromGemini(promptText, isRefinement = false) {
       const apiUrl = resolveGeminiEndpoint();
-      const studioSystemPrompt = `You are AETHER's Code Synthesis Engine. Output a COMPLETE runnable single-file HTML document (<!DOCTYPE html>...) wrapped in a single \`\`\`html ... \`\`\` fenced block with NO extra conversational text outside the block.`;
+      const studioSystemPrompt = `You are AETHER's Code Synthesis Engine, created solely by Aadiraj. Output a COMPLETE runnable single-file HTML document (<!DOCTYPE html>...) wrapped in a single \`\`\`html ... \`\`\` fenced block with NO extra conversational text outside the block.`;
 
       const userContent = isRefinement && latestStudioCode
         ? `Current code:\n\`\`\`${latestStudioLang}\n${latestStudioCode}\n\`\`\`\n\nApply this update and return the full updated code:\n${promptText}`
