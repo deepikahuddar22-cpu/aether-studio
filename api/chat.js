@@ -3,8 +3,8 @@ export const config = {
 };
 
 const MODELS = [
-  'gemini-3.8-flash',
-  'gemini-3.5-flash-lite',
+  'gemini-3-flash-preview',
+  'gemini-3.1-flash-lite-preview',
 ];
 
 export default async function handler(req) {
@@ -38,40 +38,42 @@ export default async function handler(req) {
         : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 14000);
+      const timeoutId = setTimeout(() => controller.abort(), 9000);
 
-      const geminiRes = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: payloadStr,
-        signal: controller.signal,
-      });
+      try {
+        const geminiRes = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payloadStr,
+          signal: controller.signal,
+        });
 
-      clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
 
-      if (geminiRes.ok) {
-        if (isStream) {
-          return new Response(geminiRes.body, {
+        if (geminiRes.ok) {
+          if (isStream) {
+            return new Response(geminiRes.body, {
+              status: 200,
+              headers: {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache, no-transform',
+                'Connection': 'keep-alive',
+              },
+            });
+          }
+          const data = await geminiRes.text();
+          return new Response(data, {
             status: 200,
-            headers: {
-              'Content-Type': 'text/event-stream; charset=utf-8',
-              'Cache-Control': 'no-cache, no-transform',
-              'Connection': 'keep-alive',
-            },
+            headers: { 'Content-Type': 'application/json' },
           });
         }
-        const data = await geminiRes.text();
-        return new Response(data, {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
 
-      lastStatus = geminiRes.status;
-      lastErrorText = await geminiRes.text();
-
-      if (geminiRes.status !== 503 && geminiRes.status !== 429) {
-        break;
+        lastStatus = geminiRes.status;
+        lastErrorText = await geminiRes.text();
+      } catch (err) {
+        clearTimeout(timeoutId);
+        lastStatus = 504;
+        lastErrorText = JSON.stringify({ error: err.message || 'Model timeout' });
       }
     }
 
@@ -81,7 +83,7 @@ export default async function handler(req) {
     });
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: error.name === 'AbortError' ? 'Request timed out' : error.message }),
+      JSON.stringify({ error: error.message || 'Server error' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
