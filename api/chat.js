@@ -2,6 +2,11 @@ export const config = {
   runtime: 'edge',
 };
 
+const MODELS = [
+  'gemini-3-flash-preview',
+  'gemini-2.5-flash',
+];
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
@@ -22,45 +27,57 @@ export default async function handler(req) {
     const body = await req.json();
     const isStream = body.stream === true;
     delete body.stream;
+    const payloadStr = JSON.stringify(body);
 
-    const endpoint = isStream
-      ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse&key=${apiKey}`
-      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+    let lastErrorText = '';
+    let lastStatus = 500;
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    for (const model of MODELS) {
+      const endpoint = isStream
+        ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`
+        : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    const geminiRes = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 14000);
 
-    clearTimeout(timeoutId);
-
-    if (!geminiRes.ok) {
-      const errText = await geminiRes.text();
-      return new Response(errText, {
-        status: geminiRes.status,
+      const geminiRes = await fetch(endpoint, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: payloadStr,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
+
+      if (geminiRes.ok) {
+        if (isStream) {
+          return new Response(geminiRes.body, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/event-stream; charset=utf-8',
+              'Cache-Control': 'no-cache, no-transform',
+              'Connection': 'keep-alive',
+            },
+          });
+        }
+        const data = await geminiRes.text();
+        return new Response(data, {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      lastStatus = geminiRes.status;
+      lastErrorText = await geminiRes.text();
+
+      // If preview model is overloaded (503) or rate-limited (429), immediately try gemini-2.5-flash
+      if (geminiRes.status !== 503 && geminiRes.status !== 429) {
+        break;
+      }
     }
 
-    if (isStream) {
-      return new Response(geminiRes.body, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/event-stream; charset=utf-8',
-          'Cache-Control': 'no-cache, no-transform',
-          'Connection': 'keep-alive',
-        },
-      });
-    }
-
-    const data = await geminiRes.text();
-    return new Response(data, {
-      status: 200,
+    return new Response(lastErrorText, {
+      status: lastStatus,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
