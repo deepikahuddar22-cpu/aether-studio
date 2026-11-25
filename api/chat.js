@@ -3,8 +3,8 @@ export const config = {
 };
 
 const MODELS = [
-  'gemini-3-flash-preview',
-  'gemini-2.5-flash',
+  'gemini-3.8-flash',
+  'gemini-3.5-flash-lite',
 ];
 
 export default async function handler(req) {
@@ -70,7 +70,6 @@ export default async function handler(req) {
       lastStatus = geminiRes.status;
       lastErrorText = await geminiRes.text();
 
-      // If preview model is overloaded (503) or rate-limited (429), immediately try gemini-2.5-flash
       if (geminiRes.status !== 503 && geminiRes.status !== 429) {
         break;
       }
