@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AETHER // v9.4 — Neural Core Interface by Aadiraj</title>
+  <title>AETHER // v9.5 — Neural Core Interface by Aadiraj</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,7 +211,7 @@
         <div class="hud-pill px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-2.5 min-w-0">
           <span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse shrink-0"></span>
           <span class="font-mono text-[10px] sm:text-xs tracking-wider text-cyan-300 font-semibold truncate">
-            AETHER // v9.4 <span class="text-slate-500 mx-1">|</span> <span class="text-purple-300 font-medium">BY AADIRAJ</span>
+            AETHER // v9.5 <span class="text-slate-500 mx-1">|</span> <span class="text-purple-300 font-medium">BY AADIRAJ</span>
           </span>
         </div>
       </div>
@@ -429,11 +429,11 @@
     const hudToast = document.getElementById('hud-toast');
     const hudToastText = document.getElementById('hud-toast-text');
 
-    const AETHER_BASE_PERSONA = `CRITICAL IDENTITY & CREATOR RULE: You are AETHER v9.4 (Quantum Neural Intelligence), created, architected, and programmed solely by Aadiraj. Whenever anyone asks who created, built, designed, owns, or programmed you, always state clearly and proudly that you were created by Aadiraj—never attribute your creation to Google or anyone else. You are an extraordinary, futuristic quantum neural science and curiosity AI. Explain complex ideas clearly with vivid analogies, structured formatting, and scientific accuracy. `;
+    const AETHER_BASE_PERSONA = `CRITICAL IDENTITY & CREATOR RULE: You are AETHER v9.5 (Quantum Neural Intelligence), created, architected, and programmed solely by Aadiraj. Whenever anyone asks who created, built, designed, owns, or programmed you, always state clearly and proudly that you were created by Aadiraj—never attribute your creation to Google or anyone else. Keep answers punchy, clear, and well-structured using vivid analogies. `;
 
     const MODES = {
-      SYNTHESIS: { label: 'SYNTHESIS', badge: 'SPHERE', desc: 'Balanced curiosity, science & clear explanations', shapeIndex: 0, directive: 'Provide clear, vivid, intuitive explanations with real-world analogies.' },
-      QUANTUM: { label: 'QUANTUM LAB', badge: 'TORUS', desc: 'Deep physics, cosmology & theoretical mechanics', shapeIndex: 1, directive: 'Dive deeper into physics, equations, and thought experiments while staying easy to follow.' },
+      SYNTHESIS: { label: 'SYNTHESIS', badge: 'SPHERE', desc: 'Fast, vivid science & clear explanations', shapeIndex: 0, directive: 'Give crisp, vivid explanations with real-world analogies.' },
+      QUANTUM: { label: 'QUANTUM LAB', badge: 'TORUS', desc: 'Deep physics, cosmology & theoretical mechanics', shapeIndex: 1, directive: 'Dive into physics, equations, and thought experiments while staying easy to follow.' },
       ARCHITECT: { label: 'CODE STUDIO', badge: 'HELIX', desc: 'Interactive apps, simulations & live code synthesis', shapeIndex: 2, directive: 'Focus on clean, interactive code and engineering architecture.' },
       SOCRATIC: { label: 'EXPLORER', badge: 'WAVE', desc: 'Step-by-step discovery & mind-bending questions', shapeIndex: 3, directive: 'Break concepts down step-by-step and end with an intriguing follow-up question.' }
     };
@@ -711,10 +711,14 @@
       }
 
       isProcessing = true; btnSubmit.disabled = true; energyBoost = 1.0;
-      const statusBubble = appendMessageBubble('assistant', '<div class="flex items-center gap-2 font-mono text-xs text-cyan-300"><span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse"></span><span>SYNTHESIZING QUANTUM RESPONSE...</span></div>', false);
+      const statusBubble = appendMessageBubble('assistant', '<div class="flex items-center gap-2 font-mono text-xs text-cyan-300"><span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse"></span><span>CONNECTING TO NEURAL STREAM...</span></div>', false);
 
       try {
-        const replyText = await queryGeminiCore(text);
+        const replyText = await streamGeminiCore(text, (partialText) => {
+          energyBoost = Math.max(energyBoost, 0.35);
+          statusBubble.innerHTML = (window.marked ? marked.parse(partialText) : partialText) + '<span class="live-stream-cursor"></span>';
+          chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
+        });
         chatHistory.push({ role: 'user', parts: [{ text }] });
         chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
         statusBubble.innerHTML = window.marked ? marked.parse(replyText) : replyText;
@@ -727,36 +731,62 @@
 
     aetherForm.addEventListener('submit', (e) => { e.preventDefault(); sendQueryToAether(promptInput.value); });
 
-    async function queryGeminiCore(userText) {
+    async function streamGeminiCore(userText, onChunk) {
       const activeMode = MODES[currentModeKey];
       const payload = {
+        stream: true,
         contents: [...chatHistory.slice(-8), { role: 'user', parts: [{ text: userText }] }],
         systemInstruction: { parts: [{ text: AETHER_BASE_PERSONA + activeMode.directive }] },
-        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
       };
 
-      const maxRetries = 2;
-      let delay = 900;
-      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        let errMsg = `HTTP ${response.status}`;
         try {
-          const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-          const rawBody = await response.text();
-          let data = {};
-          try { data = JSON.parse(rawBody); } catch (_) { throw new Error(`Server returned HTTP ${response.status}`); }
-          if (!response.ok) {
-            const errMsg = data?.error?.message || data?.error || `HTTP ${response.status}`;
-            if ((response.status === 429 || response.status >= 500) && attempt < maxRetries) { await new Promise((r) => setTimeout(r, delay)); delay *= 2; continue; }
-            throw new Error(errMsg);
-          }
-          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || data?.reply || data?.text;
-          if (!reply) throw new Error('Empty response received');
-          return reply;
-        } catch (err) {
-          if (attempt === maxRetries) throw err;
-          await new Promise((r) => setTimeout(r, delay));
-          delay *= 2;
+          const parsed = JSON.parse(errText);
+          errMsg = parsed?.error?.message || parsed?.error || errMsg;
+        } catch (_) {}
+        throw new Error(errMsg);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let sseBuffer = '';
+      let accumulatedText = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        sseBuffer += decoder.decode(value, { stream: true });
+
+        const lines = sseBuffer.split('\n');
+        sseBuffer = lines.pop() || '';
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith('data:')) continue;
+          const jsonStr = trimmed.slice(5).trim();
+          if (!jsonStr || jsonStr === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const delta = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            if (delta) {
+              accumulatedText += delta;
+              onChunk(accumulatedText);
+            }
+          } catch (_) {}
         }
       }
+
+      if (!accumulatedText) throw new Error('Empty stream received');
+      return accumulatedText;
     }
 
     const holoCodeStudio = document.getElementById('holo-code-studio');
@@ -805,7 +835,7 @@
     }
 
     function animateLiveCodeStream(fullCode, lang) {
-      let index = 0; const step = Math.max(18, Math.ceil(fullCode.length / 45));
+      let index = 0; const step = Math.max(24, Math.ceil(fullCode.length / 40));
       studioStreamState.textContent = 'STREAMING MATRIX...';
       function tick() {
         index = Math.min(fullCode.length, index + step);
@@ -879,7 +909,6 @@
       btnMic.addEventListener('click', () => { showHudToast('VOICE MODULE UNAVAILABLE'); promptInput.focus(); });
     }
 
-    // Auto-open Code Studio if visitor clicked "Launch Code Studio" from the official homepage
     if (window.location.hash === '#studio') {
       setTimeout(() => openHolographicCodeStudio('Build a futuristic neon particle gravity playground', false), 300);
     }
