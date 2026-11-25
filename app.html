@@ -703,6 +703,33 @@
       if (!text || isProcessing) return;
       promptInput.value = '';
       appendMessageBubble('user', text, false);
+          function getInstantLocalReply(text) {
+      const clean = text.toLowerCase().replace(/[?!.,]/g, '').trim();
+      if (/^(hi|hello|hey|yo|sup|hola|namaste|good morning|good afternoon|good evening)$/.test(clean)) {
+        return "Hello! **AETHER v9.5** online and synchronized. Created by **Aadiraj**—what universe, science mystery, or live code app shall we explore today?";
+      }
+      if (clean.includes('who created you') || clean.includes('who made you') || clean.includes('who built you') || clean.includes('who is your creator')) {
+        return "I am **AETHER v9.5** (*Quantum Neural Intelligence*), created, architected, and programmed solely by **Aadiraj**. Ask me anything about science, or launch **Code Studio** to build interactive apps live!";
+      }
+      return null;
+    }
+
+    async function sendQueryToAether(rawText) {
+      const text = (rawText || '').trim();
+      if (!text || isProcessing) return;
+      promptInput.value = '';
+      appendMessageBubble('user', text, false);
+
+      // Instant 0-second local reply for greetings & creator identity
+      const instantReply = getInstantLocalReply(text);
+      if (instantReply) {
+        energyBoost = 0.8;
+        chatHistory.push({ role: 'user', parts: [{ text }] });
+        chatHistory.push({ role: 'model', parts: [{ text: instantReply }] });
+        appendMessageBubble('assistant', instantReply, true);
+        return;
+      }
+
 
       if (currentModeKey === 'ARCHITECT' || isCodeCreationRequest(text)) {
         appendMessageBubble('assistant', `**HOLOGRAPHIC CODE STUDIO ENGAGED** — Synthesizing live matrix for: *${text}*`, true);
