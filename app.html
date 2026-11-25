@@ -878,8 +878,7 @@
     }
 
     async function fetchCodeFromGemini(promptText, isRefinement = false) {
-       const studioSystemPrompt = `You are AETHER's Code Synthesis Engine, created solely by Aadiraj. Build ONLY what the user explicitly asks for—do NOT add extra animations, particle backgrounds, or unrequested features unless asked. Output a COMPLETE runnable single-file HTML document (<!DOCTYPE html>...) wrapped in a single \`\`\`html ... \`\`\` fenced block with NO extra conversational text outside the block.`;
--file HTML document (<!DOCTYPE html>...) wrapped in a single 
+      const studioSystemPrompt = "You are AETHER's Code Synthesis Engine, created solely by Aadiraj. Build ONLY what the user explicitly asks for—do NOT add extra animations, particle backgrounds, or unrequested features unless asked. Output a COMPLETE runnable single-file HTML document starting with <!DOCTYPE html> inside a fenced html code block with NO extra text outside.";
       const userContent = isRefinement && latestStudioCode ? `Current code:\n\`\`\`${latestStudioLang}\n${latestStudioCode}\n\`\`\`\n\nApply this update and return the full updated code:\n${promptText}` : promptText;
       const response = await fetch('/api/chat', {
         method: 'POST',
