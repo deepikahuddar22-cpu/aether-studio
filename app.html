@@ -267,7 +267,7 @@
           </p>
 
           <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
-            <button type="button" data-quick-prompt="Who created you and what can you do?" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-cyan-200 cursor-pointer">
+            <button type="button" data-quick-prompt="Who created you?" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-cyan-200 cursor-pointer">
               Who created you?
             </button>
             <button type="button" data-quick-prompt="How do black holes bend space and time?" class="quick-chip px-3 py-1.5 rounded-full font-mono text-[11px] text-slate-200 cursor-pointer">
@@ -698,12 +698,7 @@
       return triggers.some((t) => lower.includes(t)) && (lower.includes('code') || lower.includes('app') || lower.includes('game') || lower.includes('html') || lower.includes('page') || lower.includes('script') || lower.includes('simulator') || lower.includes('calculator'));
     }
 
-    async function sendQueryToAether(rawText) {
-      const text = (rawText || '').trim();
-      if (!text || isProcessing) return;
-      promptInput.value = '';
-      appendMessageBubble('user', text, false);
-          function getInstantLocalReply(text) {
+    function getInstantLocalReply(text) {
       const clean = text.toLowerCase().replace(/[?!.,]/g, '').trim();
       if (/^(hi|hello|hey|yo|sup|hola|namaste|good morning|good afternoon|good evening)$/.test(clean)) {
         return "Hello! **AETHER v9.5** online and synchronized. Created by **Aadiraj**—what universe, science mystery, or live code app shall we explore today?";
@@ -720,7 +715,6 @@
       promptInput.value = '';
       appendMessageBubble('user', text, false);
 
-      // Instant 0-second local reply for greetings & creator identity
       const instantReply = getInstantLocalReply(text);
       if (instantReply) {
         energyBoost = 0.8;
@@ -730,15 +724,20 @@
         return;
       }
 
-
       if (currentModeKey === 'ARCHITECT' || isCodeCreationRequest(text)) {
         appendMessageBubble('assistant', `**HOLOGRAPHIC CODE STUDIO ENGAGED** — Synthesizing live matrix for: *${text}*`, true);
         openHolographicCodeStudio(text, false);
         return;
       }
 
-      isProcessing = true; btnSubmit.disabled = true; energyBoost = 1.0;
-      const statusBubble = appendMessageBubble('assistant', '<div class="flex items-center gap-2 font-mono text-xs text-cyan-300"><span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse"></span><span>CONNECTING TO NEURAL STREAM...</span></div>', false);
+      isProcessing = true;
+      btnSubmit.disabled = true;
+      energyBoost = 1.0;
+      const statusBubble = appendMessageBubble(
+        'assistant',
+        '<div class="flex items-center gap-2 font-mono text-xs text-cyan-300"><span class="w-2 h-2 rounded-full bg-cyan-400 status-dot-pulse"></span><span>CONNECTING TO NEURAL STREAM...</span></div>',
+        false
+      );
 
       try {
         const replyText = await streamGeminiCore(text, (partialText) => {
@@ -752,11 +751,16 @@
       } catch (err) {
         statusBubble.innerHTML = `<span class="font-mono text-xs text-rose-400">TRANSMISSION ERROR: ${err.message || 'Could not reach /api/chat'}</span>`;
       } finally {
-        isProcessing = false; btnSubmit.disabled = false; chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
+        isProcessing = false;
+        btnSubmit.disabled = false;
+        chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
       }
     }
 
-    aetherForm.addEventListener('submit', (e) => { e.preventDefault(); sendQueryToAether(promptInput.value); });
+    aetherForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendQueryToAether(promptInput.value);
+    });
 
     async function streamGeminiCore(userText, onChunk) {
       const activeMode = MODES[currentModeKey];
